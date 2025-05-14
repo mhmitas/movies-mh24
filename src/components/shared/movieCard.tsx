@@ -1,6 +1,4 @@
 import { IMovie } from "@/lib/database/models/movie.model";
-import { Badge } from "../ui/badge";
-import { Card, CardContent } from "../ui/card";
 import Image from "next/image";
 
 const MovieCard = ({ title, poster, year, genres, _id }
@@ -11,10 +9,10 @@ const MovieCard = ({ title, poster, year, genres, _id }
       <section className="w-full aspect-[2/3] relative">
         <Image
           src={poster || "/images/poster-placeholder.png"}
-          alt={title}
+          alt={title || "Movie poster"}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 300px"
-          className="object-cover"
+          className="object-cover transition duration-200"
           placeholder="blur"
           blurDataURL="/images/poster-placeholder.png"
         />

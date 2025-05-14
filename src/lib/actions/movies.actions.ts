@@ -32,7 +32,9 @@ export const getMovies = async ({ page = 1, limit = 12, query, type }: GetAllMov
             .sort({ year: -1 })
             .limit(limit);
 
-        return { data: JSON.parse(JSON.stringify(movies)), success: true };
+        return {
+            data: JSON.parse(JSON.stringify(movies))
+        };
     } catch (error) {
         throw error;
     }
