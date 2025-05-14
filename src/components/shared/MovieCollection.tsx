@@ -8,7 +8,7 @@ type MovieCollectionProps = {
 
 const MovieCollection = ({ movies }: MovieCollectionProps) => {
     return (
-        <section className='my-container grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4'>
+        <section className='my-container grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-x-4 gap-y-6'>
             {
                 movies.map((movie, idx) => (
                     <MovieCard

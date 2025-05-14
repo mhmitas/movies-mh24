@@ -61,17 +61,19 @@ function Sidebar({ navItems, activeItem, setActiveItem }: { navItems: NavItemPro
                 </Button>
             </SheetTrigger>
             <SheetContent side="left" className="max-w-[240px] sm:max-w-[300px]">
-                <div className="p-4 sm:p-6">
-                    <Link href={"/"}>
-                        <SiteLogo />
-                    </Link>
+                <div className="">
+                    <div className="p-4 sm:p-6">
+                        <Link href={"/"}>
+                            <SiteLogo />
+                        </Link>
+                    </div>
                     <nav className="flex flex-col space-y-1 mt-6">
                         {navItems.map((item: NavItemProps) => (
                             <Link
                                 key={item.id}
                                 href={item.href}
                                 className={cn(
-                                    "px-3 py-2 rounded-md font-medium",
+                                    "px-4 sm:px-6 py-3 rounded-md font-medium",
                                     activeItem === item.id
                                         ? "bg-primary/10 text-primary"
                                         : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
@@ -96,8 +98,8 @@ function NavbarRightSection() {
                 <span className="sr-only">Cast</span>
             </Button>
 
-            <Button variant="primary" size="icon">
-                <Search className="h-5 rounded-full w-5" />
+            <Button variant="primary" size="icon" className="rounded-full">
+                <Search className="h-5 w-5" />
                 <span className="sr-only">Search</span>
             </Button>
 
