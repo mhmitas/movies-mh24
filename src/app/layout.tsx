@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Noto_Sans, Oswald } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -11,6 +11,16 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+const geistNoto = Noto_Sans({
+  variable: "--font-geist-noto",
+  subsets: ["latin"],
+})
+
+const geistOswald = Oswald({
+  variable: "--font-geist-oswald",
+  subsets: ["latin"],
+})
 
 export const metadata: Metadata = {
   title: "Movies-mh24",
@@ -25,7 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased dark`}
+        className={`${geistSans.variable} ${geistMono.variable} ${geistNoto.variable} ${geistOswald.variable} antialiased dark`}
       >
         {children}
       </body>

@@ -1,31 +1,30 @@
 import { IMovie } from "@/lib/database/models/movie.model";
 import { Badge } from "../ui/badge";
 import { Card, CardContent } from "../ui/card";
+import Image from "next/image";
 
 const MovieCard = ({ title, poster, year, genres, _id }
   : Pick<IMovie, 'title' | 'poster' | 'year' | 'genres' | '_id'>) => {
 
   return (
-    <Card className="w-full max-w-sm shadow-lg rounded-2xl overflow-hidden">
-      <div className="w-full aspect-[2/3] relative">
-        <img
-          src={poster}
+    <div className="w-full max-w-sm shadow-lg overflow-hidden py-0">
+      <section className="w-full aspect-[2/3] relative">
+        <Image
+          src={poster || "/images/poster-placeholder.png"}
           alt={title}
-          className="absolute inset-0 w-full h-full object-cover"
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 300px"
+          className="object-cover"
+          placeholder="blur"
+          blurDataURL="/images/poster-placeholder.png"
         />
-      </div>
-      <CardContent className="p-4 space-y-2">
-        <h2 className="text-xl font-semibold">{title}</h2>
-        <p className="text-gray-500">Released: {year}</p>
-        <div className="flex flex-wrap gap-2 pt-2">
-          {genres?.map((genre) => (
-            <Badge key={genre} variant="secondary">
-              {genre}
-            </Badge>
-          ))}
-        </div>
-      </CardContent>
-    </Card>
+        {/* Would you like help generating a proper low-res blurDataURL from your posters? Or want to add a fallback image if the poster is missing or fails?: YES */}
+      </section>
+      <section className="p-1">
+        <h2 className="line-clamp-1 font-semibold text-center">{title}</h2>
+        <p className="text-sm text-primary-foreground/60 text-center">Released - {year}</p>
+      </section>
+    </div>
   );
 };
 
