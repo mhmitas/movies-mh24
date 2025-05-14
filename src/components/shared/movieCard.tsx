@@ -17,7 +17,7 @@ const MovieCard = ({ title, poster, year, genres, _id }
           blurDataURL="/images/poster-placeholder.svg"
         />
       </section>
-      <section className="p-1">
+      <section className="p-1 cursor-pointer">
         <h2 className="line-clamp-1 font-semibold text-center">{title}</h2>
         <p className="text-sm text-primary-foreground/60 text-center">Released - {year}</p>
       </section>
