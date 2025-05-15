@@ -11,7 +11,7 @@ const Home = async () => {
 
     return (
         <section className=''>
-            <div className='mt-8'></div>
+            <div className='pt-32'></div>
             <MovieCollection movies={movies?.data} />
             <Footer />
         </section>

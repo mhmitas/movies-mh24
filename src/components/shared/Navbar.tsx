@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import SiteLogo from "./siteLogo"
+import clsx from "clsx"
 
 type NavItemProps = {
     id: string
@@ -15,7 +16,7 @@ type NavItemProps = {
     href: string
 }
 
-export function Navbar() {
+export function Navbar({ isMovieDetailspage }: { isMovieDetailspage?: boolean }) {
     const [activeItem, setActiveItem] = useState("home")
 
     const navItems = [
@@ -26,10 +27,13 @@ export function Navbar() {
     ]
 
     return (
-        <header className="w-full bg-muted border-b border-border/40 mb-24">
+        <header className="w-full">
             {/* Main navbar */}
             <div className="flex flex-col items-center px-4">
-                <div className="flex items-center justify-between w-full h-16 bg-muted fixed top-0 right-0 left-0 z-20">
+                <div className={clsx(
+                    "flex items-center justify-between w-full h-16 fixed top-0 right-0 left-0 z-20"
+                    , isMovieDetailspage ? "bg-background/30" : "bg-muted"
+                )}>
                     {/* Left section - Mobile menu and logo */}
                     <div className="flex items-center gap-4">
                         {/* Mobile menu trigger */}

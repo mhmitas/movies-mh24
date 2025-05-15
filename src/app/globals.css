@@ -134,7 +134,16 @@
     @apply font-medium text-muted-foreground hover:text-primary cursor-pointer p-2
   }
 
+  .custom-primary-btn {
+    @apply shadow-xs hover:text-primary hover:bg-primary/10 cursor-pointer p-3
+  }
+
   .navbar-tab-active {
     @apply text-foreground font-semibold
   }
+}
+
+.thin-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #3b3b3b #202020;
 }

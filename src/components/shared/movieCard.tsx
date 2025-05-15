@@ -9,7 +9,7 @@ const MovieCard = ({ title, poster, year, genres, _id, type, runtime }
   : Pick<IMovie, 'title' | 'poster' | 'year' | 'genres' | '_id' | 'runtime' | 'type'>) => {
 
   return (
-    <Link href={`/movie/details/${_id}`}>
+    <Link href={`/movie-details/${_id}`}>
       <div
         className="w-full max-w-sm shadow-lg overflow-hidden py-0 cursor-pointer group relative transition-all duration-300">
         <section className="relative w-full overflow-hidden">
@@ -34,7 +34,7 @@ const MovieCard = ({ title, poster, year, genres, _id, type, runtime }
         <section className="p-1">
           <h2 className="line-clamp-1 font-semibold hover:text-primary">{title}</h2>
           {/* <p className="text-sm text-primary-foreground/60 text-center">{year}</p> */}
-          <div className="flex items-center justify-between text-sm text-primary-foreground/60">
+          <div className="flex items-center justify-between text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <span>{year}</span>
               <span>•</span>
