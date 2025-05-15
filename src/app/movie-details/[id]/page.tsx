@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge';
-import { getMovieById } from '@/lib/actions/movies.actions';
+import { getAdditionDataFromTmdb, getMovieById } from '@/lib/actions/movies.actions';
 import { formatDuration } from '@/lib/utils';
 import React from 'react'
 import { FaCheck, FaHeart, FaPlay, FaStar } from 'react-icons/fa6';
@@ -19,11 +19,28 @@ const MovieDetails = async ({ params }: { params: { id: string } }) => {
 
     const { data: movie } = await getMovieById(id);
     // console.log(movie)
+
+    let moviePosterUrl = movie?.poster;
+    // Check if the poster is available
+    if (!moviePosterUrl && movie?.imdb?.id) {
+        try {
+            const { posterUrl } = await getAdditionDataFromTmdb(movie?.imdb?.id);
+            moviePosterUrl = posterUrl || "/images/poster-placeholder.svg";
+        } catch (error) {
+            moviePosterUrl = "/images/poster-placeholder.svg";
+        }
+    }
+
+    // Final fallback if nothing worked
+    if (!moviePosterUrl) {
+        moviePosterUrl = "/images/poster-placeholder.svg";
+    }
+
     return (
         <main className='text-foreground/90'>
             {/* backgroud image */}
             <div className='fixed inset-0 -z-20'>
-                <div className="bg-cover bg-center min-h-screen" style={{ backgroundImage: `url(${movie?.poster})` }}></div>
+                <div className="bg-cover bg-center min-h-screen" style={{ backgroundImage: `url(${moviePosterUrl})` }}></div>
                 <div className='absolute inset-0 bg-gradient-to-r from-background via-background/50 to-background z-0'></div>
             </div>
             {/* detail page wrapper container */}
@@ -59,7 +76,7 @@ const MovieDetails = async ({ params }: { params: { id: string } }) => {
                     <div className="left-[3.3%] max-h-none top-[10%] md:top-[-80%] w-[25vw] absolute rounded-md overflow-hidden shadow-lg">
                         <div className='relative w-full aspect-[2/3]'>
                             <Image
-                                src={movie?.poster || "/images/poster-placeholder.svg"}
+                                src={moviePosterUrl}
                                 alt={movie?.title || "Movie poster"}
                                 fill
                                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 300px"
@@ -88,9 +105,9 @@ const MovieDetails = async ({ params }: { params: { id: string } }) => {
                     </Accordion>
 
                     <div></div>
+                    <p className="">Poster: {movie.poster}</p>
                 </div>
             </div>
-            <p className="hidden">{movie.poster}</p>
 
         </main>
     )

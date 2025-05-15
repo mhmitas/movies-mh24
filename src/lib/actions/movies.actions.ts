@@ -29,7 +29,7 @@ export const getMovies = async ({ page = 1, limit = 12, query, type }: GetAllMov
 
         const movies = await Movie.find(
             { ...titleCondition, ...typeCondition },
-            'title poster year genres type runtime'
+            'title poster year genres type runtime imdb'
         )
             .sort({ released: 'desc', _id: 'asc' })
             .skip(skipAmount)
@@ -63,6 +63,7 @@ export const getMovieById = async (id: string) => {
     }
 }
 
+// GET MOVIE BY IMDB ID from TMDB
 export const getAdditionDataFromTmdb = async (imdbId: string) => {
     try {
 
@@ -73,11 +74,7 @@ export const getAdditionDataFromTmdb = async (imdbId: string) => {
 
 
         const posterUrl = `https://image.tmdb.org/t/p/w500${posterPath}`;
-        return {
-            data: {
-                posterUrl
-            }
-        }
+        return { posterUrl }
     } catch (error) {
         throw error;
     }

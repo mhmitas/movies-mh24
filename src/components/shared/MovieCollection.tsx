@@ -18,6 +18,7 @@ const MovieCollection = ({ movies }: MovieCollectionProps) => {
                         year={movie.year}
                         type={movie.type}
                         runtime={movie.runtime}
+                        imdb={movie.imdb}
                         _id={movie._id} />
                 ))
             }

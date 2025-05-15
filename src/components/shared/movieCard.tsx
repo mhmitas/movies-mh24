@@ -3,9 +3,26 @@ import Image from "next/image";
 import { FaPlay } from "react-icons/fa6";
 import { capitalize } from "@/lib/utils";
 import Link from "next/link";
+import { getAdditionDataFromTmdb } from "@/lib/actions/movies.actions";
 
-const MovieCard = ({ title, poster, year, _id, type, runtime }
-  : Pick<IMovie, 'title' | 'poster' | 'year' | '_id' | 'runtime' | 'type'>) => {
+const MovieCard = async ({ title, poster, year, _id, type, runtime, imdb }
+  : Pick<IMovie, 'title' | 'poster' | 'year' | '_id' | 'runtime' | 'type' | 'imdb'>) => {
+
+  let moviePosterUrl = poster;
+  // Check if the poster is available
+  // If not, try to fetch it from TMDB using the IMDB ID
+  if (!moviePosterUrl && imdb?.id) {
+    try {
+      const { posterUrl } = await getAdditionDataFromTmdb(String(imdb.id));
+      moviePosterUrl = posterUrl || "/images/poster-placeholder.svg";
+    } catch (error) {
+      moviePosterUrl = "/images/poster-placeholder.svg";
+    }
+  }
+  // Final fallback if nothing worked
+  if (!moviePosterUrl) {
+    moviePosterUrl = "/images/poster-placeholder.svg";
+  }
 
   return (
     <Link href={`/movie-details/${_id}`}>
@@ -14,11 +31,11 @@ const MovieCard = ({ title, poster, year, _id, type, runtime }
         <section className="relative w-full overflow-hidden">
           <div className="w-full aspect-[2/3] relative">
             <Image
-              src={poster || "/images/poster-placeholder.svg"}
+              src={poster || moviePosterUrl}
               alt={title || "Movie poster"}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 300px"
-              className="object-cover transition duration-200"
+              className="object-cover transition duration-200 w-full"
               placeholder="blur"
               blurDataURL="/images/poster-placeholder.svg"
             />
