@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/accordion"
 import { FcGoogle } from "react-icons/fc";
 import Link from 'next/link';
+import PosterImage from '@/components/shared/MoviePoster';
 
 const MovieDetails = async ({ params }: { params: { id: string } }) => {
     const { id } = await params;
@@ -75,7 +76,8 @@ const MovieDetails = async ({ params }: { params: { id: string } }) => {
                     {/* terrible poster */}
                     <div className="left-[3.3%] max-h-none top-[10%] md:top-[-80%] w-[25vw] absolute rounded-md overflow-hidden shadow-lg">
                         <div className='relative w-full aspect-[2/3]'>
-                            <Image
+                            <PosterImage poster={moviePosterUrl} title={movie?.title} imdbId={movie?.imdb?.id} />
+                            {/* <Image
                                 src={moviePosterUrl}
                                 alt={movie?.title || "Movie poster"}
                                 fill
@@ -83,7 +85,7 @@ const MovieDetails = async ({ params }: { params: { id: string } }) => {
                                 className="object-cover transition duration-200 w-full"
                                 placeholder="blur"
                                 blurDataURL="/images/poster-placeholder.svg"
-                            />
+                            /> */}
                         </div>
                     </div>
                 </div>
@@ -105,7 +107,7 @@ const MovieDetails = async ({ params }: { params: { id: string } }) => {
                     </Accordion>
 
                     <div></div>
-                    <p className="">Poster: {movie.poster}</p>
+                    {/* <p className="">Poster: {movie.poster}</p> */}
                 </div>
             </div>
 

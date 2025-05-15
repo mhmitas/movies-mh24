@@ -4,6 +4,7 @@ import { FaPlay } from "react-icons/fa6";
 import { capitalize } from "@/lib/utils";
 import Link from "next/link";
 import { getAdditionDataFromTmdb } from "@/lib/actions/movies.actions";
+import PosterImage from "./MoviePoster";
 
 const MovieCard = async ({ title, poster, year, _id, type, runtime, imdb }
   : Pick<IMovie, 'title' | 'poster' | 'year' | '_id' | 'runtime' | 'type' | 'imdb'>) => {
@@ -30,6 +31,7 @@ const MovieCard = async ({ title, poster, year, _id, type, runtime, imdb }
         className="w-full max-w-sm shadow-lg overflow-hidden py-0 cursor-pointer group relative transition-all duration-300">
         <section className="relative w-full overflow-hidden">
           <div className="w-full aspect-[2/3] relative">
+            {/* <PosterImage poster={moviePosterUrl} title={title} imdbId={String(imdb?.id)} /> */}
             <Image
               src={poster || moviePosterUrl}
               alt={title || "Movie poster"}
@@ -50,8 +52,8 @@ const MovieCard = async ({ title, poster, year, _id, type, runtime, imdb }
         <section className="p-1">
           <h2 className="line-clamp-1 font-semibold hover:text-primary">{title}</h2>
           {/* <p className="text-sm text-primary-foreground/60 text-center">{year}</p> */}
-          <div className="flex items-center justify-between text-sm text-muted-foreground">
-            <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between text-sm text-muted-foreground space-y-1.5">
+            <div className="flex flex-wrap items-center gap-2">
               <span>{year}</span>
               <span>•</span>
               <span>{runtime}m</span>
