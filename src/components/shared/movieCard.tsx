@@ -1,12 +1,11 @@
 import { IMovie } from "@/lib/database/models/movie.model";
 import Image from "next/image";
-import { Button } from "../ui/button";
 import { FaPlay } from "react-icons/fa6";
 import { capitalize } from "@/lib/utils";
 import Link from "next/link";
 
-const MovieCard = ({ title, poster, year, genres, _id, type, runtime }
-  : Pick<IMovie, 'title' | 'poster' | 'year' | 'genres' | '_id' | 'runtime' | 'type'>) => {
+const MovieCard = ({ title, poster, year, _id, type, runtime }
+  : Pick<IMovie, 'title' | 'poster' | 'year' | '_id' | 'runtime' | 'type'>) => {
 
   return (
     <Link href={`/movie-details/${_id}`}>

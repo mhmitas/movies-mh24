@@ -2,15 +2,23 @@ import { Badge } from '@/components/ui/badge';
 import { getMovieById } from '@/lib/actions/movies.actions';
 import { formatDuration } from '@/lib/utils';
 import React from 'react'
-import { FaCheck, FaHeart, FaPlay } from 'react-icons/fa6';
+import { FaCheck, FaGoogle, FaHeart, FaPlay, FaStar } from 'react-icons/fa6';
 import MovieMetadata, { MovieActionButton } from './movie-detail-page-components';
 import Image from 'next/image';
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from "@/components/ui/accordion"
+import { FcGoogle } from "react-icons/fc";
+import Link from 'next/link';
 
 const MovieDetails = async ({ params }: { params: { id: string } }) => {
     const { id } = await params;
 
     const { data: movie } = await getMovieById(id);
-    // console.log(movie)
+    console.log(movie)
     return (
         <main className='text-foreground/90'>
             {/* backgroud image */}
@@ -29,13 +37,20 @@ const MovieDetails = async ({ params }: { params: { id: string } }) => {
                             <div className='flex items-center gap-4'>
                                 <span>{movie?.year}</span>
                                 <span>{formatDuration(movie?.runtime)}</span>
-                                <Badge variant={'secondary'}>{movie?.rated}</Badge>
+                                {movie?.rated && <Badge variant={'outline'}>{movie?.rated}</Badge>}
+                                <div className='flex items-center gap-1'>
+                                    <FaStar className='inline text-yellow-500' />
+                                    <span>{movie?.imdb?.rating || "N/A"}</span>
+                                </div>
                             </div>
                         </div>
-                        <div>
+                        <div className='flex flex-wrap items-center'>
                             <MovieActionButton icon={<FaPlay />} />
                             <MovieActionButton icon={<FaCheck />} />
                             <MovieActionButton icon={<FaHeart />} />
+                            <Link href={`https://www.google.com/search?q=${movie?.title}`} target="_blank" rel="noopener noreferrer">
+                                <button className="custom-primary-btn text-2xl rounded-full"><FcGoogle /></button>
+                            </Link>
                         </div>
                         {/*  */}
                     </div>
@@ -60,8 +75,18 @@ const MovieDetails = async ({ params }: { params: { id: string } }) => {
                     <div>
                         <p>{movie?.plot}</p>
                     </div>
+
                     <MovieMetadata genres={movie?.genres} cast={movie?.cast} countries={movie?.countries} />
-                    <div></div>
+
+                    <Accordion type="single" collapsible>
+                        <AccordionItem value="item-1">
+                            <AccordionTrigger className='cursor-pointer hover:text-primary'>Show Full Plot</AccordionTrigger>
+                            <AccordionContent>
+                                {movie?.fullplot}
+                            </AccordionContent>
+                        </AccordionItem>
+                    </Accordion>
+
                     <div></div>
                 </div>
             </div>
