@@ -17,6 +17,8 @@ const MovieCollection = ({ movies }: MovieCollectionProps) => {
                         poster={movie.poster}
                         year={movie.year}
                         genres={movie.genres}
+                        type={movie.type}
+                        runtime={movie.runtime}
                         _id={movie._id} />
                 ))
             }

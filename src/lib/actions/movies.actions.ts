@@ -27,7 +27,7 @@ export const getMovies = async ({ page = 1, limit = 12, query, type }: GetAllMov
 
         const movies = await Movie.find(
             { ...titleCondition, ...typeCondition },
-            'title poster year genres'
+            'title poster year genres type runtime'
         )
             .sort({ year: -1 })
             .limit(limit);
@@ -39,3 +39,20 @@ export const getMovies = async ({ page = 1, limit = 12, query, type }: GetAllMov
         throw error;
     }
 };
+
+// GET MOVIE BY ID
+export const getMovieById = async (id: string) => {
+    try {
+        await connectDB();
+
+        const movie = await Movie.findById(id);
+        if (!movie) {
+            throw new Error("Movie not found");
+        }
+        return {
+            data: JSON.parse(JSON.stringify(movie))
+        };
+    } catch (error) {
+        throw error;
+    }
+}

@@ -26,25 +26,27 @@ export function Navbar() {
     ]
 
     return (
-        <header className="w-full bg-muted/80 border-b border-border/40">
+        <header className="w-full bg-muted border-b border-border/40 mb-24">
             {/* Main navbar */}
             <div className="flex flex-col items-center px-4">
-                <div className="flex items-center justify-between w-full py-4 pb-0">
+                <div className="flex items-center justify-between w-full h-16 bg-muted fixed top-0 right-0 left-0 z-20">
                     {/* Left section - Mobile menu and logo */}
                     <div className="flex items-center gap-4">
                         {/* Mobile menu trigger */}
                         <Sidebar navItems={navItems} activeItem={activeItem} setActiveItem={setActiveItem} />
                         {/* Logo */}
-                        <SiteLogo />
+                        <Link href={"/"}>
+                            <SiteLogo />
+                        </Link>
                     </div>
 
                     {/* Right section - Icons */}
                     <NavbarRightSection />
                 </div>
-                <div className="flex gap-6">
+                {/* <div className="flex gap-6 mt-16 z-10">
                     <button className="navbar-tab">Home</button>
                     <button className="navbar-tab">Favorite</button>
-                </div>
+                </div> */}
             </div>
         </header>
     )

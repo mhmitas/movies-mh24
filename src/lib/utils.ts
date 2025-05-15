@@ -7,16 +7,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-// export async function getStaticProps() {
-//   // For LOCAL IMAGES in `/public` folder:
-//   const { base64 } = await getPlaiceholder('/your-image.jpg');
-  
-//   // For REMOTE IMAGES (like from another website):
-//   // const { base64 } = await getPlaiceholder('https://example.com/image.jpg');
-  
-//   return { 
-//     props: { 
-//       blurDataURL: base64 
-//     } 
-//   };
-// }
+export function capitalize(word: string) {
+  return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+}
