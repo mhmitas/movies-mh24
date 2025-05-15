@@ -18,7 +18,7 @@ const MovieDetails = async ({ params }: { params: { id: string } }) => {
     const { id } = await params;
 
     const { data: movie } = await getMovieById(id);
-    console.log(movie)
+    // console.log(movie)
     return (
         <main className='text-foreground/90'>
             {/* backgroud image */}
@@ -90,6 +90,8 @@ const MovieDetails = async ({ params }: { params: { id: string } }) => {
                     <div></div>
                 </div>
             </div>
+            <p className="hidden">{movie.poster}</p>
+
         </main>
     )
 }
