@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/badge';
 import { getMovieById } from '@/lib/actions/movies.actions';
 import { formatDuration } from '@/lib/utils';
 import React from 'react'
-import { FaCheck, FaGoogle, FaHeart, FaPlay, FaStar } from 'react-icons/fa6';
+import { FaCheck, FaHeart, FaPlay, FaStar } from 'react-icons/fa6';
 import MovieMetadata, { MovieActionButton } from './movie-detail-page-components';
 import Image from 'next/image';
 import {
