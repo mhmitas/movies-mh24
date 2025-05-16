@@ -4,6 +4,15 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import React from 'react'
 import { Button } from '../ui/button'
 import { formUrlQuery } from '@/lib/utils'
+import {
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/components/ui/pagination"
 
 type PaginationProps = {
     page: number | string,
@@ -11,7 +20,7 @@ type PaginationProps = {
     urlParamName?: string
 }
 
-const Pagination = ({ page, totalPages, urlParamName }: PaginationProps) => {
+const PaginationComponent = ({ page, totalPages, urlParamName }: PaginationProps) => {
     const router = useRouter()
     const searchParams = useSearchParams()
 
@@ -30,30 +39,44 @@ const Pagination = ({ page, totalPages, urlParamName }: PaginationProps) => {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center gap-4 my-10">
-            <h3>Total Pages: {totalPages} | Page: {page}</h3>
-            <div className="flex gap-2">
-                <Button
-                    size="lg"
-                    variant="outline"
-                    className="w-28"
-                    onClick={() => onClick('prev')}
-                    disabled={Number(page) <= 1}
-                >
-                    Previous
-                </Button>
-                <Button
-                    size="lg"
-                    variant="outline"
-                    className="w-28"
-                    onClick={() => onClick('next')}
-                    disabled={Number(page) >= totalPages}
-                >
-                    Next
-                </Button>
-            </div>
-        </div>
+        <section>
+            <Pagination>
+                <PaginationContent>
+                    <PaginationItem>
+                        <Button
+                            size="lg"
+                            variant="primary"
+                            className="w-28"
+                            onClick={() => onClick('prev')}
+                            disabled={Number(page) <= 1}
+                            asChild
+                        >
+                            <PaginationPrevious />
+                        </Button>
+                    </PaginationItem>
+                    {/* <PaginationItem>
+                        <PaginationLink href="#">1</PaginationLink>
+                    </PaginationItem>
+                    <PaginationItem>
+                        <PaginationEllipsis />
+                    </PaginationItem> */}
+                    <PaginationItem>
+                        <Button
+                            size="lg"
+                            variant="primary"
+                            className="w-28"
+                            onClick={() => onClick('next')}
+                            disabled={Number(page) >= totalPages}
+                            asChild
+                        >
+                            <PaginationNext />
+                        </Button>
+                    </PaginationItem>
+                </PaginationContent>
+            </Pagination>
+
+        </section>
     )
 }
 
-export default Pagination
+export default PaginationComponent

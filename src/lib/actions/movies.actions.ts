@@ -71,8 +71,7 @@ export const getAdditionDataFromTmdb = async (imdbId: string) => {
 
         const data = await tmdbRes.json();
         const posterPath = data.movie_results?.[0]?.poster_path;
-
-
+        console.log(`https://api.themoviedb.org/3/find/tt${imdbId}?api_key=${process.env.TMDB_API_KEY}&external_source=imdb_id`)
         const posterUrl = `https://image.tmdb.org/t/p/w500${posterPath}`;
         return { posterUrl }
     } catch (error) {
