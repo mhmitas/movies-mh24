@@ -6,7 +6,7 @@ import React from 'react'
 
 const Home = async ({ searchParams }: SearchParamProps) => {
 
-    const { page, searchText } = await searchParams
+    const { page } = await searchParams
 
     const pageNumber = Number(page) || 1;
     // const searchText = await (searchParams?.searchText as string) || "";
