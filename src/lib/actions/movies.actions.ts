@@ -20,8 +20,8 @@ export const getMovies = async ({ page = 1, limit = 12, query, type, genre }: Ge
 
         const filterConditions = {
             ...titleCondition,
-            // ...typeCondition,
-            // ...genreCondition,
+            ...typeCondition,
+            ...genreCondition,
         };
 
         const movies = await Movie.find(
@@ -43,17 +43,17 @@ export const getMovies = async ({ page = 1, limit = 12, query, type, genre }: Ge
     }
 };
 
-// Just to audit the data
-// const hello = async () => {
-//     await connectDB()
-//     // const totalMovies = await Movie.countDocuments();
-//     // const totalSeries = await Movie.countDocuments({ type: "series" });
+/* Just to audit the data
+const hello = async () => {
+    await connectDB()
+    // const totalMovies = await Movie.countDocuments();
+    // const totalSeries = await Movie.countDocuments({ type: "series" });
 
-//     const uniqueTypes = await Movie.distinct("type")
+    const uniqueTypes = await Movie.distinct("type")
 
-//     console.log({ uniqueTypes })
-// }
-// hello()
+    console.log({ uniqueTypes })
+}
+hello() */
 
 // GET MOVIE BY ID
 export const getMovieById = async (id: string) => {
