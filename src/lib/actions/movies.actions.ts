@@ -3,6 +3,7 @@
 import { GetAllMoviesParams } from "@/types"
 import { Movie } from "../database/models/movie.model"
 import { connectDB } from "../database/mongoose"
+import { escapeRegExp } from "lodash";
 
 // GET MOVIES
 export const getMovies = async ({ page = 1, limit = 12, query, type, genre }: GetAllMoviesParams) => {
@@ -42,6 +43,28 @@ export const getMovies = async ({ page = 1, limit = 12, query, type, genre }: Ge
         throw error;
     }
 };
+
+export const getSearchSuggestions = async ({ query, limit = 5 }: { query: string, limit: number }) => {
+    try {
+        if (!query.trim()) return [];
+
+        await connectDB()
+
+        const safe = escapeRegExp(query);
+
+        const suggestions = await Movie
+            .find(
+                { title: { $regex: `^${safe}`, $options: "i" } },
+                { title: 1, poster: 1, year: 1, runtime: 1, type: 1 }
+            )
+            .lean()
+            .limit(limit);
+
+        return JSON.parse(JSON.stringify(suggestions));
+    } catch (error) {
+        throw error;
+    }
+}
 
 /* Just to audit the data
 const hello = async () => {

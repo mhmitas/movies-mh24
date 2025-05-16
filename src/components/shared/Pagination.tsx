@@ -10,6 +10,7 @@ import {
     PaginationItem,
 } from "@/components/ui/pagination"
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { Badge } from '../ui/badge'
 
 type PaginationProps = {
     page: number | string,
@@ -55,7 +56,7 @@ const PaginationComponent = ({ page, totalPages, urlParamName }: PaginationProps
 
     return (
         <section className='my-container'>
-            {totalPages}
+
             <Pagination>
                 <PaginationContent>
                     {currentPage > 1 && <PaginationItem>
@@ -97,6 +98,7 @@ const PaginationComponent = ({ page, totalPages, urlParamName }: PaginationProps
                             <ChevronRight />
                         </Button>
                     </PaginationItem>}
+                    <Badge className='py-1 px-2' variant='outline'>Total {totalPages}</Badge>
                 </PaginationContent>
             </Pagination>
 

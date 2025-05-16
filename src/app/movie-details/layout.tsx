@@ -6,7 +6,7 @@ const layout = ({ children }: Readonly<{
 }>) => {
     return (
         <div className='font-noto'>
-            <Navbar isMovieDetailspage={true} />
+            <Navbar />
             {children}
         </div>
     )

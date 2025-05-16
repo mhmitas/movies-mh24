@@ -53,7 +53,7 @@ export interface IMovie extends Document {
 }
 
 const movieSchema = new Schema<IMovie>({
-    title: { type: String, required: true },
+    title: { type: String, required: true, index: true },
     year: Number,
     rated: String,
     released: Date,

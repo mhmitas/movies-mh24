@@ -31,7 +31,7 @@ const Home = async (props: {
 
     return (
         <section className='scroll-smooth space-y-10'>
-            <div className='pt-24'>
+            <div className='mt-24'>
                 <Filter />
             </div>
             <MovieCollPagination
