@@ -1,3 +1,4 @@
+import Filter from '@/components/shared/Filter'
 import { Footer } from '@/components/shared/Footer'
 import MovieCollPagination from '@/components/shared/MovieCollPagination'
 import { getMovies } from '@/lib/actions/movies.actions'
@@ -7,25 +8,30 @@ const Home = async (props: {
     searchParams?: Promise<{
         query?: string;
         page?: string;
+        genre?: string;
     }>;
 }) => {
 
     const searchParams = await props.searchParams;
     // const query = searchParams?.query || '';
     const currentPage = Number(searchParams?.page) || 1;
+    const genre = searchParams?.genre?.split("+") || [];
 
     const movies = await getMovies({
         page: currentPage,
-        limit: 24,
+        limit: 36,
         query: "",
-        type: "movie"
+        type: "movie",
+        genre
     })
 
     // console.log(movies.data)
 
     return (
-        <section className=''>
-            <div className='pt-24'></div>
+        <section className='scroll-smooth space-y-10'>
+            <div className='pt-24'>
+                <Filter />
+            </div>
             <MovieCollPagination
                 movies={movies?.data}
                 page={currentPage}

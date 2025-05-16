@@ -4,6 +4,12 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import React from 'react'
 import { Button } from '../ui/button'
 import { formUrlQuery } from '@/lib/utils'
+import {
+    Pagination,
+    PaginationContent,
+    PaginationItem,
+} from "@/components/ui/pagination"
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 type PaginationProps = {
     page: number | string,
@@ -11,49 +17,90 @@ type PaginationProps = {
     urlParamName?: string
 }
 
-const Pagination = ({ page, totalPages, urlParamName }: PaginationProps) => {
+const PaginationComponent = ({ page, totalPages, urlParamName }: PaginationProps) => {
     const router = useRouter()
     const searchParams = useSearchParams()
+    const currentPage = Number(page)
 
-    const onClick = (btnType: string) => {
-        const pageValue = btnType === 'next'
-            ? Number(page) + 1
-            : Number(page) - 1
+    const handlePageChange = (page: number) => {
+        if (page < 1 || page > totalPages) return
 
         const newUrl = formUrlQuery({
             params: searchParams.toString(),
             key: urlParamName || 'page',
-            value: pageValue.toString(),
+            value: page.toString(),
         })
 
-        router.push(newUrl, { scroll: false })
+        router.push(newUrl, { scroll: true })
+    }
+
+    const getPageNumbers = () => {
+        const maxButtons = 5
+        const pages = []
+
+        let startPage = Math.max(1, currentPage - Math.floor(maxButtons / 2))
+        let endPage = startPage + maxButtons - 1
+
+        if (endPage > totalPages) {
+            endPage = totalPages
+            startPage = Math.max(1, endPage - maxButtons + 1)
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            pages.push(i)
+        }
+
+        return pages
     }
 
     return (
-        <div className="flex flex-col items-center justify-center gap-4 my-10">
-            <h3>Total Pages: {totalPages} | Page: {page}</h3>
-            <div className="flex gap-2">
-                <Button
-                    size="lg"
-                    variant="outline"
-                    className="w-28"
-                    onClick={() => onClick('prev')}
-                    disabled={Number(page) <= 1}
-                >
-                    Previous
-                </Button>
-                <Button
-                    size="lg"
-                    variant="outline"
-                    className="w-28"
-                    onClick={() => onClick('next')}
-                    disabled={Number(page) >= totalPages}
-                >
-                    Next
-                </Button>
-            </div>
-        </div>
+        <section>
+            <Pagination>
+                <PaginationContent>
+                    {currentPage > 1 && <PaginationItem>
+                        <Button
+                            size="lg"
+                            variant="primary"
+                            className="w-28"
+                            onClick={() => handlePageChange(Number(currentPage) - 1)}
+                        // asChild
+                        >
+                            <ChevronLeft />
+                            <span>Previous</span>
+                        </Button>
+                    </PaginationItem>}
+                    {/* Page Numbers */}
+                    {getPageNumbers().map((pageNum) => (
+                        <PaginationItem key={pageNum}>
+                            <Button
+                                variant={pageNum === currentPage ? "default" : "ghost"}
+                                className='cursor-pointer rounded-full'
+                                size={'icon'}
+                                onClick={(e) => {
+                                    e.preventDefault()
+                                    handlePageChange(pageNum)
+                                }}
+                            >
+                                {pageNum}
+                            </Button>
+                        </PaginationItem>
+                    ))}
+                    {currentPage < totalPages && <PaginationItem>
+                        <Button
+                            size="lg"
+                            variant="primary"
+                            className="w-28"
+                            onClick={() => handlePageChange(Number(currentPage) + 1)}
+                        >
+                            <span>Next</span>
+                            <ChevronRight />
+                        </Button>
+                    </PaginationItem>}
+                </PaginationContent>
+            </Pagination>
+
+        </section>
     )
 }
 
-export default Pagination
+export default PaginationComponent

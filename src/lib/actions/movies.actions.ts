@@ -4,32 +4,29 @@ import { GetAllMoviesParams } from "@/types"
 import { Movie } from "../database/models/movie.model"
 import { connectDB } from "../database/mongoose"
 
-
-/* POPULATE MOVIE if needed
-export const populateEvent = async (query) => {
-    return query
-        .populate({
-            model: Movie, path: 'organizer', select: "name avatar"
-        })
-        .populate({
-            model: Category, path: 'category', select: "name"
-        })
-}
- */
-
 // GET MOVIES
-export const getMovies = async ({ page = 1, limit = 12, query, type }: GetAllMoviesParams) => {
+export const getMovies = async ({ page = 1, limit = 12, query, type, genre }: GetAllMoviesParams) => {
     try {
         await connectDB();
 
         const titleCondition = query ? { title: { $regex: query, $options: "i" } } : {};
         const typeCondition = type ? { type } : {};
+        const genreCondition =
+            Array.isArray(genre) && genre.length > 0
+                ? { genres: { $in: genre } }
+                : {};
 
         const skipAmount = (Number(page) - 1) * limit
 
+        const filterConditions = {
+            ...titleCondition,
+            ...typeCondition,
+            ...genreCondition,
+        };
+
         const movies = await Movie.find(
-            { ...titleCondition, ...typeCondition },
-            'title poster year genres type runtime imdb'
+            { ...filterConditions },
+            'title poster year genres type runtime imdb genres'
         )
             .sort({ released: 'desc', _id: 'asc' })
             .skip(skipAmount)
@@ -71,8 +68,6 @@ export const getAdditionDataFromTmdb = async (imdbId: string) => {
 
         const data = await tmdbRes.json();
         const posterPath = data.movie_results?.[0]?.poster_path;
-
-
         const posterUrl = `https://image.tmdb.org/t/p/w500${posterPath}`;
         return { posterUrl }
     } catch (error) {

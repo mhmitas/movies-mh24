@@ -21,6 +21,7 @@ export default function PosterImage({
             try {
                 const { posterUrl } = await getAdditionDataFromTmdb(imdbId)
                 setImgSrc(posterUrl)
+                // console.log({ posterUrl })
                 setHasTriedFallback(true)
             } catch (err) {
                 console.error('Failed to fetch fallback poster:', err)
