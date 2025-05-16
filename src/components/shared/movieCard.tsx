@@ -4,7 +4,6 @@ import { FaPlay } from "react-icons/fa6";
 import { capitalize } from "@/lib/utils";
 import Link from "next/link";
 import { getAdditionDataFromTmdb } from "@/lib/actions/movies.actions";
-import PosterImage from "./MoviePoster";
 
 const MovieCard = async ({ title, poster, year, _id, type, runtime, imdb }
   : Pick<IMovie, 'title' | 'poster' | 'year' | '_id' | 'runtime' | 'type' | 'imdb'>) => {
@@ -16,7 +15,7 @@ const MovieCard = async ({ title, poster, year, _id, type, runtime, imdb }
     try {
       const { posterUrl } = await getAdditionDataFromTmdb(String(imdb.id));
       moviePosterUrl = posterUrl || "/images/poster-placeholder.svg";
-    } catch (error) {
+    } catch {
       moviePosterUrl = "/images/poster-placeholder.svg";
     }
   }

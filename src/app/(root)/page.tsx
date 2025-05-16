@@ -1,18 +1,21 @@
 import { Footer } from '@/components/shared/Footer'
 import MovieCollPagination from '@/components/shared/MovieCollPagination'
 import { getMovies } from '@/lib/actions/movies.actions'
-import { SearchParamProps } from '@/types'
 import React from 'react'
 
-const Home = async ({ searchParams }: SearchParamProps) => {
+const Home = async (props: {
+    searchParams?: Promise<{
+        query?: string;
+        page?: string;
+    }>;
+}) => {
 
-    const { page } = await searchParams
-
-    const pageNumber = Number(page) || 1;
-    // const searchText = await (searchParams?.searchText as string) || "";
+    const searchParams = await props.searchParams;
+    // const query = searchParams?.query || '';
+    const currentPage = Number(searchParams?.page) || 1;
 
     const movies = await getMovies({
-        page: pageNumber,
+        page: currentPage,
         limit: 24,
         query: "",
         type: "movie"
@@ -25,7 +28,7 @@ const Home = async ({ searchParams }: SearchParamProps) => {
             <div className='pt-24'></div>
             <MovieCollPagination
                 movies={movies?.data}
-                page={pageNumber}
+                page={currentPage}
                 totalPages={movies?.totalPages}
             />
             <Footer />

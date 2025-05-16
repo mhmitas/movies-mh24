@@ -4,7 +4,6 @@ import { formatDuration } from '@/lib/utils';
 import React from 'react'
 import { FaCheck, FaHeart, FaPlay, FaStar } from 'react-icons/fa6';
 import MovieMetadata, { MovieActionButton } from './movie-detail-page-components';
-import Image from 'next/image';
 import {
     Accordion,
     AccordionContent,
@@ -15,7 +14,7 @@ import { FcGoogle } from "react-icons/fc";
 import Link from 'next/link';
 import PosterImage from '@/components/shared/MoviePoster';
 
-const MovieDetails = async ({ params }: { params: { id: string } }) => {
+const MovieDetails = async ({ params }: { params: Promise<{ id: string }> }) => {
     const { id } = await params;
 
     const { data: movie } = await getMovieById(id);
@@ -27,7 +26,7 @@ const MovieDetails = async ({ params }: { params: { id: string } }) => {
         try {
             const { posterUrl } = await getAdditionDataFromTmdb(movie?.imdb?.id);
             moviePosterUrl = posterUrl || "/images/poster-placeholder.svg";
-        } catch (error) {
+        } catch {
             moviePosterUrl = "/images/poster-placeholder.svg";
         }
     }

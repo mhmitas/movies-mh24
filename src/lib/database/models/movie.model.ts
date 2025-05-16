@@ -1,4 +1,4 @@
-import mongoose, { model, models, Schema, Types } from "mongoose";
+import { model, models, Schema, Types } from "mongoose";
 
 export interface IMovie extends Document {
     _id: Types.ObjectId;

@@ -16,7 +16,7 @@ export default function NotFound() {
                 />
                 <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter lg:text-5xl">404 - Page Not Found</h1>
                 <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
-                    Sorry, we couldn't find the page you're looking for.
+                    Sorry, we couldn&apos;t find the page you&apos;re looking for.
                 </p>
                 <div className="flex justify-center">
                     <Button asChild>
