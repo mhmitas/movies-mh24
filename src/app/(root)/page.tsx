@@ -24,7 +24,7 @@ const Home = async (props: {
     // console.log(movies.data)
 
     return (
-        <section className=''>
+        <section className='scroll-smooth'>
             <div className='pt-24'></div>
             <MovieCollPagination
                 movies={movies?.data}

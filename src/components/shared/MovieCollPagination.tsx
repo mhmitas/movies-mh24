@@ -12,9 +12,10 @@ type MovieCollectionProps = {
 const MovieCollPagination = ({ movies, totalPages, page }: MovieCollectionProps) => {
     return (
         <div className='space-y-10'>
-            <Pagination page={page} totalPages={totalPages} urlParamName='page' />
+            {totalPages > 1 && <Pagination page={page} totalPages={totalPages} urlParamName='page' />}
             {/* collection niya kono jhamela korte chai na */}
             <MovieCollection movies={movies} />
+            {totalPages > 1 && <Pagination page={page} totalPages={totalPages} urlParamName='page' />}
         </div>
     )
 }
