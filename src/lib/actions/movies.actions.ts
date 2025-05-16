@@ -32,7 +32,7 @@ export const getMovies = async ({ page = 1, limit = 12, query, type, genre }: Ge
             .skip(skipAmount)
             .limit(limit);
 
-        const totalMovies = await Movie.countDocuments({ ...titleCondition, ...typeCondition })
+        const totalMovies = await Movie.countDocuments({ ...filterConditions });
 
         return {
             data: JSON.parse(JSON.stringify(movies)),

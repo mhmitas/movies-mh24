@@ -54,7 +54,8 @@ const PaginationComponent = ({ page, totalPages, urlParamName }: PaginationProps
     }
 
     return (
-        <section>
+        <section className='my-container'>
+            {totalPages}
             <Pagination>
                 <PaginationContent>
                     {currentPage > 1 && <PaginationItem>

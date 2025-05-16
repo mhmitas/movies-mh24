@@ -32,11 +32,15 @@ export default function ToggleButton() {
                 key: 'genre',
                 value: selectedGenres.join('+')
             })
+            newUrl = removeKeysFromQuery({
+                params: searchParams.toString(),
+                keysToRemove: ['page'],
+            })
         } else {
             console.log("I need to remove the genre")
             newUrl = removeKeysFromQuery({
                 params: searchParams.toString(),
-                keysToRemove: ['genre']
+                keysToRemove: ['genre', 'page'],
             })
         }
 
