@@ -21,3 +21,9 @@ export const GENRES = [
     'Music',
     'Sport',
 ];
+
+export const TYPES = [
+    { value: "", label: "All" },
+    { value: "movie", label: "Movie" },
+    { value: "series", label: "Series" }
+];

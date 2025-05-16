@@ -29,6 +29,12 @@ export function formatDuration(minutes: number) {
 
 
 export function formUrlQuery({ params, key, value }: UrlQueryParams) {
+
+  // console.log(
+  //   "🚀 ~ file: utils.ts:40 ~ formUrlQuery ~ params:",
+  //   { params, key, value }
+  // )
+
   const currentUrl = qs.parse(params)
 
   currentUrl[key] = value
@@ -43,6 +49,12 @@ export function formUrlQuery({ params, key, value }: UrlQueryParams) {
 }
 
 export function removeKeysFromQuery({ params, keysToRemove }: RemoveUrlQueryParams) {
+
+  // console.log(
+  //   "🚀 ~ file: utils.ts:40 ~ removeKeysFromQuery ~ params:",
+  //   { params, keysToRemove }
+  // )
+
   const currentUrl = qs.parse(params)
 
   keysToRemove.forEach(key => {
