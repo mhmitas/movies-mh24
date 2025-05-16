@@ -7,11 +7,7 @@ import { formUrlQuery } from '@/lib/utils'
 import {
     Pagination,
     PaginationContent,
-    PaginationEllipsis,
     PaginationItem,
-    PaginationLink,
-    PaginationNext,
-    PaginationPrevious,
 } from "@/components/ui/pagination"
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
