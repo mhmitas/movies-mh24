@@ -31,7 +31,7 @@ export default function Error({
                 >
                     Try again
                 </button>
-                <Button size="sm" asChild><a href="/"><Home /></a></Button>
+                <Button size="sm" asChild><Link href="/"><Home /></Link></Button>
             </div>
         </main>
     );

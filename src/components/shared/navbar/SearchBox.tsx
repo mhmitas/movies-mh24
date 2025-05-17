@@ -46,7 +46,7 @@ export default function SearchDialog() {
                     })
                     setSuggestions(results.data)
                 } catch (error) {
-                    console.error("Search failed:", error)
+                    // console.error("Search failed:", error)
                     setSuggestions([])
                 }
             })
