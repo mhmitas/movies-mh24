@@ -14,9 +14,9 @@ import MovieSuggestionList from "./MovieSuggestionItem"
 type Suggestion = {
     _id: string
     title: string
-    type?: string,
-    poster?: string,
-    year?: number,
+    type?: string
+    poster?: string
+    year?: number
     runtime?: number
 }
 
@@ -30,30 +30,42 @@ export default function SearchDialog() {
 
     // Debounce query input
     useEffect(() => {
-        const timer = setTimeout(() => setDebouncedQuery(query), 300)
+        const timer = setTimeout(() => setDebouncedQuery(query.trim()), 300)
         return () => clearTimeout(timer)
     }, [query])
 
     // Fetch suggestions
     useEffect(() => {
-        if (debouncedQuery.length > 2) {
+        if (debouncedQuery.length >= 2) {
             startTransition(async () => {
-                const results = await getSearchSuggestions({ query: debouncedQuery, limit: 5 })
-                setSuggestions(results)
-                console.log(results)
+                try {
+                    const results = await getSearchSuggestions({
+                        query: debouncedQuery,
+                        limit: 5
+                    })
+                    setSuggestions(results)
+                } catch (error) {
+                    console.error("Search failed:", error)
+                    setSuggestions([])
+                }
             })
         } else {
             setSuggestions([])
         }
     }, [debouncedQuery])
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault()
-        if (query.trim()) {
-            router.push(`/search/${encodeURIComponent(query.trim())}`)
+    const handleSearch = (searchTerm: string) => {
+        const encodedQuery = encodeURIComponent(searchTerm.trim())
+        if (encodedQuery) {
+            router.push(`/search/${encodedQuery}`)
             setOpen(false)
             setQuery('')
         }
+    }
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault()
+        handleSearch(query)
     }
 
     return (
@@ -73,9 +85,8 @@ export default function SearchDialog() {
                     <span className="sr-only">Search</span>
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md bg-background">
-                {/* <div className="max-h-[70vh] overflow-y-auto pr-1 mt-4 thin-scrollber"> */}
-                <ScrollArea className="max-h-[70vh] overflow-y-auto pr-2 mt-4 ">
+            <DialogContent className="sm:max-md bg-background">
+                <ScrollArea className="max-h-[70vh] overflow-y-auto pr-2 mt-4">
                     <form onSubmit={handleSubmit} className="relative mb-2">
                         <div className="relative">
                             <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
@@ -86,6 +97,7 @@ export default function SearchDialog() {
                                 className="pl-12 pr-10 h-12 text-base"
                                 value={query}
                                 onChange={(e) => setQuery(e.target.value)}
+                                aria-label="Search input"
                             />
                             {isPending && (
                                 <div className="absolute right-3 top-1/2 -translate-y-1/2">
@@ -94,15 +106,25 @@ export default function SearchDialog() {
                             )}
                         </div>
                     </form>
-                    <MovieSuggestionList suggestions={suggestions} />
-                    {suggestions.length > 0 &&
-                        <Button asChild className="w-full m-2">
-                            <Link href={`/search/${encodeURIComponent(query.trim())}`}>
+
+                    <MovieSuggestionList
+                        suggestions={suggestions}
+                    />
+
+                    {suggestions.length > 0 && query.trim() && (
+                        <Button
+                            asChild
+                            className="w-full m-2"
+                        >
+                            <Link
+                                href={`/search/${encodeURIComponent(query.trim())}`}
+                                onClick={() => setOpen(false)}
+                            >
                                 <span>View all results</span>
-                                <ChevronRight />
+                                <ChevronRight className="ml-2 h-4 w-4" />
                             </Link>
                         </Button>
-                    }
+                    )}
                 </ScrollArea>
             </DialogContent>
         </Dialog>

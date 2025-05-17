@@ -39,7 +39,7 @@ function MovieSuggestionItem({ suggestion }: MovieSuggestionItemProps) {
                     />
                 </div>
                 <div className="flex flex-col justify-center min-w-0">
-                    <h3 className="font-medium text-foreground text-sm sm:text-base truncate">{suggestion.title}</h3>
+                    <h3 className="font-medium text-foreground text-sm sm:text-base line-clamp-1">{suggestion.title}</h3>
                     <div className="flex flex-wrap items-center gap-1 sm:gap-2 text-xs sm:text-sm text-muted-foreground mt-1">
                         {suggestion?.year && <span>{suggestion.year}</span>}
                         <span className="inline">•</span>

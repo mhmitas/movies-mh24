@@ -4,36 +4,40 @@ import { GetAllMoviesParams } from "@/types"
 import { Movie } from "../database/models/movie.model"
 import { connectDB } from "../database/mongoose"
 import { escapeRegExp } from "lodash";
+import { buildMovieQuery } from "../utils";
+
+
+// Common query builder
+
 
 // GET MOVIES
 export const getMovies = async ({ page = 1, limit = 12, query, type, genre }: GetAllMoviesParams) => {
     try {
         await connectDB();
 
-        const titleCondition = query ? { title: { $regex: query, $options: "i" } } : {};
-        const typeCondition = type ? { type } : {};
-        const genreCondition =
-            Array.isArray(genre) && genre.length > 0
-                ? { genres: { $in: genre } }
-                : {};
+        const conditions = buildMovieQuery({ query, type, genre });
+        const skipAmount = (Number(page) - 1) * limit;
 
-        const skipAmount = (Number(page) - 1) * limit
-
-        const filterConditions = {
-            ...titleCondition,
-            ...typeCondition,
-            ...genreCondition,
+        const projection = {
+            title: 1,
+            poster: 1,
+            year: 1,
+            genres: 1,
+            type: 1,
+            runtime: 1,
+            imdb: 1,
+            released: 1
         };
 
-        const movies = await Movie.find(
-            { ...filterConditions },
-            'title poster year genres type runtime imdb genres'
-        )
-            .sort({ released: 'desc', _id: 'asc' })
-            .skip(skipAmount)
-            .limit(limit);
+        const [movies, totalMovies] = await Promise.all([
+            Movie.find(conditions, projection)
+                .sort({ released: -1, _id: 1 })
+                .skip(skipAmount)
+                .limit(limit)
+                .lean(),
 
-        const totalMovies = await Movie.countDocuments({ ...filterConditions });
+            Movie.countDocuments(conditions)
+        ]);
 
         return {
             data: JSON.parse(JSON.stringify(movies)),
@@ -44,21 +48,34 @@ export const getMovies = async ({ page = 1, limit = 12, query, type, genre }: Ge
     }
 };
 
-export const getSearchSuggestions = async ({ query, limit = 5 }: { query: string, limit: number }) => {
-    try {
-        if (!query.trim()) return [];
+// GET SEARCH SUGGESTIONS
+export const getSearchSuggestions = async ({
+    query,
+    limit = 5
+}: {
+    query: string,
+    limit: number
 
+}) => {
+    try {
         await connectDB()
 
-        const safe = escapeRegExp(query);
+        if (!query.trim()) return [];
+
+        const conditions = {
+            title: {
+                $regex: `^${escapeRegExp(query)}`,
+                $options: "i"
+            }
+        }
 
         const suggestions = await Movie
             .find(
-                { title: { $regex: `^${safe}`, $options: "i" } },
+                conditions,
                 { title: 1, poster: 1, year: 1, runtime: 1, type: 1 }
             )
+            .limit(limit)
             .lean()
-            .limit(limit);
 
         return JSON.parse(JSON.stringify(suggestions));
     } catch (error) {
