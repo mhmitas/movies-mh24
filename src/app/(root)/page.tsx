@@ -1,5 +1,4 @@
 import Filter from '@/components/shared/Filter'
-import { Footer } from '@/components/shared/Footer'
 import MovieCollPagination from '@/components/shared/MovieCollPagination'
 import { getMovies } from '@/lib/actions/movies.actions'
 import React from 'react'
@@ -39,7 +38,6 @@ const Home = async (props: {
                 page={currentPage}
                 totalPages={movies?.totalPages}
             />
-            <Footer />
         </section>
     )
 }

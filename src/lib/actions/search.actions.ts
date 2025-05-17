@@ -86,7 +86,7 @@ export async function handleMovieSearch({
     const count = totalCount[0]?.count ?? data.length;
 
     return {
-        data,
+        data: JSON.parse(JSON.stringify(data)),
         totalPages: isSug ? 1 : Math.ceil(count / perPage),
     };
 }
