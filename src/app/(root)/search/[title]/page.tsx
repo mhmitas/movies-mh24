@@ -16,7 +16,7 @@ const SearchResultsPage = async (props: {
     const currentPage = Number(searchParams?.page) || 1;
 
     const movies = await handleMovieSearch({
-        purpose: "results",
+        purpose: "full",
         page: currentPage,
         limit: 36,
         query: decodedQuery,

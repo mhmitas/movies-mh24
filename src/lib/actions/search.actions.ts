@@ -1,53 +1,91 @@
 "use server"
 
-import { SearchOptionsParams } from "@/types";
 import { connectDB } from "../database/mongoose";
-import { IMovie, Movie } from "../database/models/movie.model";
+import { Movie } from "../database/models/movie.model";
 import { escapeRegExp } from "lodash";
 import { MOVIE_PROJECTIONS } from "@/constants";
-import { FilterQuery } from "mongoose";
 
-
-// SEARCH OPTION 2
-export async function handleMovieSearch({ purpose, query, page = 1, limit }: SearchOptionsParams) {
-    // Quick return on empty queries
+export async function handleMovieSearch({
+    purpose,   // 'suggestions' | 'full'
+    query,     // string
+    page = 1,  // number, 1-based
+    limit,     // optional override
+}: {
+    purpose: "suggestions" | "full";
+    query: string;
+    page?: number;
+    limit?: number;
+}) {
     if (!query?.trim()) {
         return { data: [], totalPages: 0 };
     }
 
-    await connectDB()
-
+    await connectDB();
     const text = query.trim();
-    const isSuggestions = purpose === 'suggestions';
-    const perPage = limit ?? (isSuggestions ? 5 : 12);
-    const currentPage = Math.max(1, page);
-    const regex = new RegExp(escapeRegExp(text), 'i');
+    const isSug = purpose === "suggestions";
+    const perPage = limit ?? (isSug ? 5 : 12);
+    const skip = isSug ? 0 : (Math.max(1, page) - 1) * perPage;
 
-    const filter = { title: { $regex: regex } };
+    // 1) Build your $match stage: first try text-search
+    const textMatch = { $text: { $search: text } };
+    // Optionally, build a regex fallback:
+    const regex = { title: { $regex: `^${escapeRegExp(text)}`, $options: "i" } };
 
-    // Choose projection fields
-    const projection = isSuggestions
+    // 2) Build projection of fields + score
+    const baseProj = isSug
         ? { title: 1, poster: 1, year: 1, runtime: 1, type: 1 }
         : MOVIE_PROJECTIONS;
+    const projectStage = {
+        $project: {
+            score: { $meta: "textScore" },
+            ...baseProj
+        }
+    };
 
-    // Build query
-    let movieQuery = Movie.find(filter).select(projection).lean();
-    if (isSuggestions) {
-        movieQuery = movieQuery.limit(perPage);
-    } else {
-        const skip = (currentPage - 1) * perPage;
-        movieQuery = movieQuery.skip(skip).limit(perPage);
+    // 3) Aggregation pipeline with a $facet
+    const pipeline: any[] = [
+        { $match: textMatch },
+        { $sort: { score: { $meta: "textScore" } } },
+        projectStage,
+        {
+            $facet: {
+                data: [
+                    { $skip: skip },
+                    { $limit: perPage }
+                ],
+                totalCount: [
+                    { $count: "count" }
+                ]
+            }
+        }
+    ];
+
+    let aggResult = await Movie.aggregate(pipeline).exec();
+
+    // 4) If you want to fall back to regex when text returns zero:
+    if (!isSug && aggResult[0].totalCount.length === 0) {
+        // try regex match instead
+        const fallbackPipeline = [
+            { $match: regex },
+            projectStage,
+            {
+                $facet: {
+                    data: [
+                        { $skip: skip },
+                        { $limit: perPage }
+                    ],
+                    totalCount: [{ $count: "count" }]
+                }
+            }
+        ];
+        aggResult = await Movie.aggregate(fallbackPipeline).exec();
     }
 
-    // Execute fetch and count in parallel
-    const [movies, totalCount] = await Promise.all([
-        movieQuery.exec(),
-        isSuggestions
-            ? Promise.resolve(undefined)
-            : Movie.countDocuments(filter),
-    ]);
+    const { data, totalCount } = aggResult[0];
+    const count = totalCount[0]?.count ?? data.length;
+
     return {
-        data: JSON.parse(JSON.stringify(movies)),
-        totalPages: isSuggestions ? 1 : Math.ceil((totalCount ?? 0) / perPage),
+        data,
+        totalPages: isSug ? 1 : Math.ceil(count / perPage),
     };
 }
