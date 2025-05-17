@@ -4,6 +4,7 @@ import { connectDB } from "../database/mongoose";
 import { Movie } from "../database/models/movie.model";
 import { escapeRegExp } from "lodash";
 import { MOVIE_PROJECTIONS } from "@/constants";
+import { Document, PipelineStage } from "mongoose";
 
 export async function handleMovieSearch({
     purpose,   // 'suggestions' | 'full'
@@ -43,7 +44,7 @@ export async function handleMovieSearch({
     };
 
     // 3) Aggregation pipeline with a $facet
-    const pipeline: any[] = [
+    const pipeline: PipelineStage[] = [
         { $match: textMatch },
         { $sort: { score: { $meta: "textScore" } } },
         projectStage,
