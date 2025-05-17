@@ -27,11 +27,9 @@ export async function handleMovieSearch({
     const pipeline: PipelineStage[] = [
         {
             $search: {
-                index: 'default',
-                text: {
-                    query: text,
+                autocomplete: {
                     path: "title",
-                    fuzzy: { maxEdits: 1 }
+                    query: query
                 }
             }
         },

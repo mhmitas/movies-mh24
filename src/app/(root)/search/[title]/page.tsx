@@ -16,11 +16,12 @@ const SearchResultsPage = async (props: {
     const currentPage = Number(searchParams?.page) || 1;
 
     const movies = await handleMovieSearch({
-        purpose: "full",
         page: currentPage,
         limit: 36,
         query: decodedQuery,
     })
+
+    console.log(movies)
 
     return (
         <main className='scroll-smooth space-y-10'>
