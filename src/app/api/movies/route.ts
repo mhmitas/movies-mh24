@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
         let limit = Math.min(Number(searchParams.get('limit')) || 10, 100);
         limit = Math.max(1, limit); // Ensure at least 1
 
-        let skipAmount = Math.max(0, Number(searchParams.get("skip")) || 0);
+        const skipAmount = Math.max(0, Number(searchParams.get("skip")) || 0);
 
         const movies = await Movie.find()
             .sort({ _id: "desc" })
@@ -25,7 +25,6 @@ export async function GET(request: NextRequest) {
             headers: { 'Content-Type': 'application/json' }
         });
     } catch (error) {
-        console.error('Error fetching movies:', error);
         return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
             status: 500,
             headers: { 'Content-Type': 'application/json' }

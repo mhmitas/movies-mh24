@@ -47,7 +47,7 @@ export async function handleMovieSearch({
         }
     ];
 
-    let results = await Movie.aggregate(pipeline).exec();
+    const results = await Movie.aggregate(pipeline).exec();
 
     const { data, totalCount } = results[0];
     const count = totalCount[0]?.count ?? data.length;

@@ -21,7 +21,7 @@ const SearchResultsPage = async (props: {
         query: decodedQuery,
     })
 
-    console.log(movies)
+    // console.log(movies)
 
     return (
         <main className='scroll-smooth space-y-10'>

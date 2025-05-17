@@ -23,8 +23,7 @@ export default function PosterImage({
                 setImgSrc(posterUrl)
                 // console.log({ posterUrl })
                 setHasTriedFallback(true)
-            } catch (err) {
-                console.error('Failed to fetch fallback poster:', err)
+            } catch {
                 setImgSrc('/images/poster-placeholder.svg')
                 setHasTriedFallback(true)
             }

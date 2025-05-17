@@ -41,9 +41,9 @@ const SearchTestPage = () => {
                         limit: 10
                     })
                     setSuggestions(results)
-                    console.log(results)
-                } catch (error) {
-                    console.error("Search failed:", error)
+                    // console.log(results)
+                } catch {
+                    // console.error("Search failed:", error)
                     setSuggestions([])
                 }
             })
