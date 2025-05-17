@@ -2,17 +2,14 @@
 
 import { connectDB } from "../database/mongoose";
 import { Movie } from "../database/models/movie.model";
-import { escapeRegExp } from "lodash";
+import { PipelineStage } from "mongoose";
 import { MOVIE_PROJECTIONS } from "@/constants";
-import { Document, PipelineStage } from "mongoose";
 
 export async function handleMovieSearch({
-    purpose,   // 'suggestions' | 'full'
-    query,     // string
-    page = 1,  // number, 1-based
-    limit,     // optional override
+    query,
+    page = 1,
+    limit = 12,
 }: {
-    purpose: "suggestions" | "full";
     query: string;
     page?: number;
     limit?: number;
@@ -23,36 +20,27 @@ export async function handleMovieSearch({
 
     await connectDB();
     const text = query.trim();
-    const isSuggestions = purpose === "suggestions";
-    const perPage = limit ?? (isSuggestions ? 5 : 12);
-    const skip = isSuggestions ? 0 : (Math.max(1, page) - 1) * perPage;
+    // const isSuggestions = purpose === "suggestions";
+    const skip = (Math.max(1, page) - 1) * limit;
 
-    // 1) Build your $match stage: first try text-search
-    const textMatch = { $text: { $search: text } };
-    // Optionally, build a regex fallback:
-    const regex = { title: { $regex: `^${escapeRegExp(text)}`, $options: "i" } };
-
-    // 2) Build projection of fields + score
-    const baseProjection = isSuggestions
-        ? { title: 1, poster: 1, year: 1, runtime: 1, type: 1 }
-        : MOVIE_PROJECTIONS;
-    const projectStage = {
-        $project: {
-            score: { $meta: "textScore" },
-            ...baseProjection
-        }
-    };
-
-    // 3) Aggregation pipeline with a $facet
+    // Aggregation pipeline with a $facet
     const pipeline: PipelineStage[] = [
-        { $match: textMatch },
-        { $sort: { score: { $meta: "textScore" } } },
-        projectStage,
+        {
+            $search: {
+                index: 'default',
+                text: {
+                    query: text,
+                    path: "title",
+                    fuzzy: { maxEdits: 1 }
+                }
+            }
+        },
         {
             $facet: {
                 data: [
+                    { $project: MOVIE_PROJECTIONS },
                     { $skip: skip },
-                    { $limit: perPage }
+                    { $limit: limit },
                 ],
                 totalCount: [
                     { $count: "count" }
@@ -61,33 +49,14 @@ export async function handleMovieSearch({
         }
     ];
 
-    let aggResult = await Movie.aggregate(pipeline).exec();
+    let results = await Movie.aggregate(pipeline).exec();
 
-    // 4) If you want to fall back to regex when text returns zero:
-    if (!isSuggestions && aggResult[0].totalCount.length === 0) {
-        // try regex match instead
-        const fallbackPipeline = [
-            { $match: regex },
-            projectStage,
-            {
-                $facet: {
-                    data: [
-                        { $skip: skip },
-                        { $limit: perPage }
-                    ],
-                    totalCount: [{ $count: "count" }]
-                }
-            }
-        ];
-        aggResult = await Movie.aggregate(fallbackPipeline).exec();
-    }
-
-    const { data, totalCount } = aggResult[0];
+    const { data, totalCount } = results[0];
     const count = totalCount[0]?.count ?? data.length;
 
     return {
         data: JSON.parse(JSON.stringify(data)),
-        totalPages: isSuggestions ? 1 : Math.ceil(count / perPage),
+        totalPages: Math.ceil(count / limit),
     };
 }
 
@@ -115,10 +84,19 @@ export async function getSearchSuggestions({
             }
         },
         { $limit: limit },
-        { $project: { title: 1, poster: 1, year: 1, runtime: 1, type: 1 } }
+        {
+            $project: {
+                title: 1,
+                poster: 1,
+                year: 1,
+                runtime: 1,
+                type: 1,
+                score: { $meta: "searchScore" }
+            }
+        }
     ]
 
-    const movies = await Movie.aggregate(pipeline);
+    const movies = await Movie.aggregate(pipeline).exec();
 
     return JSON.parse(JSON.stringify(movies))
 }
