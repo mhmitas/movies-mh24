@@ -9,6 +9,7 @@ const Home = async (props: {
         query?: string;
         page?: string;
         genre?: string;
+        type?: string;
     }>;
 }) => {
 
@@ -16,12 +17,13 @@ const Home = async (props: {
     // const query = searchParams?.query || '';
     const currentPage = Number(searchParams?.page) || 1;
     const genre = searchParams?.genre?.split("+") || [];
+    const type = searchParams?.type || ""
 
     const movies = await getMovies({
         page: currentPage,
         limit: 36,
         query: "",
-        type: "movie",
+        type,
         genre
     })
 
@@ -29,7 +31,7 @@ const Home = async (props: {
 
     return (
         <section className='scroll-smooth space-y-10'>
-            <div className='pt-24'>
+            <div className='mt-24'>
                 <Filter />
             </div>
             <MovieCollPagination

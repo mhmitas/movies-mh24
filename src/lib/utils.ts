@@ -2,6 +2,8 @@ import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import qs from "query-string"
 import { RemoveUrlQueryParams, UrlQueryParams } from "@/types";
+import { FilterQuery } from "mongoose";
+import { IMovie } from "./database/models/movie.model";
 
 
 export function cn(...inputs: ClassValue[]) {
@@ -29,6 +31,12 @@ export function formatDuration(minutes: number) {
 
 
 export function formUrlQuery({ params, key, value }: UrlQueryParams) {
+
+  // console.log(
+  //   "🚀 ~ file: utils.ts:40 ~ formUrlQuery ~ params:",
+  //   { params, key, value }
+  // )
+
   const currentUrl = qs.parse(params)
 
   currentUrl[key] = value
@@ -43,6 +51,12 @@ export function formUrlQuery({ params, key, value }: UrlQueryParams) {
 }
 
 export function removeKeysFromQuery({ params, keysToRemove }: RemoveUrlQueryParams) {
+
+  // console.log(
+  //   "🚀 ~ file: utils.ts:40 ~ removeKeysFromQuery ~ params:",
+  //   { params, keysToRemove }
+  // )
+
   const currentUrl = qs.parse(params)
 
   keysToRemove.forEach(key => {
@@ -56,4 +70,19 @@ export function removeKeysFromQuery({ params, keysToRemove }: RemoveUrlQueryPara
     },
     { skipNull: true }
   )
+}
+
+// For get movies server action
+export function buildMovieQuery(params: {
+  type?: string;
+  genre?: string[];
+}) {
+  const { type, genre } = params;
+
+  const conditions: FilterQuery<IMovie> = {};
+
+  if (type) conditions.type = type;
+  if (genre?.length) conditions.genres = { $in: genre };
+
+  return conditions;
 }

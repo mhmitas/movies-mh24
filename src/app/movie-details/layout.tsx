@@ -1,4 +1,4 @@
-import { Navbar } from '@/components/shared/Navbar';
+import { Navbar } from '@/components/shared/navbar/Navbar';
 import React from 'react'
 
 const layout = ({ children }: Readonly<{
@@ -6,7 +6,7 @@ const layout = ({ children }: Readonly<{
 }>) => {
     return (
         <div className='font-noto'>
-            <Navbar isMovieDetailspage={true} />
+            <Navbar isMovieDetailsPage={true} />
             {children}
         </div>
     )

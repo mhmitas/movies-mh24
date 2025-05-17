@@ -15,7 +15,7 @@ export default function Error({
 
     useEffect(() => {
         // Optionally log the error to an error reporting service
-        console.error("Error from /app/error.jsx:", error);
+        // console.error("Error from /app/error.jsx:", error);
     }, [error]);
 
     return (

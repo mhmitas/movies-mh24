@@ -18,7 +18,24 @@ export type RemoveUrlQueryParams = {
     keysToRemove: string[]
 }
 
-// export type SearchParamProps = {
-//     params: { id: string }
-//     searchParams: { [key: string]: string | string[] | undefined }
-// }
+export type NavItemProps = {
+    id: string
+    label: string
+    href: string
+}
+
+export type MovieSuggestion = {
+    _id: string
+    title: string
+    poster?: string
+    year?: number
+    runtime?: number
+    type?: string
+}
+
+export type SearchOptionsParams = {
+    purpose: "suggestions" | "results";
+    query: string;
+    page?: number;
+    limit?: number;
+};

@@ -3,36 +3,31 @@
 import { GetAllMoviesParams } from "@/types"
 import { Movie } from "../database/models/movie.model"
 import { connectDB } from "../database/mongoose"
+import { escapeRegExp } from "lodash";
+import { buildMovieQuery } from "../utils";
+import { MOVIE_PROJECTIONS } from "@/constants";
+
+
+// Common query builder
+
 
 // GET MOVIES
-export const getMovies = async ({ page = 1, limit = 12, query, type, genre }: GetAllMoviesParams) => {
+export const getMovies = async ({ page = 1, limit = 12, type, genre }: GetAllMoviesParams) => {
     try {
         await connectDB();
 
-        const titleCondition = query ? { title: { $regex: query, $options: "i" } } : {};
-        const typeCondition = type ? { type } : {};
-        const genreCondition =
-            Array.isArray(genre) && genre.length > 0
-                ? { genres: { $in: genre } }
-                : {};
+        const conditions = buildMovieQuery({ type, genre });
+        const skipAmount = (Number(page) - 1) * limit;
 
-        const skipAmount = (Number(page) - 1) * limit
+        const [movies, totalMovies] = await Promise.all([
+            Movie.find(conditions, MOVIE_PROJECTIONS)
+                .sort({ released: -1, _id: 1 })
+                .skip(skipAmount)
+                .limit(limit)
+                .lean(),
 
-        const filterConditions = {
-            ...titleCondition,
-            ...typeCondition,
-            ...genreCondition,
-        };
-
-        const movies = await Movie.find(
-            { ...filterConditions },
-            'title poster year genres type runtime imdb genres'
-        )
-            .sort({ released: 'desc', _id: 'asc' })
-            .skip(skipAmount)
-            .limit(limit);
-
-        const totalMovies = await Movie.countDocuments({ ...titleCondition, ...typeCondition })
+            Movie.countDocuments(conditions)
+        ]);
 
         return {
             data: JSON.parse(JSON.stringify(movies)),
@@ -42,6 +37,53 @@ export const getMovies = async ({ page = 1, limit = 12, query, type, genre }: Ge
         throw error;
     }
 };
+
+// GET SEARCH SUGGESTIONS
+export const getSearchSuggestions = async ({
+    query,
+    limit = 5
+}: {
+    query: string,
+    limit: number
+
+}) => {
+    try {
+        await connectDB()
+
+        if (!query.trim()) return [];
+
+        const conditions = {
+            title: {
+                $regex: `^${escapeRegExp(query)}`,
+                $options: "i"
+            }
+        }
+
+        const suggestions = await Movie
+            .find(
+                conditions,
+                { title: 1, poster: 1, year: 1, runtime: 1, type: 1 }
+            )
+            .limit(limit)
+            .lean()
+
+        return JSON.parse(JSON.stringify(suggestions));
+    } catch (error) {
+        throw error;
+    }
+}
+
+/* Just to audit the data
+const hello = async () => {
+    await connectDB()
+    // const totalMovies = await Movie.countDocuments();
+    // const totalSeries = await Movie.countDocuments({ type: "series" });
+
+    const uniqueTypes = await Movie.distinct("type")
+
+    console.log({ uniqueTypes })
+}
+hello() */
 
 // GET MOVIE BY ID
 export const getMovieById = async (id: string) => {
