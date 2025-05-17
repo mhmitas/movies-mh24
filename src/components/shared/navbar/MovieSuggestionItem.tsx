@@ -31,7 +31,7 @@ function MovieSuggestionItem({ suggestion }: MovieSuggestionItemProps) {
             <div className="flex py-1 sm:py-2 gap-3 sm:gap-4 cursor-pointer hover:bg-accent/50 rounded-md px-2 transition-colors border-b">
                 <div className="flex-shrink-0 w-12 h-18 sm:w-16 sm:h-24 relative overflow-hidden rounded-sm bg-gradient-to-br from-blue-900 to-rose-900">
                     <Image
-                        src={suggestion?.poster || "/placeholder.svg"}
+                        src={suggestion?.poster || "/images/poster-placeholder.svg"}
                         alt={suggestion.title}
                         fill
                         className="object-cover"

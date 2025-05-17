@@ -1,5 +1,5 @@
 import MovieCollPagination from '@/components/shared/MovieCollPagination';
-import { getMovies } from '@/lib/actions/movies.actions';
+import { handleMovieSearch } from '@/lib/actions/search.actions';
 import { Metadata } from 'next';
 import React from 'react'
 
@@ -17,12 +17,11 @@ const Search = async (props: {
     // const query = searchParams?.query || '';
     const currentPage = Number(searchParams?.page) || 1;
 
-    const movies = await getMovies({
+    const movies = await handleMovieSearch({
+        purpose: "results",
         page: currentPage,
         limit: 36,
         query: decodedQuery,
-        type: "",
-        genre: []
     })
 
     return (

@@ -39,14 +39,14 @@ export async function handleMovieSearch({ purpose, query, page = 1, limit }: Sea
     }
 
     // Execute fetch and count in parallel
-    const [data, totalCount] = await Promise.all([
+    const [movies, totalCount] = await Promise.all([
         movieQuery.exec(),
         isSuggestions
             ? Promise.resolve(undefined)
             : Movie.countDocuments(filter),
     ]);
     return {
-        data,
+        data: JSON.parse(JSON.stringify(movies)),
         totalPages: isSuggestions ? 1 : Math.ceil((totalCount ?? 0) / perPage),
     };
 }

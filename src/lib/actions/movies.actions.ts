@@ -12,11 +12,11 @@ import { MOVIE_PROJECTIONS } from "@/constants";
 
 
 // GET MOVIES
-export const getMovies = async ({ page = 1, limit = 12, query, type, genre }: GetAllMoviesParams) => {
+export const getMovies = async ({ page = 1, limit = 12, type, genre }: GetAllMoviesParams) => {
     try {
         await connectDB();
 
-        const conditions = buildMovieQuery({ query, type, genre });
+        const conditions = buildMovieQuery({ type, genre });
         const skipAmount = (Number(page) - 1) * limit;
 
         const [movies, totalMovies] = await Promise.all([

@@ -72,15 +72,13 @@ export function removeKeysFromQuery({ params, keysToRemove }: RemoveUrlQueryPara
 
 // For get movies server action
 export function buildMovieQuery(params: {
-  query?: string;
   type?: string;
   genre?: string[];
 }) {
-  const { query, type, genre } = params;
+  const { type, genre } = params;
 
   const conditions: any = {};
 
-  if (query) conditions.title = { $regex: query, $options: 'i' };
   if (type) conditions.type = type;
   if (genre?.length) conditions.genres = { $in: genre };
 
