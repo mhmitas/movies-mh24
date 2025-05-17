@@ -59,20 +59,32 @@ export default function Filter() {
     }, [searchParams, filterKey])
 
     // Debounced filter handler
-    const applyFilters = useCallback(
-        debounce((params: FilterParams) => {
-            const newUrl = qs.stringifyUrl(
-                {
-                    url: window.location.pathname,
-                    query: params,
-                },
-                { skipNull: true, skipEmptyString: true, encode: true }
-            )
-            router.push(newUrl, { scroll: false })
-            setIsLoading(false)
-        }, 500),
+    // create a stable debounced function via useMemo
+    const debouncedApply = useMemo(
+        () =>
+            debounce((params: FilterParams) => {
+                const newUrl = qs.stringifyUrl(
+                    {
+                        url: window.location.pathname,
+                        query: params,
+                    },
+                    { skipNull: true, skipEmptyString: true, encode: true }
+                );
+                router.push(newUrl, { scroll: false });
+                setIsLoading(false);
+            }, 500),
+        // rerun only if router changes
         [router]
-    )
+    );
+
+    // wrap the resulting function in useCallback (mainly to make it have a stable identity too)
+    const applyFilters = useCallback(
+        (params: FilterParams) => {
+            debouncedApply(params);
+        },
+        [debouncedApply]
+    );
+
 
     const handleFilterChange = useCallback(() => {
         setIsLoading(true)

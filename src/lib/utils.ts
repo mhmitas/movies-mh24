@@ -2,6 +2,8 @@ import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import qs from "query-string"
 import { RemoveUrlQueryParams, UrlQueryParams } from "@/types";
+import { FilterQuery } from "mongoose";
+import { IMovie } from "./database/models/movie.model";
 
 
 export function cn(...inputs: ClassValue[]) {
@@ -77,7 +79,7 @@ export function buildMovieQuery(params: {
 }) {
   const { type, genre } = params;
 
-  const conditions: any = {};
+  const conditions: FilterQuery<IMovie> = {};
 
   if (type) conditions.type = type;
   if (genre?.length) conditions.genres = { $in: genre };

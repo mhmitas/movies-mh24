@@ -3,18 +3,16 @@ import { handleMovieSearch } from '@/lib/actions/search.actions';
 import { Metadata } from 'next';
 import React from 'react'
 
-const Search = async (props: {
+const SearchResultsPage = async (props: {
     searchParams?: Promise<{
-        query?: string;
         page?: string;
     }>;
     params: Promise<{ title: string }>
 }) => {
     const params = await props?.params;
-    const decodedQuery = decodeURIComponent(params?.title)
+    const decodedQuery = await decodeURIComponent(params?.title)
 
     const searchParams = await props.searchParams;
-    // const query = searchParams?.query || '';
     const currentPage = Number(searchParams?.page) || 1;
 
     const movies = await handleMovieSearch({
@@ -36,14 +34,16 @@ const Search = async (props: {
     )
 }
 
-export default Search;
+export default SearchResultsPage;
 
 export async function generateMetadata({
     params,
 }: {
-    params: { query: string }
+    params: Promise<{ title: string }>
 }): Promise<Metadata> {
-    const decodedQuery = decodeURIComponent(params.query)
+
+    const { title: dynamicTitle } = await params
+    const decodedQuery = decodeURIComponent(dynamicTitle)
 
     return {
         title: `Search: ${decodedQuery}`,
