@@ -5,6 +5,7 @@ import { Movie } from "../database/models/movie.model"
 import { connectDB } from "../database/mongoose"
 import { escapeRegExp } from "lodash";
 import { buildMovieQuery } from "../utils";
+import { MOVIE_PROJECTIONS } from "@/constants";
 
 
 // Common query builder
@@ -18,19 +19,8 @@ export const getMovies = async ({ page = 1, limit = 12, query, type, genre }: Ge
         const conditions = buildMovieQuery({ query, type, genre });
         const skipAmount = (Number(page) - 1) * limit;
 
-        const projection = {
-            title: 1,
-            poster: 1,
-            year: 1,
-            genres: 1,
-            type: 1,
-            runtime: 1,
-            imdb: 1,
-            released: 1
-        };
-
         const [movies, totalMovies] = await Promise.all([
-            Movie.find(conditions, projection)
+            Movie.find(conditions, MOVIE_PROJECTIONS)
                 .sort({ released: -1, _id: 1 })
                 .skip(skipAmount)
                 .limit(limit)

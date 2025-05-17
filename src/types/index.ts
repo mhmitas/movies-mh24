@@ -32,3 +32,10 @@ export type MovieSuggestion = {
     runtime?: number
     type?: string
 }
+
+export type SearchOptionsParams = {
+    purpose: "suggestions" | "results";
+    query: string;
+    page?: number;
+    limit?: number;
+};

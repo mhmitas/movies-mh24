@@ -36,3 +36,14 @@ export const NAV_ITEMS: NavItemProps[] = [
     { id: "movies", label: "Movies", href: "/movies" },
     { id: "tvshows", label: "TV Shows", href: "/tvshows" },
 ];
+
+export const MOVIE_PROJECTIONS = {
+    title: 1,
+    poster: 1,
+    year: 1,
+    genres: 1,
+    type: 1,
+    runtime: 1,
+    imdb: 1,
+    released: 1
+};
