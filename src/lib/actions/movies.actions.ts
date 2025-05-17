@@ -39,7 +39,7 @@ export const getMovies = async ({ page = 1, limit = 12, type, genre }: GetAllMov
 };
 
 // GET SEARCH SUGGESTIONS
-export const getSearchSuggestions = async ({
+export const getSearchSuggestionsLegacy = async ({
     query,
     limit = 5
 }: {
@@ -72,18 +72,6 @@ export const getSearchSuggestions = async ({
         throw error;
     }
 }
-
-/* Just to audit the data
-const hello = async () => {
-    await connectDB()
-    // const totalMovies = await Movie.countDocuments();
-    // const totalSeries = await Movie.countDocuments({ type: "series" });
-
-    const uniqueTypes = await Movie.distinct("type")
-
-    console.log({ uniqueTypes })
-}
-hello() */
 
 // GET MOVIE BY ID
 export const getMovieById = async (id: string) => {

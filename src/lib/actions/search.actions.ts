@@ -90,3 +90,35 @@ export async function handleMovieSearch({
         totalPages: isSuggestions ? 1 : Math.ceil(count / perPage),
     };
 }
+
+
+export async function getSearchSuggestions({
+    query,
+    limit = 5
+}: {
+    query: string,
+    limit: number
+}) {
+    if (!query?.trim()) {
+        return { data: [], totalPages: 0 };
+    }
+
+    await connectDB()
+
+    const pipeline = [
+        {
+            $search: {
+                autocomplete: {
+                    path: "title",
+                    query: query
+                }
+            }
+        },
+        { $limit: limit },
+        { $project: { title: 1, poster: 1, year: 1, runtime: 1, type: 1 } }
+    ]
+
+    const movies = await Movie.aggregate(pipeline);
+
+    return JSON.parse(JSON.stringify(movies))
+}

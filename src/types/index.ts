@@ -34,7 +34,7 @@ export type MovieSuggestion = {
 }
 
 export type SearchOptionsParams = {
-    purpose: "suggestions" | "results";
+    purpose: "suggestions" | "full";
     query: string;
     page?: number;
     limit?: number;

@@ -9,7 +9,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState, useEffect, useTransition } from "react"
 import MovieSuggestionList from "./MovieSuggestionItem"
-import { handleMovieSearch } from "@/lib/actions/search.actions"
+import { getSearchSuggestions } from "@/lib/actions/search.actions"
 
 type Suggestion = {
     _id: string
@@ -39,12 +39,12 @@ export default function SearchDialog() {
         if (debouncedQuery.length >= 2) {
             startTransition(async () => {
                 try {
-                    const results = await handleMovieSearch({
-                        purpose: "suggestions",
+                    const results = await getSearchSuggestions({
                         query: debouncedQuery,
                         limit: 5
                     })
-                    setSuggestions(results.data)
+                    setSuggestions(results)
+                    // console.log(results)
                 } catch (error) {
                     // console.error("Search failed:", error)
                     setSuggestions([])
