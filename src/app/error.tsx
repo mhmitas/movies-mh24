@@ -15,7 +15,7 @@ export default function Error({
 
     useEffect(() => {
         // Optionally log the error to an error reporting service
-        console.error("Error from /app/error.jsx:", error);
+        // console.error("Error from /app/error.jsx:", error);
     }, [error]);
 
     return (
@@ -31,7 +31,7 @@ export default function Error({
                 >
                     Try again
                 </button>
-                <Button size="sm" asChild><Link href="/"><Home /></Link></Button>
+                <Button size="sm" asChild><a href="/"><Home /></a></Button>
             </div>
         </main>
     );

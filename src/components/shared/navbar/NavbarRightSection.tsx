@@ -10,19 +10,19 @@ export function NavbarRightSection() {
     return (
         <div className="flex items-center gap-2">
             <SearchDialog />
-            <Button variant="primary" size="icon" className="hidden sm:inline-flex">
+            <Button variant="primary" size="icon" className="hidden sm:inline-flex rounded-full">
                 <Cast className="size-5" />
                 <span className="sr-only">Cast</span>
             </Button>
 
-            <Button variant="primary" size="icon" className="hidden sm:inline-flex">
+            <Button variant="primary" size="icon" className="hidden sm:inline-flex rounded-full">
                 <Users className="size-5" />
                 <span className="sr-only">Users</span>
             </Button>
 
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <Button variant="primary" size="icon">
+                    <Button variant="primary" size="icon" className="rounded-full">
                         <User className="size-5" />
                         <span className="sr-only">User menu</span>
                     </Button>

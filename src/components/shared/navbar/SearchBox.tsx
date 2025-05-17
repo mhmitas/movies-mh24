@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { getSearchSuggestions } from "@/lib/actions/movies.actions"
 import { ChevronRight, Search } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -82,7 +81,7 @@ export default function SearchDialog() {
             }}
         >
             <DialogTrigger asChild>
-                <Button variant="primary" size="icon">
+                <Button variant="primary" size="icon" className="rounded-full">
                     <Search className="size-5" />
                     <span className="sr-only">Search</span>
                 </Button>

@@ -94,8 +94,6 @@ export default function Filter() {
             page: '1' // reset pagination
         }
 
-        console.log({ newQuery })
-
         // i could clean up undefined values, whatever
 
         applyFilters(newQuery)
