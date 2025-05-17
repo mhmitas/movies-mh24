@@ -23,9 +23,9 @@ export async function handleMovieSearch({
 
     await connectDB();
     const text = query.trim();
-    const isSug = purpose === "suggestions";
-    const perPage = limit ?? (isSug ? 5 : 12);
-    const skip = isSug ? 0 : (Math.max(1, page) - 1) * perPage;
+    const isSuggestions = purpose === "suggestions";
+    const perPage = limit ?? (isSuggestions ? 5 : 12);
+    const skip = isSuggestions ? 0 : (Math.max(1, page) - 1) * perPage;
 
     // 1) Build your $match stage: first try text-search
     const textMatch = { $text: { $search: text } };
@@ -33,13 +33,13 @@ export async function handleMovieSearch({
     const regex = { title: { $regex: `^${escapeRegExp(text)}`, $options: "i" } };
 
     // 2) Build projection of fields + score
-    const baseProj = isSug
+    const baseProjection = isSuggestions
         ? { title: 1, poster: 1, year: 1, runtime: 1, type: 1 }
         : MOVIE_PROJECTIONS;
     const projectStage = {
         $project: {
             score: { $meta: "textScore" },
-            ...baseProj
+            ...baseProjection
         }
     };
 
@@ -64,7 +64,7 @@ export async function handleMovieSearch({
     let aggResult = await Movie.aggregate(pipeline).exec();
 
     // 4) If you want to fall back to regex when text returns zero:
-    if (!isSug && aggResult[0].totalCount.length === 0) {
+    if (!isSuggestions && aggResult[0].totalCount.length === 0) {
         // try regex match instead
         const fallbackPipeline = [
             { $match: regex },
@@ -87,6 +87,6 @@ export async function handleMovieSearch({
 
     return {
         data: JSON.parse(JSON.stringify(data)),
-        totalPages: isSug ? 1 : Math.ceil(count / perPage),
+        totalPages: isSuggestions ? 1 : Math.ceil(count / perPage),
     };
 }

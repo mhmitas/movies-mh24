@@ -46,7 +46,7 @@ export async function generateMetadata({
     const decodedQuery = decodeURIComponent(dynamicTitle)
 
     return {
-        title: `Search: ${decodedQuery}`,
+        title: `Search results for "${decodedQuery}"`,
         description: `Search results for ${decodedQuery}`,
     }
 }
