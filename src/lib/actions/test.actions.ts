@@ -27,7 +27,7 @@ export async function autocompleteSearchTest({
             }
         },
         { $limit: limit },
-        { $project: MOVIE_PROJECTIONS }
+        { $project: { title: 1 } }
     ]
 
     const movies = await Movie.aggregate(pipeline);

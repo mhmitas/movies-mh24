@@ -57,7 +57,7 @@ const MovieCard = async ({ title, poster, year, _id, type, runtime, imdb, genres
               <span>•</span>
               <span>{runtime}m</span>
             </div>
-            <span title={genres?.toString()} className="border border-primary-foreground/60 px-1 rounded-md">{capitalize(type || "Movie")}</span>
+            <span title={genres?.toString()} className="border border-primary-foreground/60 px-1 rounded-md text-xs">{capitalize(type || "Movie")}</span>
           </div>
         </section>
       </div>
