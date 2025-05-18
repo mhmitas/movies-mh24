@@ -44,3 +44,13 @@ export function Navbar({ isMovieDetailsPage }: { isMovieDetailsPage?: boolean })
         </header>
     )
 }
+
+
+/* 
+onWheel={(e) => {
+// Prevent vertical scrolling
+e.preventDefault();
+// Scroll horizontally with mouse wheel
+e.currentTarget.scrollLeft += e.deltaY;
+}}
+*/

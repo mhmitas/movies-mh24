@@ -8,7 +8,7 @@ import { ChevronRight, Search } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState, useEffect, useTransition } from "react"
-import MovieSuggestionList from "./MovieSuggestionItem"
+import MovieSuggestionList from "../MovieSuggestionItem"
 import { getSearchSuggestions } from "@/lib/actions/search.actions"
 
 type Suggestion = {

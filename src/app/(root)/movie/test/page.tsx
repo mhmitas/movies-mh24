@@ -1,12 +1,11 @@
 "use client"
 
-import MovieSuggestionList from '@/components/shared/navbar/MovieSuggestionItem'
 import { Input } from '@/components/ui/input'
 import { autocompleteSearchTest } from '@/lib/actions/test.actions'
-import { MovieSuggestion } from '@/types'
 import { Search } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState, useTransition } from 'react'
+import MovieSuggestionList from './components/MovieSuggestionList'
 
 type Suggestion = {
     _id: string
@@ -20,7 +19,7 @@ type Suggestion = {
 
 const SearchTestPage = () => {
     const router = useRouter()
-    const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState(true)
     const [suggestions, setSuggestions] = useState<Suggestion[]>([])
     const [query, setQuery] = useState('')
     const [isPending, startTransition] = useTransition()
@@ -53,6 +52,19 @@ const SearchTestPage = () => {
         }
     }, [debouncedQuery])
 
+    // Close filter when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            const target = event.target as HTMLElement
+            if (open && !target.closest('.suggestion-list')) {
+                setOpen(false)
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => document.removeEventListener('mousedown', handleClickOutside)
+    }, [open])
+
     const handleSearch = (searchTerm: string) => {
         const encodedQuery = encodeURIComponent(searchTerm.trim())
         if (encodedQuery) {
@@ -67,20 +79,20 @@ const SearchTestPage = () => {
         handleSearch(query)
     }
 
-
     return (
-        <div className='my-container my-20'>
-
-            <form onSubmit={handleSubmit} className="relative mb-2 max-w-2xl mx-auto">
+        <div className='my-container my-20 min-h-screen'>
+            <div>{open ? "OPEN" : "CLOSE"}</div>
+            <form onSubmit={handleSubmit} className="relative mb-2 max-w-2xl mx-auto pt-6 suggestion-list border border-red-500">
                 <div className="relative">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                     <Input
                         autoFocus
                         type="text"
                         placeholder="Search movies, TV shows..."
-                        className="pl-12 pr-10 h-12 text-base rounded-full border border-input/50 bg-background focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0 focus-visible:ring-offset-background"
+                        className="pl-12 pr-10 h-12 text-base rounded-full border border-input/50 bg-background custom-input border-b-0"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
+                        onFocus={() => setOpen(true)}
                         aria-label="Search input"
                     />
                     {isPending && (
@@ -89,21 +101,10 @@ const SearchTestPage = () => {
                         </div>
                     )}
                 </div>
-                <MovieSuggestionTitles suggestions={suggestions} />
+                {open && <MovieSuggestionList suggestions={suggestions} />}
             </form>
         </div>
     )
 }
 
 export default SearchTestPage;
-
-
-function MovieSuggestionTitles({ suggestions }: { suggestions: MovieSuggestion[] }) {
-    return (
-        <div className="space-y-1 sm:space-y-2 max-w-2xl border border-t-2 shadow-muted/50 shadow-md border-t-muted-foreground rounded-xl p-4 mx-auto absolute top-16 left-0 right-0 bg-background">
-            {suggestions.map((suggestion, index) => (
-                <div key={index}>{suggestion.title}</div>
-            ))}
-        </div>
-    )
-}

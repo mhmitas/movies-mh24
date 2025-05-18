@@ -141,6 +141,10 @@
   .navbar-tab-active {
     @apply text-foreground font-semibold
   }
+
+  .custom-input {
+    @apply focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-0 focus-visible:ring-offset-background
+  }
 }
 
 .thin-scrollbar {
