@@ -32,7 +32,12 @@ const PaginationComponent = ({ page, totalPages, urlParamName }: PaginationProps
             value: page.toString(),
         })
 
-        router.push(newUrl, { scroll: true })
+        router.push(newUrl)
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "smooth",
+        });
     }
 
     const getPageNumbers = () => {
@@ -58,7 +63,7 @@ const PaginationComponent = ({ page, totalPages, urlParamName }: PaginationProps
         <section className='my-container'>
 
             <Pagination>
-                <PaginationContent>
+                <PaginationContent className='transition'>
                     {currentPage > 1 && <PaginationItem>
                         <Button
                             size="lg"

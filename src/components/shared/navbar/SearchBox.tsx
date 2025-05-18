@@ -80,8 +80,9 @@ export default function SearchDialog() {
             }}
         >
             <DialogTrigger asChild>
-                <Button variant="primary" size="icon" className="rounded-full">
+                <Button variant="primary" className="rounded-full border">
                     <Search className="size-5" />
+                    <span>Search</span>
                     <span className="sr-only">Search</span>
                 </Button>
             </DialogTrigger>
