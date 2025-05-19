@@ -24,7 +24,7 @@ function MetaDataRow({ title, items }: { title: string; items?: string[] | undef
             <div className='col-span-1'>{title}</div>
             <div className='col-span-4 flex flex-wrap gap-x-2.5'>
                 {items?.map((item, index) => (
-                    <span key={index} className='font-semibold'>{item}</span>
+                    <span key={index} className='font-medium'>{item}</span>
                 ))}
             </div>
         </div>

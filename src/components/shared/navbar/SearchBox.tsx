@@ -87,26 +87,26 @@ export default function SearchDialog() {
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-md bg-background">
-                <ScrollArea className="max-h-[70vh] overflow-y-auto pr-2 mt-4">
-                    <form onSubmit={handleSubmit} className="relative mb-2">
-                        <div className="relative">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                            <Input
-                                autoFocus
-                                type="text"
-                                placeholder="Search movies, TV shows..."
-                                className="pl-12 pr-10 h-12 text-base"
-                                value={query}
-                                onChange={(e) => setQuery(e.target.value)}
-                                aria-label="Search input"
-                            />
-                            {isPending && (
-                                <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                                    <div className="h-5 w-5 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-                                </div>
-                            )}
-                        </div>
-                    </form>
+                <form onSubmit={handleSubmit} className="relative mb-2 pr-2 mt-6">
+                    <div className="relative">
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                        <Input
+                            autoFocus
+                            type="text"
+                            placeholder="Search movies, TV shows..."
+                            className="pl-12 pr-10 h-12 text-base"
+                            value={query}
+                            onChange={(e) => setQuery(e.target.value)}
+                            aria-label="Search input"
+                        />
+                        {isPending && (
+                            <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                                <div className="h-5 w-5 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+                            </div>
+                        )}
+                    </div>
+                </form>
+                <ScrollArea className="h-[70vh] pr-2 overflow-y-auto">
 
                     <MovieSuggestionList
                         suggestions={suggestions}

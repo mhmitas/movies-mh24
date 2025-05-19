@@ -103,7 +103,7 @@ const PaginationComponent = ({ page, totalPages, urlParamName }: PaginationProps
                             <ChevronRight />
                         </Button>
                     </PaginationItem>}
-                    <Badge className='py-1 px-2' variant='outline'>Total {totalPages}</Badge>
+                    <Badge className='py-1 px-2' variant='outline'>/ {totalPages}</Badge>
                 </PaginationContent>
             </Pagination>
 

@@ -25,14 +25,14 @@ export function Navbar({ isMovieDetailsPage }: { isMovieDetailsPage?: boolean })
                     </Link>
                 </div>
 
-                <nav className="hidden md:flex items-center gap-6 mx-6">
+                <nav className="hidden lg:flex items-center gap-6 mx-6">
                     {NAV_ITEMS.map((item) => (
                         <Link
                             key={item.id}
                             href={item.href}
                             className={cn(
-                                "text-sm font-medium transition-colors hover:text-primary",
-                                pathname === item.href ? "text-primary" : "text-muted-foreground"
+                                "text-sm font-medium uppercase transition-colors hover:text-primary",
+                                pathname === item.href ? "text-primary" : "text-foreground"
                             )}
                         >
                             {item.label}

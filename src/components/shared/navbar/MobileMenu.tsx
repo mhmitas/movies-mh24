@@ -34,7 +34,7 @@ export function MobileMenu({ activePath }: MobileMenuProps) {
                                 key={item.id}
                                 href={item.href}
                                 className={cn(
-                                    "px-4 sm:px-6 py-3 rounded-md font-medium",
+                                    "px-4 sm:px-6 uppercase py-3 rounded-md font-medium",
                                     activePath === item.href
                                         ? "bg-primary/10 text-primary"
                                         : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
