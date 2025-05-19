@@ -6,11 +6,11 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React from 'react'
 
-const LargeScreenMenu = () => {
+const LargeScreenMenu = ({ className }: { className?: string }) => {
     const pathname = usePathname()
 
     return (
-        <nav className="hidden lg:flex items-center gap-6 mx-6">
+        <nav className={cn("hidden lg:flex items-center gap-6 mx-6", className)}>
             {NAV_ITEMS.map((item) => (
                 <Link
                     key={item.id}

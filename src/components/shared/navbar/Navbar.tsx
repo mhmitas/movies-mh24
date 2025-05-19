@@ -11,27 +11,27 @@ export function Navbar({ isHomePage, isMovieDetailsPage }: { isHomePage?: boolea
     return (
         <header className="w-full lg:mb-16">
             <div className={cn(
-                "lg:fixed top-0 w-full px-4 sm:px-6 md:px-8 lg:px-4 z-50",
-                "transition-all bg-card",
-                "transition-all pb-4 lg:pb-0",
-                isMovieDetailsPage ? "bg-background/50" : "bg-card"
+                "lg:fixed top-0 z-50",
+                "transition-all bg-card pb-4 lg:pb-0 px-4 sm:px-6 md:px-8 lg:px-4 w-full h-16",
+                isMovieDetailsPage ? "bg-background/50" : "bg-card",
+                "flex flex-col lg:flex-row justify-between items-center"
 
             )}>
-                <div className="flex gap-2 lg:gap-6 items-center justify-between h-16">
-                    {/* LEFT */}
-                    <div className="flex items-center gap-4">
-                        <MobileMenu />
-                        <SiteLogo className="hidden lg:flex" />
-                    </div>
-
-                    {/* MIDDLE */}
-                    <LargeScreenMenu />
-                    <SiteLogo className="lg:hidden flex" />
-
-                    {/* RIGHT */}
+                {/* LEFT */}
+                <div className="flex justify-between lg:justify-start items-center gap-4 border border-blue-500 w-full lg:w-max">
+                    <MobileMenu />
+                    <SiteLogo className="" />
+                    <NavbarRightSection className="lg:hidden flex" />
                 </div>
-                <NavbarSearchBox className="flex lg:hidden" />
-                <NavbarRightSection />
+
+                {/* MIDDLE */}
+                <LargeScreenMenu className="border border-amber-500" />
+
+                {/* RIGHT */}
+                <div className="flex gap-2 border border-fuchsia-700 flex-1 lg:max-w-sm w-full lg:w-max">
+                    <NavbarSearchBox className="border border-green-500 lg:max-w-[400px] flex-1" />
+                    <NavbarRightSection className="hidden lg:flex" />
+                </div>
             </div>
         </header>
     )
