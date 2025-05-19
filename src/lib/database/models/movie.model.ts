@@ -50,60 +50,8 @@ export interface IMovie extends Document {
     };
     lastupdated?: string;
     num_mflix_comments?: number;
+    plot_embedding?: number[];
 }
-
-const movieSchema = new Schema<IMovie>({
-    title: { type: String, required: true, index: true },
-    year: Number,
-    rated: String,
-    released: Date,
-    runtime: Number,
-    directors: [String],
-    writers: [String],
-    cast: [String],
-    genres: [String],
-    languages: [String],
-    countries: [String],
-    plot: String,
-    fullplot: String,
-    poster: String,
-    type: { type: String, default: 'movie' },
-    imdb: {
-        rating: Number,
-        votes: Number,
-        id: Number
-    },
-    metacritic: Number,
-    awards: {
-        wins: Number,
-        nominations: Number,
-        text: String
-    },
-    tomatoes: {
-        critic: {
-            rating: Number,
-            numReviews: Number,
-            meter: Number
-        },
-        viewer: {
-            rating: Number,
-            numReviews: Number,
-            meter: Number
-        },
-        boxOffice: String,
-        production: String,
-        consensus: String,
-        website: String,
-        dvd: Date,
-        fresh: Number,
-        rotten: Number,
-        lastUpdated: Date
-    },
-    lastupdated: String,
-    num_mflix_comments: Number
-});
-
-export const Movie = models.Movie || model<IMovie>('Movie', movieSchema);
 
 // Sub-schemas
 const awardsSchema = new Schema({
@@ -130,28 +78,60 @@ const tomatoesSchema = new Schema({
     lastUpdated: Date
 });
 
-// Main schema
-const embeddedMovieSchema = new Schema({
-    plot: String,
-    genres: [String],
-    runtime: Number,
-    cast: [String],
-    num_mflix_comments: Number,
-    title: String,
-    fullplot: String,
-    languages: [String],
+// MOVIE SCHEMA
+const movieSchema = new Schema<IMovie>({
+    title: { type: String, required: true, index: true },
+    year: Number,
+    rated: String,
     released: Date,
+    runtime: Number,
     directors: [String],
     writers: [String],
-    awards: awardsSchema,
-    lastupdated: String,
-    year: Number,
-    imdb: imdbSchema,
+    cast: [String],
+    genres: [String],
+    languages: [String],
     countries: [String],
-    type: String,
+    plot: String,
+    fullplot: String,
+    poster: String,
+    type: { type: String, default: 'movie' },
+    imdb: imdbSchema,
+    metacritic: Number,
+    awards: awardsSchema,
     tomatoes: tomatoesSchema,
+    lastupdated: String,
+    num_mflix_comments: Number
+});
+
+
+// EMBEDDED MOVIE SCHEMA
+const embeddedMovieSchema = new Schema({
+    title: { type: String, required: true, index: true },
+    year: Number,
+    rated: String,
+    released: Date,
+    runtime: Number,
+    directors: [String],
+    writers: [String],
+    cast: [String],
+    genres: [String],
+    languages: [String],
+    countries: [String],
+    plot: String,
+    fullplot: String,
+    poster: String,
+    type: { type: String, default: 'movie' },
+    imdb: imdbSchema,
+    metacritic: Number,
+    awards: awardsSchema,
+    tomatoes: tomatoesSchema,
+    lastupdated: String,
+    num_mflix_comments: Number,
     plot_embedding: [Number]
 });
 
-// Create the model
-export const embedded_movies = models.embedded_movies || model('embedded_movies', movieSchema);
+// Create the MOVIE model
+export const Movie = models.Movie || model<IMovie>('Movie', movieSchema);
+
+// Create the EMBEDDED MOVIE model
+export const embedded_movies = models.embedded_movies || model('embedded_movies', embeddedMovieSchema);
