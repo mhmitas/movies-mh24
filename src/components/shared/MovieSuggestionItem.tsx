@@ -29,15 +29,16 @@ function MovieSuggestionItem({ suggestion }: MovieSuggestionItemProps) {
     return (
         <Link href={`/movie-details/${suggestion._id}`}>
             <div className="flex py-1 sm:py-2 gap-3 sm:gap-4 cursor-pointer hover:bg-accent/50 rounded-md px-2 transition-colors border-b">
-                <div className="flex-shrink-0 w-12 h-18 sm:w-16 sm:h-24 relative overflow-hidden rounded-md bg-gradient-to-br from-violet-950 via-violet-900 to-violet-950">
+                <div className="flex-shrink-0 w-10 h-14 sm:w-12 sm:h-18 relative overflow-hidden rounded-md bg-gradient-to-br from-violet-950 via-violet-900 to-violet-950">
                     <Image
                         src={suggestion?.poster || "/images/poster-placeholder.svg"}
                         alt={suggestion.title}
                         fill
                         className="object-cover"
-                        sizes="(max-width: 640px) 48px, 64px"
+                        sizes="(max-width: 640px) 40px, 48px"
                     />
                 </div>
+
                 <div className="flex flex-col justify-center min-w-0">
                     <h3 className="font-medium text-foreground text-sm sm:text-base line-clamp-1">{suggestion.title}</h3>
                     <div className="flex flex-wrap items-center gap-1 sm:gap-2 text-xs sm:text-sm text-muted-foreground mt-1">

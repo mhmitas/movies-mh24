@@ -12,11 +12,11 @@ export function Navbar({ isMovieDetailsPage }: { isMovieDetailsPage?: boolean })
     const pathname = usePathname()
 
     return (
-        <header className="w-full">
+        <header className="w-full transition-colors">
             <div className={cn(
-                "flex items-center justify-between h-16 fixed top-0 w-full px-4 z-20",
+                "flex items-center justify-between h-16 fixed top-0 w-full px-4 z-50",
                 "transition-all",
-                isMovieDetailsPage ? "bg-background/50" : "bg-muted/60 backdrop-blur-lg"
+                isMovieDetailsPage ? "bg-background/50" : "bg-card"
             )}>
                 <div className="flex items-center gap-4">
                     <MobileMenu activePath={pathname} />

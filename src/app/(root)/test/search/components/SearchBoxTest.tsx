@@ -1,4 +1,3 @@
-// components/SearchBox.tsx
 "use client"
 
 import { MovieSuggestion } from '@/types'
@@ -7,19 +6,22 @@ import { cn } from '@/lib/utils'
 import React, { useEffect, useState, useTransition } from 'react'
 import MovieSuggestionList from './MovieSuggestionList'
 import { autocompleteSearchTest } from '@/lib/actions/test.actions'
+import { useRouter, useSearchParams } from 'next/navigation'
 
-interface SearchBoxProps {
-    onSearch: (query: string) => void
-    initialQuery?: string
-    className?: string
-}
-
-const SearchBox = ({ onSearch, initialQuery = '', className }: SearchBoxProps) => {
+const SearchBox = () => {
     const [open, setOpen] = useState(false)
     const [suggestions, setSuggestions] = useState<MovieSuggestion[]>([])
-    const [query, setQuery] = useState(initialQuery)
+    const searchParams = useSearchParams()
+    const [query, setQuery] = useState(searchParams?.get('q') || '')
     const [isPending, startTransition] = useTransition()
     const [debouncedQuery, setDebouncedQuery] = useState('')
+    const router = useRouter();
+
+    // handle search
+    function onSearch(query: string) {
+        const encodedQuery = encodeURIComponent(query.trim())
+        router.push(`/test/search?q=${encodedQuery}`, { scroll: true })
+    }
 
     // Debounce query input
     useEffect(() => {
@@ -62,24 +64,24 @@ const SearchBox = ({ onSearch, initialQuery = '', className }: SearchBoxProps) =
         return () => document.removeEventListener('mousedown', handleClickOutside)
     }, [open])
 
+    // handle form submit to a full search  
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         onSearch(query)
         setOpen(false)
-        setQuery('')
     }
 
-
+    // handle click on suggestions
     const handleSuggestionSelect = (title: string) => {
         onSearch(title)
         setOpen(false)
-        setQuery('')
+        setQuery(title)
     }
 
     return (
         <form
             onSubmit={handleSubmit}
-            className={cn("relative mb-2 max-w-xl mx-auto pt-6 suggestion-container text-gray-800", className)}
+            className={cn("relative mb-2 mt-20 max-w-xl mx-auto pt-6 suggestion-container text-gray-800")}
         >
             <div className="relative">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-800" />

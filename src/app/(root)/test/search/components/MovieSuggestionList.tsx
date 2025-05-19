@@ -12,7 +12,7 @@ interface MovieSuggestionListProps {
 const MovieSuggestionList = ({ suggestions, onSelect }: MovieSuggestionListProps) => {
     return (
         <div
-            className="absolute top-20 left-0 right-0 py-4 rounded-xl shadow-lg z-50 bg-gray-50 text-black"
+            className="absolute top-20 left-0 right-0 py-4 rounded-xl shadow-lg z-20 bg-gray-50 text-black"
             role="listbox"
             aria-label="Search suggestions"
         >

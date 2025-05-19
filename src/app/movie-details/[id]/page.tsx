@@ -44,13 +44,13 @@ const MovieDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
                 <div className='absolute inset-0 bg-gradient-to-r from-background via-background/50 to-background z-0'></div>
             </div>
             {/* detail page wrapper container */}
-            <div className='mt-48'>
+            <div className='mt-48 text-sm lg:text-base'>
                 {/* detail page primary container */}
                 <div className='bg-muted relative'>
                     {/* info container (title, ...) */}
                     <div className='flex justify-between items-center py-6 pl-[32.45vw] pr-[2%]'>
                         <div className='space-y-2'>
-                            <h1 className='text-2xl font-bold line-clamp-1'>{movie?.title}</h1>
+                            <h1 className='text-xl lg:text-2xl font-bold line-clamp-1'>{movie?.title}</h1>
                             <div className='flex items-center gap-4'>
                                 <span>{movie?.year}</span>
                                 <span>{formatDuration(movie?.runtime)}</span>
@@ -73,7 +73,7 @@ const MovieDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
                     </div>
 
                     {/* terrible poster */}
-                    <div className="left-[3.3%] max-h-none top-[10%] md:top-[-80%] w-[25vw] absolute rounded-md overflow-hidden shadow-lg">
+                    <div className="left-[3.3%] max-h-none top-[10%] lg:top-[-80%] w-[25vw] absolute rounded-md overflow-hidden shadow-lg">
                         <div className='relative w-full aspect-[2/3]'>
                             <PosterImage poster={moviePosterUrl} title={movie?.title} imdbId={movie?.imdb?.id} />
                             {/* <Image

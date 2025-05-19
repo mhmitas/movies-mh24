@@ -31,8 +31,8 @@ export default function SearchDialog() {
 
 
     useEffect(() => {
-        setOpen(false),
-            setQuery('')
+        setOpen(false);
+        setQuery('')
     }, [pathname])
 
     // Debounce query input
@@ -113,7 +113,7 @@ export default function SearchDialog() {
                         )}
                     </div>
                 </form>
-                <ScrollArea className="h-[70vh] pr-2 overflow-y-auto">
+                <ScrollArea className="max-h-[70vh] pr-2 overflow-y-auto">
 
                     <MovieSuggestionList
                         suggestions={suggestions}

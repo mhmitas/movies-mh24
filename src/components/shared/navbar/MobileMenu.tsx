@@ -25,7 +25,7 @@ export function MobileMenu({ activePath }: MobileMenuProps) {
 
     return (
         <Sheet open={open} onOpenChange={setOpen}>
-            <SheetTrigger asChild>
+            <SheetTrigger asChild className="lg:hidden">
                 <Button variant="primary" className="rounded-full size-11">
                     <Menu className="size-6" />
                     <span className="sr-only">Menu</span>
