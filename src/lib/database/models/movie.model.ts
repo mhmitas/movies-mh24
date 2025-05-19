@@ -104,3 +104,54 @@ const movieSchema = new Schema<IMovie>({
 });
 
 export const Movie = models.Movie || model<IMovie>('Movie', movieSchema);
+
+// Sub-schemas
+const awardsSchema = new Schema({
+    wins: Number,
+    nominations: Number,
+    text: String
+});
+
+const imdbSchema = new Schema({
+    rating: Number,
+    votes: Number,
+    id: Number
+});
+
+const tomatoesViewerSchema = new Schema({
+    rating: Number,
+    numReviews: Number,
+    meter: Number
+});
+
+const tomatoesSchema = new Schema({
+    viewer: tomatoesViewerSchema,
+    dvd: Date,
+    lastUpdated: Date
+});
+
+// Main schema
+const embeddedMovieSchema = new Schema({
+    plot: String,
+    genres: [String],
+    runtime: Number,
+    cast: [String],
+    num_mflix_comments: Number,
+    title: String,
+    fullplot: String,
+    languages: [String],
+    released: Date,
+    directors: [String],
+    writers: [String],
+    awards: awardsSchema,
+    lastupdated: String,
+    year: Number,
+    imdb: imdbSchema,
+    countries: [String],
+    type: String,
+    tomatoes: tomatoesSchema,
+    plot_embedding: [Number]
+});
+
+// Create the model
+export const embedded_movies = models.embedded_movies || model('embedded_movies', movieSchema);

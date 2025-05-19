@@ -1,11 +1,11 @@
 "use client"
 
-import { Input } from '@/components/ui/input'
 import { autocompleteSearchTest } from '@/lib/actions/test.actions'
 import { Search } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState, useTransition } from 'react'
 import MovieSuggestionList from './components/MovieSuggestionList'
+import { cn } from '@/lib/utils'
 
 type Suggestion = {
     _id: string
@@ -81,15 +81,18 @@ const SearchTestPage = () => {
 
     return (
         <div className='my-container my-20 min-h-screen'>
-            <div>{open ? "OPEN" : "CLOSE"}</div>
-            <form onSubmit={handleSubmit} className="relative mb-2 max-w-2xl mx-auto pt-6 suggestion-list border border-red-500">
+            <form onSubmit={handleSubmit} className="relative mb-2 max-w-xl mx-auto pt-6 suggestion-list">
                 <div className="relative">
                     <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                    <Input
+                    <input
                         autoFocus
                         type="text"
-                        placeholder="Search movies, TV shows..."
-                        className="pl-12 pr-10 h-12 text-base rounded-full border border-input/50 bg-background custom-input border-b-0"
+                        placeholder="Search for Movies, TV Shows..."
+                        className={cn(
+                            "pl-12 pr-10 h-12 border-none outline-none bg-card w-full",
+                            "remove-input-outline font-medium",
+                            open ? "rounded-t-2xl" : "rounded-full"
+                        )}
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         onFocus={() => setOpen(true)}
