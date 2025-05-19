@@ -134,4 +134,4 @@ const embeddedMovieSchema = new Schema({
 export const Movie = models.Movie || model<IMovie>('Movie', movieSchema);
 
 // Create the EMBEDDED MOVIE model
-export const embedded_movies = models.embedded_movies || model('embedded_movies', embeddedMovieSchema);
+export const Embedded_Movie = models.Embedded_Movie || model('Embedded_Movie', embeddedMovieSchema);

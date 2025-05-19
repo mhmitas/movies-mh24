@@ -86,7 +86,7 @@ export default function SearchDialog() {
                     <span className="sr-only">Search</span>
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-md bg-background">
+            <DialogContent className="sm:max-md bg-background rounded-xl">
                 <form onSubmit={handleSubmit} className="relative mb-2 pr-2 mt-6">
                     <div className="relative">
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
@@ -94,7 +94,7 @@ export default function SearchDialog() {
                             autoFocus
                             type="text"
                             placeholder="Search movies, TV shows..."
-                            className="pl-12 pr-10 h-12 text-base"
+                            className="pl-12 pr-10 h-12 text-base rounded-full"
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
                             aria-label="Search input"
