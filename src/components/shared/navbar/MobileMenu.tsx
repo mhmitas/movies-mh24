@@ -7,14 +7,24 @@ import Link from "next/link"
 import { cn } from "@/lib/utils"
 import SiteLogo from "../siteLogo"
 import { NAV_ITEMS } from "@/constants"
+import { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
 
 interface MobileMenuProps {
     activePath: string
 }
 
 export function MobileMenu({ activePath }: MobileMenuProps) {
+    const [open, setOpen] = useState(false)
+
+    const pathname = usePathname()
+
+    useEffect(() => {
+        setOpen(false)
+    }, [pathname])
+
     return (
-        <Sheet>
+        <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
                 <Button variant="primary" className="rounded-full size-11">
                     <Menu className="size-6" />

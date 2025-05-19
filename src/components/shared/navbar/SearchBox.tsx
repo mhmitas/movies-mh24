@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { ChevronRight, Search } from "lucide-react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { useState, useEffect, useTransition } from "react"
 import MovieSuggestionList from "../MovieSuggestionItem"
 import { getSearchSuggestions } from "@/lib/actions/search.actions"
@@ -23,10 +23,17 @@ type Suggestion = {
 export default function SearchDialog() {
     const router = useRouter()
     const [open, setOpen] = useState(false)
+    const pathname = usePathname()
     const [query, setQuery] = useState('')
     const [suggestions, setSuggestions] = useState<Suggestion[]>([])
     const [isPending, startTransition] = useTransition()
     const [debouncedQuery, setDebouncedQuery] = useState('')
+
+
+    useEffect(() => {
+        setOpen(false),
+            setQuery('')
+    }, [pathname])
 
     // Debounce query input
     useEffect(() => {

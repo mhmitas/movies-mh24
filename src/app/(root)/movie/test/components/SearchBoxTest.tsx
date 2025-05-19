@@ -92,7 +92,10 @@ const SearchBox = ({ onSearch, initialQuery = '', className }: SearchBoxProps) =
                         "font-medium rounded-full"
                     )}
                     value={query}
-                    onChange={(e) => setQuery(e.target.value)}
+                    onChange={(e) => {
+                        setQuery(e.target.value)
+                        setOpen(true)
+                    }}
                     onFocus={() => setOpen(true)}
                     aria-label="Search input"
                     aria-expanded={open}

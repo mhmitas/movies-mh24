@@ -20,6 +20,7 @@ export async function autocompleteSearchTest({
     const pipeline = [
         {
             $search: {
+                index: "sample_mflix",
                 autocomplete: {
                     path: "title",
                     query: query
@@ -27,7 +28,7 @@ export async function autocompleteSearchTest({
             }
         },
         { $limit: limit },
-        { $project: { title: 1 } }
+        { $project: MOVIE_PROJECTIONS }
     ]
 
     const movies = await Movie.aggregate(pipeline);
