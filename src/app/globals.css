@@ -151,3 +151,15 @@
   scrollbar-width: thin;
   scrollbar-color: #3b3b3b #202020;
 }
+
+.suggestion-container {
+  isolation: isolate;
+  position: static;
+  /* For mobile positioning */
+}
+
+@media (min-width: 1024px) {
+  .suggestion-container {
+    position: relative !important;
+  }
+}

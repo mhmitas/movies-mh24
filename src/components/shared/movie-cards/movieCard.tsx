@@ -6,7 +6,7 @@ import Link from "next/link";
 import { getAdditionDataFromTmdb } from "@/lib/actions/movies.actions";
 
 const MovieCard = async ({ title, poster, year, _id, type, runtime, imdb, genres }
-  : Pick<IMovie, 'title' | 'poster' | 'year' | '_id' | 'runtime' | 'type' | 'imdb' | "genres">) => {
+  : IMovie) => {
 
   let moviePosterUrl = poster;
   // Check if the poster is available
@@ -35,8 +35,8 @@ const MovieCard = async ({ title, poster, year, _id, type, runtime, imdb, genres
               src={poster || moviePosterUrl}
               alt={"Poster unavailable"}
               fill
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 300px"
-              className="object-cover transition duration-200 w-full"
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 30vw, 200px"  // Adjusted sizes for lower resolution
+              className="object-cover transition duration-200 w-full rounded"
               placeholder="blur"
               blurDataURL="/images/poster-placeholder.svg"
             />

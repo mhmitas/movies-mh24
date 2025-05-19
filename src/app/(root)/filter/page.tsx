@@ -1,34 +1,45 @@
-import React from "react"
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
+import Filter from '@/components/shared/Filter'
+import MovieCollPagination from '@/components/shared/MovieCollPagination'
+import { getMovies } from '@/lib/actions/movies.actions'
+import React from 'react'
 
+const Home = async (props: {
+    searchParams?: Promise<{
+        query?: string;
+        page?: string;
+        genre?: string;
+        type?: string;
+    }>;
+}) => {
 
-const page = () => {
+    const searchParams = await props.searchParams;
+    // const query = searchParams?.query || '';
+    const currentPage = Number(searchParams?.page) || 1;
+    const genre = searchParams?.genre?.split("+") || [];
+    const type = searchParams?.type || ""
+
+    const movies = await getMovies({
+        page: currentPage,
+        limit: 36,
+        query: "",
+        type,
+        genre
+    })
+
+    // console.log(movies.data)
+
     return (
-        <div className="mt-20">
-            <BlurredBackgroundDialog />
-        </div>
+        <section className='scroll-smooth space-y-10'>
+            <div className='mt-24'>
+                <Filter />
+            </div>
+            <MovieCollPagination
+                movies={movies?.data}
+                page={currentPage}
+                totalPages={movies?.totalPages}
+            />
+        </section>
     )
 }
 
-export default page
-
-function BlurredBackgroundDialog() {
-    return (
-        <Dialog>
-            <DialogTrigger asChild>
-                <Button variant="outline">Open Dialog</Button>
-            </DialogTrigger>
-
-            <DialogContent className="sm:max-w-[425px]">
-                <h2 className="text-lg font-semibold">Dialog Title</h2>
-                <p className="mt-2 text-sm text-muted-foreground">
-                    This dialog has a blurred backdrop that helps focus attention on the dialog content.
-                </p>
-                <div className="mt-4 flex justify-end">
-                    <Button>Continue</Button>
-                </div>
-            </DialogContent>
-        </Dialog>
-    )
-}
+export default Home

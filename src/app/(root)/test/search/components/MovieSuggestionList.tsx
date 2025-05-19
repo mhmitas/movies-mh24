@@ -1,5 +1,6 @@
 "use client"
 
+import { cn } from '@/lib/utils'
 import { MovieSuggestion } from '@/types'
 import { Search } from 'lucide-react'
 import React from 'react'
@@ -7,12 +8,13 @@ import React from 'react'
 interface MovieSuggestionListProps {
     suggestions: MovieSuggestion[]
     onSelect: (title: string) => void
+    className?: string
 }
 
-const MovieSuggestionList = ({ suggestions, onSelect }: MovieSuggestionListProps) => {
+const MovieSuggestionList = ({ suggestions, onSelect, className }: MovieSuggestionListProps) => {
     return (
         <div
-            className="absolute top-20 left-0 right-0 py-4 rounded-xl shadow-lg z-20 bg-gray-50 text-black"
+            className={cn("absolute py-4 rounded-xl shadow-lg z-20", className)}
             role="listbox"
             aria-label="Search suggestions"
         >

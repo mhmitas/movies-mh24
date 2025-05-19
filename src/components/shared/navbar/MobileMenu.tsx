@@ -10,11 +10,7 @@ import { NAV_ITEMS } from "@/constants"
 import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 
-interface MobileMenuProps {
-    activePath: string
-}
-
-export function MobileMenu({ activePath }: MobileMenuProps) {
+export function MobileMenu() {
     const [open, setOpen] = useState(false)
 
     const pathname = usePathname()
@@ -45,7 +41,7 @@ export function MobileMenu({ activePath }: MobileMenuProps) {
                                 href={item.href}
                                 className={cn(
                                     "px-4 sm:px-6 uppercase py-3 rounded-md font-medium",
-                                    activePath === item.href
+                                    pathname === item.href
                                         ? "bg-primary/10 text-primary"
                                         : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
                                 )}

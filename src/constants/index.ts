@@ -32,7 +32,7 @@ export const TYPES = [
 
 export const NAV_ITEMS: NavItemProps[] = [
     { id: "home", label: "Home", href: "/" },
-    { id: "favorites", label: "Favorites", href: "/favorites" },
+    { id: "Genre", label: "Genre", href: "/Genre" },
     { id: "movies", label: "Movies", href: "/movie/test" },
     { id: "tvshows", label: "TV Shows", href: "/tvshows" },
     { id: "top", label: "Top IMDB", href: "/top-imdb" },

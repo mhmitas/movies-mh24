@@ -1,7 +1,7 @@
 export type GetAllMoviesParams = {
-    page: number,
+    page?: number,
     limit: number,
-    query: string,
+    query?: string,
     type: string,
     genre: string[]
 }
