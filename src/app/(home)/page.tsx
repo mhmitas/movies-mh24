@@ -11,7 +11,7 @@ const Home = async () => {
     })
 
     return (
-        <div className='space-y-12 md:space-y-16 lg:space-y-20'>
+        <div className='space-y-12 md:space-y-16 lg:space-y-20 mt-10'>
             <section>
                 <h1 className='text-2xl lg:text-3xl font-medium my-container mb-5'>Trending</h1>
                 <MovieCollection movies={movies.data} />

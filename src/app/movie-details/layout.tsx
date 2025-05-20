@@ -6,7 +6,7 @@ const layout = ({ children }: Readonly<{
 }>) => {
     return (
         <div className='font-noto'>
-            <Navbar isMovieDetailsPage={true} />
+            <Navbar className="bg-background/50" />
             {children}
         </div>
     )

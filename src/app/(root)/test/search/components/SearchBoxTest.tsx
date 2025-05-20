@@ -4,7 +4,7 @@ import { MovieSuggestion } from '@/types'
 import { Search } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import React, { useEffect, useState, useTransition } from 'react'
-import MovieSuggestionList from './MovieSuggestionList'
+import MovieSuggestionList from '../../../../../components/shared/MovieSuggestionList'
 import { autocompleteSearchTest } from '@/lib/actions/test.actions'
 import { useRouter, useSearchParams } from 'next/navigation'
 

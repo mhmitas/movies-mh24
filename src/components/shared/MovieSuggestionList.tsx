@@ -46,7 +46,7 @@ const MovieSuggestionList = ({ suggestions, onSelect, className, query }: MovieS
                     onClick={() => onSelect(suggestion.title)}
                     onKeyDown={(e) => e.key === 'Enter' && onSelect(suggestion.title)}
                 >
-                    <div className="shrink-0 relative w-8 h-12 rounded-md overflow-hidden bg-muted/50">
+                    <div className="shrink-0 relative w-12 aspect-square rounded-md overflow-hidden bg-muted/50">
                         {suggestion.poster ? (
                             <img
                                 width={64}

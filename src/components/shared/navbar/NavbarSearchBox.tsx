@@ -6,7 +6,7 @@ import { useState, useEffect, useTransition, useRef } from "react"
 import { getSearchSuggestions } from "@/lib/actions/search.actions"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
-import MovieSuggestionList from "@/app/(root)/test/search/components/MovieSuggestionList"
+import MovieSuggestionList from "@/components/shared/MovieSuggestionList"
 
 type Suggestion = {
     _id: string
@@ -17,7 +17,7 @@ type Suggestion = {
     runtime?: number
 }
 
-export default function NavbarSearchBox({ className }: { className?: string }) {
+export default function NavbarSearchBox({ className, isHomePage }: { className?: string, isHomePage?: boolean }) {
     const router = useRouter()
     const containerRef = useRef<HTMLDivElement>(null)
     const [open, setOpen] = useState(false)
@@ -103,7 +103,8 @@ export default function NavbarSearchBox({ className }: { className?: string }) {
             <form onSubmit={handleSubmit} className="relative">
                 <Input
                     className={cn(
-                        "rounded-full pl-10 pr-8 w-full",
+                        "rounded-full w-full",
+                        isHomePage ? "h-16 terrible-input-text pl-14 pr-10" : " pl-10 pr-8"
                     )}
                     onChange={(e) => {
                         setQuery(e.target.value)
@@ -118,9 +119,8 @@ export default function NavbarSearchBox({ className }: { className?: string }) {
 
                 {/* Search Icon - Responsive sizing */}
                 <Search className={cn(
-                    "absolute left-3 top-1/2 -translate-y-1/2",
-                    "h-5 w-5 sm:h-4 sm:w-4", // Responsive icon sizing
-                    "text-muted-foreground"
+                    "absolute text-muted-foreground",
+                    isHomePage ? "left-6 top-1/2 -translate-y-1/2" : "left-4 top-1/2 -translate-y-1/2 h-5 w-5 sm:h-4 sm:w-4"
                 )} />
 
                 {/* Loading Spinner - Responsive positioning */}
