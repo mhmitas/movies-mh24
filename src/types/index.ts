@@ -1,9 +1,9 @@
 export type GetAllMoviesParams = {
-    page?: number,
     limit: number,
+    page?: number,
     query?: string,
-    type: string,
-    genre: string[]
+    type?: string,
+    genre?: string[]
 }
 
 // ====== URL QUERY PARAMS
@@ -21,7 +21,9 @@ export type RemoveUrlQueryParams = {
 export type NavItemProps = {
     id: string
     label: string
-    href: string
+    href?: string,
+    children?: NavItemProps[]
+    disabled?: boolean
 }
 
 export type MovieSuggestion = {

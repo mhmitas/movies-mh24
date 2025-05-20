@@ -40,7 +40,7 @@ export function MobileMenu() {
                                 key={item.id}
                                 href={item.href}
                                 className={cn(
-                                    "px-4 sm:px-6 uppercase py-3 rounded-md font-medium",
+                                    "px-4 sm:px-6 uppercase py-3 font-medium rounded-none",
                                     pathname === item.href
                                         ? "bg-primary/10 text-primary"
                                         : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",

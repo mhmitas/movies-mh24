@@ -32,8 +32,17 @@ export const TYPES = [
 
 export const NAV_ITEMS: NavItemProps[] = [
     { id: "home", label: "Home", href: "/" },
-    { id: "Genre", label: "Genre", href: "/Genre" },
-    { id: "movies", label: "Movies", href: "/movie/test" },
+    {
+        id: "Genre",
+        label: 'Genre',
+        children: GENRES.map((genre) => ({ id: genre.toLocaleLowerCase(), label: genre, href: `/genre/${genre}` })),
+    },
+    {
+        id: "Genre",
+        label: 'Genre',
+        children: GENRES.map((genre) => ({ id: genre.toLocaleLowerCase(), label: genre, href: `/genre/${genre}` })),
+    },
+    { id: "movies", label: "Movies", href: "/movies" },
     { id: "tvshows", label: "TV Shows", href: "/tvshows" },
     { id: "top", label: "Top IMDB", href: "/top-imdb" },
     { id: "test", label: "Test", href: "/test/search" },

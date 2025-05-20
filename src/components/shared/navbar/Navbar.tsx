@@ -9,7 +9,7 @@ export function Navbar({ className, isHomePage }: { className?: string, isHomePa
 
     const containerClasses = cn(
         "lg:fixed top-0 z-50",
-        "bg-card pb-4 lg:pb-2 pt-2 px-4 sm:px-6 md:px-8 lg:px-4",
+        "bg-card pb-4 lg:pb-0 pt-2 px-4 sm:px-6 md:px-8 lg:px-4 lg:pt-0",
         "w-full lg:h-16",
         "transition-all",
         className,
