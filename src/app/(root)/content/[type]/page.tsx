@@ -7,16 +7,19 @@ const MoviesPage = async (props: {
     searchParams?: Promise<{
         page?: string;
     }>;
+    params: Promise<{ type: string }>
 }) => {
 
+    const params = await props?.params;
     const searchParams = await props.searchParams;
     // const query = searchParams?.query || '';
     const currentPage = Number(searchParams?.page) || 1;
+    const type = params?.type
 
     const movies = await getMovies({
         page: currentPage,
         limit: 36,
-        type: "movie",
+        type: type === "movies" ? "movie" : "series",
         genre: []
     })
 
@@ -25,7 +28,7 @@ const MoviesPage = async (props: {
     return (
         <section className='scroll-smooth space-y-10'>
             <div className='mt-24'>
-                <Filter heading='Popular Movies' />
+                <Filter heading={`Popular ${type === "movies" ? "Movies" : "TV Shows"}`} />
             </div>
             <MovieCollPagination
                 movies={movies?.data}

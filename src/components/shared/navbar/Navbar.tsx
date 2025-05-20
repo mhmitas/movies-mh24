@@ -32,7 +32,7 @@ export function Navbar({ className, isHomePage }: { className?: string, isHomePa
                 {/* Right Section */}
                 <div className="flex flex-1 lg:flex-none items-center gap-2 lg:gap-4 w-full lg:w-auto">
                     <NavbarSearchBox className={cn("flex-1 lg:max-w-[400px] xl:w-xs", isHomePage && "lg:hidden")} />
-                    <NavbarRightSection className={cn("hidden lg:flex", isHomePage && "w-40")} />
+                    <NavbarRightSection className={cn("hidden lg:flex", isHomePage && "min-w-40")} />
                 </div>
             </div>
         </header>

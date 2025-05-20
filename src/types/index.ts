@@ -2,7 +2,7 @@ export type GetAllMoviesParams = {
     limit: number,
     page?: number,
     query?: string,
-    type?: string,
+    type?: "movie" | "series",
     genre?: string[]
 }
 

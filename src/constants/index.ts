@@ -37,13 +37,8 @@ export const NAV_ITEMS: NavItemProps[] = [
         label: 'Genre',
         children: GENRES.map((genre) => ({ id: genre.toLocaleLowerCase(), label: genre, href: `/genre/${genre}` })),
     },
-    {
-        id: "Genre",
-        label: 'Genre',
-        children: GENRES.map((genre) => ({ id: genre.toLocaleLowerCase(), label: genre, href: `/genre/${genre}` })),
-    },
-    { id: "movies", label: "Movies", href: "/movies" },
-    { id: "tvshows", label: "TV Shows", href: "/tvshows" },
+    { id: "movies", label: "Movies", href: "/content/movies" },
+    { id: "tvshows", label: "TV Shows", href: "/content/series" },
     { id: "top", label: "Top IMDB", href: "/top-imdb" },
     { id: "test", label: "Test", href: "/test/search" },
 ];
