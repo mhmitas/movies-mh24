@@ -1,6 +1,5 @@
 import MovieCollPagination from '@/components/shared/MovieCollPagination';
-import { handleMovieSearch } from '@/lib/actions/search.actions';
-import { Metadata } from 'next';
+import { handleMovieSearchTest } from '@/lib/actions/test.actions';
 import React from 'react'
 
 const SearchTestPage = async (props: {
@@ -16,9 +15,7 @@ const SearchTestPage = async (props: {
     const query = searchParams?.q || '';
     const decodedQuery = decodeURIComponent(query)
 
-
-
-    const movies = await handleMovieSearch({
+    const movies = await handleMovieSearchTest({
         page: currentPage,
         limit: 36,
         query: decodedQuery
@@ -38,18 +35,3 @@ const SearchTestPage = async (props: {
 }
 
 export default SearchTestPage;
-
-export async function generateMetadata({
-    params,
-}: {
-    params: Promise<{ title: string }>
-}): Promise<Metadata> {
-
-    const { title: dynamicTitle } = await params
-    const decodedQuery = decodeURIComponent(dynamicTitle)
-
-    return {
-        title: `${decodedQuery}`,
-        description: `Search results for ${decodedQuery}`,
-    }
-}

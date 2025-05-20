@@ -4,12 +4,11 @@ import { MovieSuggestion } from '@/types'
 import { Search } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import React, { useEffect, useState, useTransition } from 'react'
-import MovieSuggestionList from '../../../../../components/shared/MovieSuggestionList'
-import { autocompleteSearchTest } from '@/lib/actions/test.actions'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { Input } from '@/components/ui/input'
+import { handleMovieSearchTest } from '@/lib/actions/test.actions'
 
 const SearchBox = () => {
-    const [open, setOpen] = useState(false)
     const [suggestions, setSuggestions] = useState<MovieSuggestion[]>([])
     const searchParams = useSearchParams()
     const [query, setQuery] = useState(searchParams?.get('q') || '')
@@ -35,11 +34,11 @@ const SearchBox = () => {
         if (debouncedQuery.length >= 2) {
             startTransition(async () => {
                 try {
-                    const results = await autocompleteSearchTest({
+                    const results = await handleMovieSearchTest({
                         query: debouncedQuery,
                         limit: 10
                     })
-                    if (isMounted) setSuggestions(results)
+                    if (isMounted) setSuggestions(results.data)
                 } catch (error) {
                     console.error("Search failed:", error)
                     if (isMounted) setSuggestions([])
@@ -51,56 +50,37 @@ const SearchBox = () => {
         return () => { isMounted = false }
     }, [debouncedQuery])
 
-    // Close suggestions when clicking outside
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            const target = event.target as HTMLElement
-            if (open && !target.closest('.suggestion-container')) {
-                setOpen(false)
-            }
-        }
-
-        document.addEventListener('mousedown', handleClickOutside)
-        return () => document.removeEventListener('mousedown', handleClickOutside)
-    }, [open])
-
     // handle form submit to a full search  
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         onSearch(query)
-        setOpen(false)
     }
 
     // handle click on suggestions
     const handleSuggestionSelect = (title: string) => {
         onSearch(title)
-        setOpen(false)
         setQuery(title)
     }
 
     return (
         <form
             onSubmit={handleSubmit}
-            className={cn("relative mb-2 mt-20 max-w-xl mx-auto pt-6 suggestion-container text-gray-800")}
+            className={cn("relative mb-2 mt-20 max-w-xl mx-auto pt-6 suggestion-container")}
         >
             <div className="relative">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-800" />
-                <input
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5" />
+                <Input
                     autoFocus
                     type="text"
                     placeholder="Search for Movies, TV Shows..."
                     className={cn(
-                        "pl-12 pr-10 h-12 w-full bg-gray-50 text-gray-800",
+                        "pl-12 pr-10 h-12 w-ful",
                         "font-medium rounded-full"
                     )}
                     value={query}
                     onChange={(e) => {
                         setQuery(e.target.value)
-                        setOpen(true)
                     }}
-                    onFocus={() => setOpen(true)}
-                    aria-label="Search input"
-                    aria-expanded={open}
                 />
                 {isPending && (
                     <div className="absolute right-3 top-1/2 -translate-y-1/2">
@@ -108,12 +88,41 @@ const SearchBox = () => {
                     </div>
                 )}
             </div>
-            {open && <MovieSuggestionList
-                className='bg-gray-50 text-black top-20 left-0 right-0'
-                suggestions={suggestions}
-                onSelect={handleSuggestionSelect}
-                query={query}
-            />}
+            <div className='flex flex-col gap-2 h-96 overflow-y-auto mt-2 rounded-lg bg-card'>
+                {suggestions.map((suggestion) => (
+                    <button
+                        type="button"
+                        className={cn(
+                            "relative w-full p-2 text-left",
+                            "flex items-center gap-4",
+                            "hover:bg-muted transition-colors cursor-pointer",
+                            "focus:bg-muted",
+                            "group/suggestion-item"
+                        )}
+                        key={suggestion._id}
+                        role="option"
+                        aria-selected="false"
+                        onClick={() => handleSuggestionSelect(suggestion.title)}
+                        onKeyDown={(e) => e.key === 'Enter' && handleSuggestionSelect(suggestion.title)}
+                    >
+                        <div className="shrink-0 relative w-12 aspect-square rounded-md overflow-hidden bg-muted/50">
+                            <img
+                                width={64}
+                                height={96}
+                                src={suggestion.poster}
+                                alt={`${suggestion.title} poster`}
+                                className="w-full h-full object-cover"
+                                loading="lazy"
+                            />
+
+                        </div>
+
+                        <div className="flex-1 min-w-0">
+                            <p className="truncate text-sm font-medium">{suggestion.title}</p>
+                        </div>
+                    </button>
+                ))}
+            </div>
         </form>
     )
 }

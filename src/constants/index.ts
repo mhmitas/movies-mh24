@@ -34,7 +34,7 @@ export const NAV_ITEMS: NavItemProps[] = [
     { id: "home", label: "Home", href: "/" },
     {
         id: "Genre",
-        label: 'Genre',
+        label: 'Genres',
         children: GENRES.map((genre) => ({ id: genre.toLocaleLowerCase(), label: genre, href: `/genre/${genre}` })),
     },
     { id: "movies", label: "Movies", href: "/content/movies" },
