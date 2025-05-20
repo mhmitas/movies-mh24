@@ -163,3 +163,28 @@
     position: relative !important;
   }
 }
+
+@media (max-width: 640px) {
+  .suggestion-container {
+    width: 100vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+  }
+}
+
+/* Add smooth scrolling for mobile */
+.MovieSuggestionList {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Better scrollbar styling */
+.MovieSuggestionList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.MovieSuggestionList::-webkit-scrollbar-thumb {
+  @apply bg-muted rounded-full;
+}

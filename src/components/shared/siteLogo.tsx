@@ -10,8 +10,8 @@ const SiteLogo = ({ className }: { className?: string }) => {
 
     return (
         <div onClick={() => router.push("/")} className={cn("flex items-center font-oswald whitespace-nowrap hover:opacity-90 transition-opacity cursor-pointer", className)}>
-            <Logo className='sm:h-10 sm:w-10 h-8 w-8' />
-            <span className="ml-2 text-lg sm:text-xl font-bold inline-block">Movies MH24</span>
+            <Logo className='lg:h-10 lg:w-10 h-8 w-8' />
+            <span className="ml-2 text-lg lg:text-xl font-bold inline-block">Movies MH24</span>
         </div>
     )
 }

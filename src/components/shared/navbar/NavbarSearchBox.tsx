@@ -27,7 +27,6 @@ export default function NavbarSearchBox({ className }: { className?: string }) {
     const [isPending, startTransition] = useTransition()
     const [debouncedQuery, setDebouncedQuery] = useState('')
 
-
     useEffect(() => {
         setOpen(false);
         setQuery('')
@@ -73,8 +72,13 @@ export default function NavbarSearchBox({ className }: { className?: string }) {
         handleSearch(query)
     }
 
-    function handleSuggestionSelect(params: any) {
-
+    function handleSuggestionSelect(title: string, condition?: "all") {
+        if (condition === "all") {
+            handleSearch(query)
+        }
+        else {
+            handleSearch(title)
+        }
     }
 
     // Add click-outside handler
@@ -95,29 +99,53 @@ export default function NavbarSearchBox({ className }: { className?: string }) {
     }, [])
 
     return (
-        <div ref={containerRef} className={cn("relative suggestion-container", className)}>
-            <Input
-                className={cn(
-                    "rounded-full pl-10 w-full sm:h-10 lg:h-9",
+        <div ref={containerRef} className={cn("relative group", className)}>
+            <form onSubmit={handleSubmit} className="relative">
+                <Input
+                    className={cn(
+                        "rounded-full pl-10 pr-8 w-full",
+                    )}
+                    onChange={(e) => {
+                        setQuery(e.target.value)
+                        setOpen(true)
+                    }}
+                    value={query}
+                    placeholder="Search..."
+                    onFocus={() => setOpen(true)}
+                    aria-label="Search input"
+                    aria-expanded={open}
+                />
+
+                {/* Search Icon - Responsive sizing */}
+                <Search className={cn(
+                    "absolute left-3 top-1/2 -translate-y-1/2",
+                    "h-5 w-5 sm:h-4 sm:w-4", // Responsive icon sizing
+                    "text-muted-foreground"
+                )} />
+
+                {/* Loading Spinner - Responsive positioning */}
+                {isPending && (
+                    <div className={cn(
+                        "absolute right-3 top-1/2 -translate-y-1/2",
+                        "sm:right-2" // Adjust for smaller screens
+                    )}>
+                        <div className="h-5 w-5 sm:h-4 sm:w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+                    </div>
                 )}
-                onChange={(e) => {
-                    setQuery(e.target.value)
-                    setOpen(true)
-                }}
-                onFocus={() => setOpen(true)}
-                aria-label="Search input"
-                aria-expanded={open}
-            />
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-            {open && <MovieSuggestionList
-                className="bg-card top-12 shadow border left-0 right-0"
-                suggestions={suggestions}
-                onSelect={handleSuggestionSelect}
-            />}
-            {isPending && (
-                <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                    <div className="h-5 w-5 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-                </div>
+            </form>
+
+            {/* Suggestion List - Responsive positioning */}
+            {open && (
+                <MovieSuggestionList
+                    className={cn(
+                        "bg-card shadow-lg border mt-1 absolute w-full",
+                        "top-[calc(100%+0.25rem)] sm:top-[calc(100%+0.5rem)]", // Dynamic positioning
+                        "max-h-[60vh] overflow-y-auto thin-scrollbar" // Scroll for mobile
+                    )}
+                    suggestions={suggestions}
+                    onSelect={handleSuggestionSelect}
+                    query={query}
+                />
             )}
         </div>
     )

@@ -30,7 +30,9 @@ export type MovieSuggestion = {
     poster?: string
     year?: number
     runtime?: number
-    type?: string
+    type?: string,
+    season?: string,
+    episode?: string
 }
 
 export type SearchOptionsParams = {

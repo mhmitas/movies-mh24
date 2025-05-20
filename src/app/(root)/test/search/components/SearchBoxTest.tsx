@@ -112,6 +112,7 @@ const SearchBox = () => {
                 className='bg-gray-50 text-black top-20 left-0 right-0'
                 suggestions={suggestions}
                 onSelect={handleSuggestionSelect}
+                query={query}
             />}
         </form>
     )
