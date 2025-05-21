@@ -4,6 +4,7 @@ import { FaPlay } from "react-icons/fa6";
 import { capitalize } from "@/lib/utils";
 import Link from "next/link";
 import { getAdditionDataFromTmdb } from "@/lib/actions/movies.actions";
+import { Badge } from "@/components/ui/badge";
 
 const MovieCard = async ({ title, poster, year, _id, type, runtime, imdb, genres }
   : IMovie) => {
@@ -33,7 +34,7 @@ const MovieCard = async ({ title, poster, year, _id, type, runtime, imdb, genres
             {/* <PosterImage poster={moviePosterUrl} title={title} imdbId={String(imdb?.id)} /> */}
             <Image
               src={poster || moviePosterUrl}
-              alt={"Poster unavailable"}
+              alt={"Poster isn't found"}
               fill
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 30vw, 200px"  // Adjusted sizes for lower resolution
               className="object-cover transition duration-200 w-full rounded"
@@ -55,9 +56,9 @@ const MovieCard = async ({ title, poster, year, _id, type, runtime, imdb, genres
             <div className="flex flex-wrap items-center gap-2">
               <span>{year}</span>
               <span>•</span>
-              <span>{runtime}m</span>
+              <span>{runtime ? `${runtime}m` : "N/A"}</span>
             </div>
-            <span title={genres?.toString()} className="border border-primary-foreground/60 px-1 rounded-md text-xs">{capitalize(type || "Movie")}</span>
+            <Badge>{capitalize(type || "Movie")}</Badge>
           </div>
         </section>
       </div>

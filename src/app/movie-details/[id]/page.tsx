@@ -1,7 +1,7 @@
 import { Badge } from '@/components/ui/badge';
 import { getAdditionDataFromTmdb, getMovieById } from '@/lib/actions/movies.actions';
 import { formatDuration } from '@/lib/utils';
-import React from 'react'
+import React, { Suspense } from 'react'
 import { FaCheck, FaHeart, FaPlay, FaStar } from 'react-icons/fa6';
 import MovieMetadata, { MovieActionButton } from './movie-detail-page-components';
 import {
@@ -14,6 +14,8 @@ import { FcGoogle } from "react-icons/fc";
 import Link from 'next/link';
 import PosterImage from '@/components/shared/MoviePoster';
 import RecommendedMovies from '@/components/shared/RecommendedMovies';
+import LoadingSpinner from '../loading';
+import ErrorBoundary from '@/components/shared/ErrorBoundary';
 
 const MovieDetails = async ({ params }: { params: Promise<{ id: string }> }) => {
     const { id } = await params;
@@ -45,7 +47,7 @@ const MovieDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
                 <div className='absolute inset-0 bg-gradient-to-r from-background via-background/50 to-background z-0'></div>
             </div>
             {/* detail page wrapper container */}
-            <div className='mt-48 text-sm lg:text-base bg-background'>
+            <div className='mt-48 text-sm lg:text-base bg-background min-h-screen'>
                 {/* detail page primary container */}
                 <div className='bg-muted relative'>
                     {/* info container (title, ...) */}
@@ -107,7 +109,12 @@ const MovieDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
                     </Accordion>
 
                     <div></div>
-                    <RecommendedMovies plot_embedding={movie?.plot_embedding} />
+                    <Suspense fallback={<div>Loading recommendations...</div>}>
+                        <ErrorBoundary>
+                            <RecommendedMovies plot_embedding={movie?.plot_embedding} />
+
+                        </ErrorBoundary>
+                    </Suspense>
                 </div>
             </div>
 

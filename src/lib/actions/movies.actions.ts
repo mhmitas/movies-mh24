@@ -71,12 +71,11 @@ export const getRecommendedMoviesByPlot = async ({ plot_embedding }: { plot_embe
             },
             {
                 $project: {
-                    _id: 0,
                     plot: 1,
                     ...MOVIE_PROJECTIONS,
                     score: {
                         $meta: 'vectorSearchScore'
-                    }
+                    },
                 }
             }
         ]
@@ -84,7 +83,7 @@ export const getRecommendedMoviesByPlot = async ({ plot_embedding }: { plot_embe
         const movies = await Embedded_Movie.aggregate(agg);
         return JSON.parse(JSON.stringify(movies));
     } catch (error) {
-        throw error;
+        throw new Error("No recommendations found");
     }
 }
 
