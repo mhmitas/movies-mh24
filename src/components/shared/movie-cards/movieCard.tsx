@@ -7,7 +7,7 @@ import { getAdditionDataFromTmdb } from "@/lib/actions/movies.actions";
 import { Badge } from "@/components/ui/badge";
 import PosterImage from "../MoviePoster";
 
-const MovieCard = async ({ title, poster, year, _id, type, runtime, imdb, genres }
+const MovieCard = async ({ title, poster, year, _id, type, runtime, imdb }
   : IMovie) => {
 
   let moviePosterUrl = poster;

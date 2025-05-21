@@ -5,6 +5,33 @@ import { Movie } from "../database/models/movie.model";
 import { PipelineStage } from "mongoose";
 import { MOVIE_PROJECTIONS } from "@/constants";
 
+const buildSearchStagePipeline = (query: string) => {
+    const searchStage: PipelineStage = {
+        $search: {
+            index: "sample_mflix",
+            compound: {
+                should: [
+                    {
+                        autocomplete: {
+                            query: query,
+                            path: "title",
+                        }
+                    },
+                    {
+                        text: {
+                            query: query,
+                            path: "titleExact",
+                            score: { boost: { value: 5 } } // Exact matches get 5x boost
+                        }
+                    }
+                ]
+            }
+        }
+    }
+    return searchStage
+}
+
+
 export async function handleMovieSearch({
     query,
     page = 1,
@@ -25,19 +52,16 @@ export async function handleMovieSearch({
 
     // Aggregation pipeline with a $facet
     const pipeline: PipelineStage[] = [
-        {
-            $search: {
-                index: "sample_mflix",
-                autocomplete: {
-                    path: "title",
-                    query: query
-                }
-            }
-        },
+        buildSearchStagePipeline(query),
         {
             $facet: {
                 data: [
-                    { $project: MOVIE_PROJECTIONS },
+                    {
+                        $project: {
+                            ...MOVIE_PROJECTIONS,
+                            score: { $meta: "searchScore" }
+                        }
+                    },
                     { $skip: skip },
                     { $limit: limit },
                 ],
@@ -74,15 +98,7 @@ export async function getSearchSuggestions({
     await connectDB()
 
     const pipeline = [
-        {
-            $search: {
-                index: "sample_mflix",
-                autocomplete: {
-                    path: "title",
-                    query: query
-                }
-            }
-        },
+        buildSearchStagePipeline(query),
         { $limit: limit },
         {
             $project: {
