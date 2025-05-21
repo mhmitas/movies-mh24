@@ -20,7 +20,7 @@ export function MovieCard2({ title, poster, year, _id, type, runtime, imdb, genr
         if (!moviePosterUrl && imdb?.id) {
             (async () => {
                 try {
-                    const { posterUrl } = await getAdditionDataFromTmdb(String(imdb.id));
+                    const { posterUrl } = await getAdditionDataFromTmdb(Number(imdb.id));
                     setMoviePosterUrl(posterUrl || "/images/poster-placeholder.svg");
                 } catch {
                     setMoviePosterUrl("/images/poster-placeholder.svg");
