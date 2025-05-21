@@ -16,11 +16,12 @@ import PosterImage from '@/components/shared/MoviePoster';
 import RecommendedMovies from '@/components/shared/RecommendedMovies';
 import LoadingSpinner from '../loading';
 import ErrorBoundary from '@/components/shared/ErrorBoundary';
+import { IMovie } from '@/lib/database/models/movie.model';
 
 const MovieDetails = async ({ params }: { params: Promise<{ id: string }> }) => {
     const { id } = await params;
 
-    const { data: movie } = await getMovieById(id);
+    const { data: movie }: { data: IMovie } = await getMovieById(id);
     // console.log(movie)
 
     let moviePosterUrl = movie?.poster;
@@ -56,7 +57,7 @@ const MovieDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
                             <h1 className='text-xl lg:text-2xl font-bold line-clamp-1'>{movie?.title}</h1>
                             <div className='flex items-center gap-4'>
                                 <span>{movie?.year}</span>
-                                <span>{formatDuration(movie?.runtime)}</span>
+                                <span>{formatDuration(movie?.runtime || 0)}</span>
                                 {movie?.rated && <Badge variant={'outline'}>{movie?.rated}</Badge>}
                                 <div className='flex items-center gap-1'>
                                     <FaStar className='inline text-yellow-500' />
@@ -108,10 +109,9 @@ const MovieDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
                         </AccordionItem>
                     </Accordion>
 
-                    <div></div>
                     <Suspense fallback={<div>Loading recommendations...</div>}>
                         <ErrorBoundary>
-                            <RecommendedMovies plot_embedding={movie?.plot_embedding} />
+                            <RecommendedMovies id={String(movie?._id)} />
 
                         </ErrorBoundary>
                     </Suspense>

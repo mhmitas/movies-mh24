@@ -11,13 +11,13 @@ export default function PosterImage({
 }: {
     poster: string
     title?: string
-    imdbId: string
+    imdbId?: number
 }) {
     const [imgSrc, setImgSrc] = useState(poster)
     const [hasTriedFallback, setHasTriedFallback] = useState(false)
 
     const handleImageError = async () => {
-        if (!hasTriedFallback) {
+        if (!hasTriedFallback && imdbId) {
             try {
                 const { posterUrl } = await getAdditionDataFromTmdb(imdbId)
                 setImgSrc(posterUrl)
