@@ -19,16 +19,16 @@ export const getPopularMovies = async ({
     try {
         await connectDB();
 
+        const skip = (Math.max(1, page) - 1) * limit;
+
         const agg: PipelineStage[] = [
-            // 1. Only keep docs with a valid rating & votes
             {
                 $match: {
                     type,
                     "imdb.rating": { $exists: true, $ne: null },
-                    "imdb.votes": { $exists: true, $gt: 0 }
+                    "imdb.votes": { $exists: true, $gt: 1 }
                 }
             },
-
             {
                 $addFields: {
                     popularityScore: {
@@ -40,23 +40,33 @@ export const getPopularMovies = async ({
                     }
                 }
             },
-
-            { $sort: { popularityScore: -1 } },
-
             {
-                $project: {
-                    ...MOVIE_PROJECTIONS,
-                    popularityScore: 1
+                $facet: {
+                    data: [
+                        { $sort: { popularityScore: -1 } },
+                        { $skip: skip },
+                        { $limit: limit },
+                        { $project: { ...MOVIE_PROJECTIONS } }
+                    ],
+                    totalCount: [
+                        {
+                            $count: "count"
+                        }
+                    ]
                 }
-            },
-
-            { $limit: limit }
+            }
         ];
 
 
-        const movies = await Embedded_Movie.aggregate(agg);
+        const results = await Embedded_Movie.aggregate(agg).exec();
 
-        return JSON.parse(JSON.stringify(movies));
+        const { data, totalCount } = results[0];
+        const count = totalCount[0]?.count ?? data.length;
+
+        return {
+            data: JSON.parse(JSON.stringify(data)),
+            totalPages: Math.ceil(count / limit),
+        };
     } catch (error) {
         throw new Error("Sorry! Failed to fetch popular movies | Please try again later.");
     }

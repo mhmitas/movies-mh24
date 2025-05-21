@@ -4,11 +4,11 @@ import React from 'react'
 
 const PopularMovies = async ({ type }: { type: "movie" | "series" }) => {
 
-    const popularMovies = await getPopularMovies({ type, limit: 12, page: 1 })
+    const { data: movies } = await getPopularMovies({ type, limit: 12, page: 1 })
 
     return (
         <div>
-            <MovieCollection movies={popularMovies} />
+            <MovieCollection movies={movies} />
         </div>
     )
 }

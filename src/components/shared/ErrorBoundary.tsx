@@ -23,7 +23,7 @@ class ErrorBoundary extends React.Component<Props, State> {
     }
 
     componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-        console.error("ErrorBoundary caught an error", error, errorInfo);
+        // console.error("ErrorBoundary caught an error", error, errorInfo);
     }
 
     handleRetry = () => {
@@ -35,7 +35,7 @@ class ErrorBoundary extends React.Component<Props, State> {
             return (
                 <div>
                     {/* <h2>{this.props.message || 'Something went wrong.'}</h2> */}
-                    <p className='my-container'>{this.state.error?.message}</p>
+                    <p className='my-container'>{this.props.message || 'Something went wrong.'}</p>
                 </div>
             );
         }
