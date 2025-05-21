@@ -1,7 +1,7 @@
 "use server"
 
 import { MOVIE_PROJECTIONS } from "@/constants";
-import { Movie } from "../database/models/movie.model"
+import { Embedded_Movie, Movie } from "../database/models/movie.model"
 import { connectDB } from "../database/mongoose";
 import { PipelineStage } from "mongoose";
 
@@ -48,7 +48,7 @@ export async function handleMovieSearchTest({
         }
     ];
 
-    const results = await Movie.aggregate(pipeline).exec();
+    const results = await Embedded_Movie.aggregate(pipeline).exec();
 
     const { data, totalCount } = results[0];
     const count = totalCount[0]?.count ?? data.length;

@@ -16,13 +16,13 @@ const FilterPage = async (props: {
     // const query = searchParams?.query || '';
     const currentPage = Number(searchParams?.page) || 1;
     const genre = searchParams?.genre?.split("+") || [];
-    const type = searchParams?.type || ""
+    const type = searchParams?.type
 
     const movies = await getMovies({
         page: currentPage,
         limit: 36,
         query: "",
-        type,
+        type: type === "movies" ? "movie" : "series",
         genre
     })
 

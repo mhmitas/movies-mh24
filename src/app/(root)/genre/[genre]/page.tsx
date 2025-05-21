@@ -20,7 +20,6 @@ const GenrePage = async (props: {
     const movies = await getMovies({
         page: currentPage,
         limit: 36,
-        type: "",
         genre: [decodedQuery]
     })
 

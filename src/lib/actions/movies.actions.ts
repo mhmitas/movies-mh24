@@ -1,7 +1,7 @@
 "use server"
 
 import { GetAllMoviesParams } from "@/types"
-import { Movie } from "../database/models/movie.model"
+import { Embedded_Movie, Movie } from "../database/models/movie.model"
 import { connectDB } from "../database/mongoose"
 import { escapeRegExp } from "lodash";
 import { buildMovieQuery } from "../utils";
@@ -20,13 +20,13 @@ export const getMovies = async ({ page = 1, limit = 12, type, genre }: GetAllMov
         const skipAmount = (Number(page) - 1) * limit;
 
         const [movies, totalMovies] = await Promise.all([
-            Movie.find(conditions, MOVIE_PROJECTIONS)
+            Embedded_Movie.find(conditions, MOVIE_PROJECTIONS)
                 .sort({ released: -1, _id: 1 })
                 .skip(skipAmount)
                 .limit(limit)
                 .lean(),
 
-            Movie.countDocuments(conditions)
+            Embedded_Movie.countDocuments(conditions)
         ]);
 
         return {
@@ -34,57 +34,55 @@ export const getMovies = async ({ page = 1, limit = 12, type, genre }: GetAllMov
             totalPages: Math.ceil(totalMovies / limit)
         };
     } catch (error) {
-        throw error;
+        throw new Error("Sorry! Failed to fetch movies | Please try again later.");
     }
 };
-
-// GET SEARCH SUGGESTIONS
-export const getSearchSuggestionsLegacy = async ({
-    query,
-    limit = 5
-}: {
-    query: string,
-    limit: number
-
-}) => {
-    try {
-        await connectDB()
-
-        if (!query.trim()) return [];
-
-        const conditions = {
-            title: {
-                $regex: `^${escapeRegExp(query)}`,
-                $options: "i"
-            }
-        }
-
-        const suggestions = await Movie
-            .find(
-                conditions,
-                { title: 1, poster: 1, year: 1, runtime: 1, type: 1 }
-            )
-            .limit(limit)
-            .lean()
-
-        return JSON.parse(JSON.stringify(suggestions));
-    } catch (error) {
-        throw error;
-    }
-}
 
 // GET MOVIE BY ID
 export const getMovieById = async (id: string) => {
     try {
         await connectDB();
 
-        const movie = await Movie.findById(id);
+        const movie = await Embedded_Movie.findById(id);
         if (!movie) {
-            throw new Error("Movie not found");
+            throw new Error("This content is not available. It may have been removed or is temporarily offline.");
         }
         return {
             data: JSON.parse(JSON.stringify(movie))
         };
+    } catch (error) {
+        throw error;
+    }
+}
+
+// GET RECOMMENDED MOVIES BY PLOT
+export const getRecommendedMoviesByPlot = async ({ plot_embedding }: { plot_embedding: number[] }) => {
+    try {
+        await connectDB();
+        const agg = [
+            {
+                $vectorSearch: {
+                    index: 'mflix_vector_index',
+                    path: "plot_embedding",
+                    queryVector: plot_embedding,
+                    numCandidates: 150,
+                    limit: 10
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    plot: 1,
+                    ...MOVIE_PROJECTIONS,
+                    score: {
+                        $meta: 'vectorSearchScore'
+                    }
+                }
+            }
+        ]
+
+        const movies = await Embedded_Movie.aggregate(agg);
+        return JSON.parse(JSON.stringify(movies));
     } catch (error) {
         throw error;
     }

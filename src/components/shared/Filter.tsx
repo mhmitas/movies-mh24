@@ -51,8 +51,6 @@ export default function Filter({ heading }: { heading?: string }) {
         [router]
     );
 
-    console.log(window.location.pathname)
-
     const applyFilters = useCallback(
         (params: FilterParams) => {
             debouncedApply(params);

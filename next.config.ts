@@ -2,7 +2,11 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ['m.media-amazon.com', 'www.themoviedb.org', 'image.tmdb.org'],
+    remotePatterns: [
+      { protocol: 'https', hostname: 'm.media-amazon.com' },
+      { protocol: 'https', hostname: 'www.themoviedb.org' },
+      { protocol: 'https', hostname: 'image.tmdb.org' }
+    ],
   },
 };
 

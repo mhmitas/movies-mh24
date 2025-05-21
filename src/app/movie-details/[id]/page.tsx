@@ -13,6 +13,7 @@ import {
 import { FcGoogle } from "react-icons/fc";
 import Link from 'next/link';
 import PosterImage from '@/components/shared/MoviePoster';
+import RecommendedMovies from '@/components/shared/RecommendedMovies';
 
 const MovieDetails = async ({ params }: { params: Promise<{ id: string }> }) => {
     const { id } = await params;
@@ -44,7 +45,7 @@ const MovieDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
                 <div className='absolute inset-0 bg-gradient-to-r from-background via-background/50 to-background z-0'></div>
             </div>
             {/* detail page wrapper container */}
-            <div className='mt-48 text-sm lg:text-base'>
+            <div className='mt-48 text-sm lg:text-base bg-background'>
                 {/* detail page primary container */}
                 <div className='bg-muted relative'>
                     {/* info container (title, ...) */}
@@ -89,7 +90,7 @@ const MovieDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
                     </div>
                 </div>
                 {/* detail page secondary container */}
-                <div className='pl-[32.45vw] pr-[2%] bg-background h-screen pt-8 space-y-6'>
+                <div className='pl-[32.45vw] pr-[2%] bg-background pt-8 space-y-6'>
                     <div>
                         <p>{movie?.plot}</p>
                     </div>
@@ -106,7 +107,7 @@ const MovieDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
                     </Accordion>
 
                     <div></div>
-                    {/* <p className="">Poster: {movie.poster}</p> */}
+                    <RecommendedMovies plot_embedding={movie?.plot_embedding} />
                 </div>
             </div>
 
