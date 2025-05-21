@@ -13,13 +13,13 @@ const Home = async () => {
         <div className='space-y-12 md:space-y-16 lg:space-y-20 mt-20'>
             <section>
                 <h1 className='text-2xl lg:text-3xl font-medium my-container mb-5'>Popular Movies</h1>
-                <ErrorBoundary>
+                <ErrorBoundary message='Something went wrong.'>
                     <PopularMovies type='movie' />
                 </ErrorBoundary>
             </section>
             <section>
                 <h1 className='text-2xl lg:text-3xl font-medium my-container mb-5'>Popular TV Shows</h1>
-                <ErrorBoundary>
+                <ErrorBoundary message='Something went wrong.'>
                     <PopularMovies type='series' />
                 </ErrorBoundary>
             </section>
