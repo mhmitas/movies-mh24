@@ -7,8 +7,13 @@ import { getAdditionDataFromTmdb } from "@/lib/actions/movies.actions";
 import { Badge } from "@/components/ui/badge";
 import PosterImage from "../MoviePoster";
 
-const MovieCard = async ({ title, poster, year, _id, type, runtime, imdb }
-  : IMovie) => {
+interface MovieCardProps extends IMovie {
+  score: number
+}
+
+
+const MovieCard = async ({ title, poster, year, _id, type, runtime, imdb, score }
+  : MovieCardProps) => {
 
   let moviePosterUrl = poster;
   // Check if the poster is available
@@ -62,6 +67,7 @@ const MovieCard = async ({ title, poster, year, _id, type, runtime, imdb }
             <Badge variant={"outline"}>{capitalize(type || "Movie")}</Badge>
           </div>
         </section>
+        <p>{score}</p>
       </div>
     </Link>
   );
