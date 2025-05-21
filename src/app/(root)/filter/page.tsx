@@ -42,4 +42,10 @@ const FilterPage = async (props: {
     )
 }
 
-export default FilterPage
+export default FilterPage;
+
+
+export const metadata = {
+    title: "Filter Movies & Series | Movies MH24",
+    description: "Browse and filter movies and series by genre, type, and more on Movies MH24.",
+};

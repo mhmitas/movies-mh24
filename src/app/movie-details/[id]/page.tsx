@@ -17,6 +17,8 @@ import RecommendedMovies from '@/components/shared/RecommendedMovies';
 import LoadingSpinner from '../loading';
 import ErrorBoundary from '@/components/shared/ErrorBoundary';
 import { IMovie } from '@/lib/database/models/movie.model';
+import { Skeleton } from '@/components/ui/skeleton';
+import MovieCardSkeleton from '@/components/shared/movie-cards/MovieCardSkeleton';
 
 const MovieDetails = async ({ params }: { params: Promise<{ id: string }> }) => {
     const { id } = await params;
@@ -109,7 +111,7 @@ const MovieDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
                         </AccordionItem>
                     </Accordion>
 
-                    <Suspense fallback={<div>Loading recommendations...</div>}>
+                    <Suspense fallback={<RecommendationsLoadingFallback />}>
                         <ErrorBoundary>
                             <RecommendedMovies id={String(movie?._id)} />
 
@@ -122,4 +124,19 @@ const MovieDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
     )
 }
 
-export default MovieDetails
+export default MovieDetails;
+
+
+
+function RecommendationsLoadingFallback() {
+    return (
+        <div className='py-10'>
+            <h1 className='text-2xl lg:text-3xl font-medium mb-5'>Loading More Like This...</h1>
+            <section className='grid md:grid-cols-3 lg:grid-cols-5 gap-x-4 gap-y-6'>
+                {Array.from(Array(10).keys()).map((i) => (
+                    <MovieCardSkeleton key={i} />
+                ))}
+            </section>
+        </div>
+    )
+}

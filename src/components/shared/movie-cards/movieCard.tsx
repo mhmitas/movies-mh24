@@ -14,7 +14,7 @@ const MovieCard = async ({ title, poster, year, _id, type, runtime, imdb, genres
   // If not, try to fetch it from TMDB using the IMDB ID
   if (!moviePosterUrl && imdb?.id) {
     try {
-      const { posterUrl } = await getAdditionDataFromTmdb(String(imdb.id));
+      const { posterUrl } = await getAdditionDataFromTmdb(imdb.id);
       moviePosterUrl = posterUrl || "/images/poster-placeholder.svg";
     } catch {
       moviePosterUrl = "/images/poster-placeholder.svg";

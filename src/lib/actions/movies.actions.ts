@@ -6,7 +6,7 @@ import { connectDB } from "../database/mongoose"
 import { escapeRegExp } from "lodash";
 import { buildMovieQuery } from "../utils";
 import { MOVIE_PROJECTIONS } from "@/constants";
-import { Types } from "mongoose";
+import { PipelineStage, Types } from "mongoose";
 
 
 // Common query builder
@@ -77,10 +77,7 @@ export const getRecommendedMoviesByPlot = async ({ id }: { id: string }) => {
                     path: "plot_embedding",
                     queryVector: movie.plot_embedding,
                     numCandidates: 150,
-                    limit: 10,
-                    filter: {
-                        _id: { $ne: new Types.ObjectId(id) }
-                    }
+                    limit: 11,
                 }
             },
             {
@@ -120,5 +117,53 @@ export const getAdditionDataFromTmdb = async (imdbId: number) => {
         return { posterUrl }
     } catch (error) {
         throw error;
+    }
+}
+
+// GET POPULAR MOVIES
+export const getPopularMovies = async ({ type, limit = 10 }: { type: "movie" | "series", limit: number }) => {
+    try {
+        await connectDB();
+
+        const agg: PipelineStage[] = [
+            // 1. Only keep docs with a valid rating & votes
+            {
+                $match: {
+                    type,
+                    "imdb.rating": { $exists: true, $ne: null },
+                    "imdb.votes": { $exists: true, $gt: 0 }
+                }
+            },
+
+            {
+                $addFields: {
+                    popularityScore: {
+                        $add: [
+
+                            { $multiply: ["$imdb.rating", 10] },
+                            { $log10: "$imdb.votes" },
+                        ]
+                    }
+                }
+            },
+
+            { $sort: { popularityScore: -1 } },
+
+            {
+                $project: {
+                    ...MOVIE_PROJECTIONS,
+                    popularityScore: 1
+                }
+            },
+
+            { $limit: limit }
+        ];
+
+
+        const movies = await Embedded_Movie.aggregate(agg);
+
+        return JSON.parse(JSON.stringify(movies));
+    } catch (error) {
+        throw new Error("Sorry! Failed to fetch popular movies | Please try again later.");
     }
 }

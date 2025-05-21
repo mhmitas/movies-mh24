@@ -1,4 +1,4 @@
-import { embedded_movies, Movie } from "@/lib/database/models/movie.model";
+import { Movie } from "@/lib/database/models/movie.model";
 import { connectDB } from "@/lib/database/mongoose";
 import { NextRequest } from "next/server";
 
@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
 
         const skipAmount = Math.max(0, Number(searchParams.get("skip")) || 0);
 
-        const movies = await embedded_movies.find()
+        const movies = await Movie.find()
             .sort({ _id: "desc" })
             .skip(skipAmount)
             .limit(limit)

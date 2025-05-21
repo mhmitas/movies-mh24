@@ -1,4 +1,5 @@
 import { Navbar } from '@/components/shared/navbar/Navbar';
+import ScrollHandler from '@/components/shared/scroll-handler';
 import React from 'react'
 
 const layout = ({ children }: Readonly<{
@@ -6,6 +7,7 @@ const layout = ({ children }: Readonly<{
 }>) => {
     return (
         <div className='font-noto'>
+            <ScrollHandler />
             <Navbar className="bg-background/60" />
             {children}
         </div>

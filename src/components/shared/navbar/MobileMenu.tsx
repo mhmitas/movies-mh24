@@ -96,7 +96,7 @@ function MenuItemChildren({ isOpen, item, children, setOpen }: any) {
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    transition={{ duration: 0.5, ease: "easeInOut" }}
                     className="overflow-hidden shadow-lg"
                 >
                     <ul className="flex flex-col ml-4 border-l">
