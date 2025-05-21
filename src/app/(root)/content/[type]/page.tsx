@@ -3,35 +3,32 @@ import MovieCollPagination from '@/components/shared/MovieCollPagination'
 import { getMovies } from '@/lib/actions/movies.actions'
 import React from 'react'
 
-const Home = async (props: {
+const MoviesPage = async (props: {
     searchParams?: Promise<{
-        query?: string;
         page?: string;
-        genre?: string;
-        type?: string;
     }>;
+    params: Promise<{ type: string }>
 }) => {
 
+    const params = await props?.params;
     const searchParams = await props.searchParams;
     // const query = searchParams?.query || '';
     const currentPage = Number(searchParams?.page) || 1;
-    const genre = searchParams?.genre?.split("+") || [];
-    const type = searchParams?.type || ""
+    const type = params?.type
 
     const movies = await getMovies({
         page: currentPage,
         limit: 36,
-        query: "",
-        type,
-        genre
+        type: type === "movies" ? "movie" : "series",
+        genre: []
     })
 
     // console.log(movies.data)
 
     return (
         <section className='scroll-smooth space-y-10'>
-            <div className='mt-24'>
-                <Filter />
+            <div className='page-top-margin'>
+                <Filter heading={`Browse Your Favorite ${type === "movies" ? "Movies" : "TV Shows"}`} />
             </div>
             <MovieCollPagination
                 movies={movies?.data}
@@ -42,4 +39,4 @@ const Home = async (props: {
     )
 }
 
-export default Home
+export default MoviesPage

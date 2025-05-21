@@ -1,46 +1,50 @@
-"use client"
-
-import Link from "next/link"
-import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { MobileMenu } from "./MobileMenu"
 import { NavbarRightSection } from "./NavbarRightSection"
-import { NAV_ITEMS } from "@/constants"
 import SiteLogo from "../siteLogo"
+import LargeScreenMenu from "./LargeScreenMenu"
+import NavbarSearchBox from "./NavbarSearchBox"
 
-export function Navbar({ isMovieDetailsPage }: { isMovieDetailsPage?: boolean }) {
-    const pathname = usePathname()
+export function Navbar({ className, isHomePage }: { className?: string, isHomePage?: boolean }) {
+
+    const containerClasses = cn(
+        "lg:fixed top-0 z-50",
+        "bg-card pb-4 lg:pb-0 pt-2 px-4 sm:px-6 md:px-8 lg:px-4 lg:pt-0",
+        "w-full lg:h-16",
+        "transition-all",
+        className,
+        "flex flex-col lg:flex-row gap-2 lg:gap-4 justify-between items-center"
+    )
 
     return (
-        <header className="w-full">
-            <div className={cn(
-                "flex items-center justify-between h-16 fixed top-0 w-full px-4 z-20",
-                "transition-all",
-                isMovieDetailsPage ? "bg-background/50" : "bg-muted/60 backdrop-blur-lg"
-            )}>
-                <div className="flex items-center gap-4">
-                    <MobileMenu activePath={pathname} />
-                    <Link href="/" className="hover:opacity-80 transition-opacity">
-                        <SiteLogo />
-                    </Link>
+        <header className={cn("lg:mb-16")}>
+            <div className={containerClasses}>
+                {/* Left Section */}
+                <div className="flex justify-between items-center w-full lg:w-auto">
+                    <MobileMenu />
+                    <SiteLogo />
+                    <NavbarRightSection className="lg:hidden" />
                 </div>
 
-                <nav className="hidden md:flex items-center gap-6 mx-6">
-                    {NAV_ITEMS.map((item) => (
-                        <Link
-                            key={item.id}
-                            href={item.href}
-                            className={cn(
-                                "text-sm font-medium transition-colors hover:text-primary",
-                                pathname === item.href ? "text-primary" : "text-muted-foreground"
-                            )}
-                        >
-                            {item.label}
-                        </Link>
-                    ))}
-                </nav>
-                <NavbarRightSection />
+                {/* Middle Section */}
+                <LargeScreenMenu className="hidden lg:flex flex-1 justify-center" />
+
+                {/* Right Section */}
+                <div className="flex flex-1 lg:flex-none items-center gap-2 lg:gap-4 w-full lg:w-auto">
+                    <NavbarSearchBox className={cn("flex-1 lg:max-w-[400px] xl:w-xs", isHomePage && "lg:hidden")} />
+                    <NavbarRightSection className={cn("hidden lg:flex", isHomePage && "min-w-40")} />
+                </div>
             </div>
         </header>
     )
 }
+
+
+/* 
+onWheel={(e) => {
+// Prevent vertical scrolling
+e.preventDefault();
+// Scroll horizontally with mouse wheel
+e.currentTarget.scrollLeft += e.deltaY;
+}}
+*/

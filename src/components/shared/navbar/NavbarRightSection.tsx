@@ -1,25 +1,14 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Cast, Users, User } from "lucide-react"
+import { User } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import SearchDialog from "./SearchBox"
+import { cn } from "@/lib/utils"
 
-export function NavbarRightSection() {
+export function NavbarRightSection({ className }: { className?: string }) {
 
     return (
-        <div className="flex items-center gap-2">
-            <SearchDialog />
-            <Button variant="primary" size="icon" className="hidden sm:inline-flex rounded-full">
-                <Cast className="size-5" />
-                <span className="sr-only">Cast</span>
-            </Button>
-
-            <Button variant="primary" size="icon" className="hidden sm:inline-flex rounded-full">
-                <Users className="size-5" />
-                <span className="sr-only">Users</span>
-            </Button>
-
+        <div className={cn("flex items-center gap-2 justify-end", className)}>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant="primary" size="icon" className="rounded-full">

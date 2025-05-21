@@ -9,8 +9,6 @@ import { Separator } from "../ui/separator"
 import { useRouter, useSearchParams } from "next/navigation"
 import qs from "query-string"
 import { debounce } from "lodash"
-import { useLocalStorage } from "@/lib/hooks/use-local-storge"
-
 
 type FilterParams = {
     genre?: string;
@@ -18,38 +16,16 @@ type FilterParams = {
     [key: string]: string | undefined;
 }
 
-type FilterPreferences = {
-    recentlyUsedGenres: string[];
-}
-
-export default function Filter() {
+export default function Filter({ heading }: { heading?: string }) {
     const router = useRouter()
     const searchParams = useSearchParams()
     const [isOpen, setIsOpen] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [filterKey, setFilterKey] = useState(0) // Force re-render on clear
 
-    // Local storage for user preferences
-    const [preferences, setPreferences] = useLocalStorage<FilterPreferences>(
-        "filterPreferences",
-        { recentlyUsedGenres: [] }
-    )
-
     // Initialize state from URL params
     const [selectedGenres, setSelectedGenres] = useState<string[]>([])
     const [selectedType, setSelectedType] = useState<string>("")
-
-    // Get sorted genres with recently used first
-    const sortedGenres = useMemo(() => {
-        return [...GENRES].sort((a, b) => {
-            const aIndex = preferences.recentlyUsedGenres.indexOf(a)
-            const bIndex = preferences.recentlyUsedGenres.indexOf(b)
-            if (aIndex === -1 && bIndex === -1) return 0
-            if (aIndex === -1) return 1
-            if (bIndex === -1) return -1
-            return aIndex - bIndex
-        })
-    }, [preferences.recentlyUsedGenres])
 
     // Sync state with URL params
     useEffect(() => {
@@ -59,13 +35,12 @@ export default function Filter() {
     }, [searchParams, filterKey])
 
     // Debounced filter handler
-    // create a stable debounced function via useMemo
     const debouncedApply = useMemo(
         () =>
             debounce((params: FilterParams) => {
                 const newUrl = qs.stringifyUrl(
                     {
-                        url: window.location.pathname,
+                        url: "/filter",
                         query: params,
                     },
                     { skipNull: true, skipEmptyString: true, encode: true }
@@ -73,11 +48,9 @@ export default function Filter() {
                 router.push(newUrl, { scroll: false });
                 setIsLoading(false);
             }, 500),
-        // rerun only if router changes
         [router]
     );
 
-    // wrap the resulting function in useCallback (mainly to make it have a stable identity too)
     const applyFilters = useCallback(
         (params: FilterParams) => {
             debouncedApply(params);
@@ -85,19 +58,8 @@ export default function Filter() {
         [debouncedApply]
     );
 
-
     const handleFilterChange = useCallback(() => {
         setIsLoading(true)
-
-        // Update recently used genres
-        if (selectedGenres.length > 0) {
-            setPreferences(prev => ({
-                ...prev,
-                recentlyUsedGenres: [
-                    ...new Set([...selectedGenres, ...prev.recentlyUsedGenres]),
-                ].slice(0, 5), // Keep only 5 most recent
-            }))
-        }
 
         const newQuery: FilterParams = {
             ...qs.parse(searchParams.toString()),
@@ -106,11 +68,9 @@ export default function Filter() {
             page: '1' // reset pagination
         }
 
-        // i could clean up undefined values, whatever
-
         applyFilters(newQuery)
         setIsOpen(false)
-    }, [selectedType, selectedGenres, searchParams, applyFilters, setPreferences])
+    }, [selectedType, selectedGenres, searchParams, applyFilters])
 
     const toggleGenre = (genre: string) => {
         setSelectedGenres(prev =>
@@ -135,22 +95,10 @@ export default function Filter() {
         setIsOpen(false)
     }
 
-    // // Close filter when clicking outside
-    // useEffect(() => {
-    //     const handleClickOutside = (event: MouseEvent) => {
-    //         const target = event.target as HTMLElement
-    //         if (isOpen && !target.closest('.filter-container')) {
-    //             setIsOpen(false)
-    //         }
-    //     }
-
-    //     document.addEventListener('mousedown', handleClickOutside)
-    //     return () => document.removeEventListener('mousedown', handleClickOutside)
-    // }, [isOpen])
-
     return (
         <div className="w-full my-container filter-container">
-            <div className="flex justify-end mb-2">
+            <div className="flex justify-between mb-2">
+                <h1 className="text-2xl font-medium">{heading || "Filter results"}</h1>
                 <Button
                     variant="outline"
                     onClick={() => setIsOpen(!isOpen)}
@@ -202,16 +150,9 @@ export default function Filter() {
 
                             {/* Genre Filter */}
                             <div>
-                                <div className="flex justify-between items-center mb-2">
-                                    <h3 className="font-semibold">Genre</h3>
-                                    {preferences.recentlyUsedGenres.length > 0 && (
-                                        <span className="text-xs text-muted-foreground">
-                                            Recently used
-                                        </span>
-                                    )}
-                                </div>
+                                <h3 className="font-semibold mb-2">Genre</h3>
                                 <div className="flex flex-wrap gap-2">
-                                    {sortedGenres.map((genre) => (
+                                    {GENRES.map((genre) => (
                                         <Button
                                             variant={
                                                 selectedGenres.includes(genre)

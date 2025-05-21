@@ -27,6 +27,7 @@ export async function handleMovieSearch({
     const pipeline: PipelineStage[] = [
         {
             $search: {
+                index: "sample_mflix",
                 autocomplete: {
                     path: "title",
                     query: query
@@ -75,6 +76,7 @@ export async function getSearchSuggestions({
     const pipeline = [
         {
             $search: {
+                index: "sample_mflix",
                 autocomplete: {
                     path: "title",
                     query: query

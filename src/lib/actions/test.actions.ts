@@ -1,36 +1,60 @@
 "use server"
 
 import { MOVIE_PROJECTIONS } from "@/constants";
-import { Movie } from "../database/models/movie.model"
+import { Embedded_Movie, Movie } from "../database/models/movie.model"
 import { connectDB } from "../database/mongoose";
+import { PipelineStage } from "mongoose";
 
-export async function autocompleteSearchTest({
+export async function handleMovieSearchTest({
     query,
-    limit = 5
+    page = 1,
+    limit = 12,
 }: {
-    query: string,
-    limit: number
+    query: string;
+    page?: number;
+    limit?: number;
 }) {
     if (!query?.trim()) {
         return { data: [], totalPages: 0 };
     }
 
-    await connectDB()
+    await connectDB();
+    const text = query.trim();
+    // const isSuggestions = purpose === "suggestions";
+    const skip = (Math.max(1, page) - 1) * limit;
 
-    const pipeline = [
+    // Aggregation pipeline with a $facet
+    const pipeline: PipelineStage[] = [
         {
             $search: {
+                index: "sample_mflix",
                 autocomplete: {
                     path: "title",
                     query: query
                 }
             }
         },
-        { $limit: limit },
-        { $project: MOVIE_PROJECTIONS }
-    ]
+        {
+            $facet: {
+                data: [
+                    { $project: MOVIE_PROJECTIONS },
+                    { $skip: skip },
+                    { $limit: limit },
+                ],
+                totalCount: [
+                    { $count: "count" }
+                ]
+            }
+        }
+    ];
 
-    const movies = await Movie.aggregate(pipeline);
+    const results = await Embedded_Movie.aggregate(pipeline).exec();
 
-    return JSON.parse(JSON.stringify(movies))
+    const { data, totalCount } = results[0];
+    const count = totalCount[0]?.count ?? data.length;
+
+    return {
+        data: JSON.parse(JSON.stringify(data)),
+        totalPages: Math.ceil(count / limit),
+    };
 }

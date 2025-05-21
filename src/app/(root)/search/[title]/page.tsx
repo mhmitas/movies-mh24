@@ -25,7 +25,7 @@ const SearchResultsPage = async (props: {
 
     return (
         <main className='scroll-smooth space-y-10'>
-            <h1 className='mt-24 text-2xl my-container'>Search results for "{decodedQuery}"</h1>
+            <h1 className='page-top-margin text-2xl my-container'>Search results for "{decodedQuery}"</h1>
             <MovieCollPagination
                 movies={movies?.data}
                 page={currentPage}

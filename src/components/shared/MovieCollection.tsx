@@ -1,5 +1,5 @@
 import React from 'react'
-import MovieCard from './movieCard'
+import MovieCard from './movie-cards/movieCard'
 import { IMovie } from '@/lib/database/models/movie.model'
 
 type MovieCollectionProps = {
@@ -13,14 +13,7 @@ const MovieCollection = ({ movies }: MovieCollectionProps) => {
                 movies.map((movie, idx) => (
                     <MovieCard
                         key={idx}
-                        title={movie.title}
-                        poster={movie.poster}
-                        year={movie.year}
-                        type={movie.type}
-                        runtime={movie.runtime}
-                        imdb={movie.imdb}
-                        genres={movie.genres}
-                        _id={movie._id} />
+                        {...movie} />
                 ))
             }
         </section>
