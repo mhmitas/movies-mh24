@@ -59,7 +59,7 @@ const MovieCard = async ({ title, poster, year, _id, type, runtime, imdb, genres
               <span>•</span>
               <span>{runtime ? `${runtime}m` : "N/A"}</span>
             </div>
-            <Badge>{capitalize(type || "Movie")}</Badge>
+            <Badge variant={"outline"}>{capitalize(type || "Movie")}</Badge>
           </div>
         </section>
       </div>
