@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { getAdditionDataFromTmdb } from '@/lib/actions/movies.actions'
 
@@ -15,6 +15,13 @@ export default function PosterImage({
 }) {
     const [imgSrc, setImgSrc] = useState(poster)
     const [hasTriedFallback, setHasTriedFallback] = useState(false)
+
+    useEffect(() => {
+        if (poster) {
+            setImgSrc(poster)
+            setHasTriedFallback(false)
+        }
+    }, [poster])
 
     const handleImageError = async () => {
         if (!hasTriedFallback && imdbId) {

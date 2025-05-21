@@ -35,7 +35,7 @@ class ErrorBoundary extends React.Component<Props, State> {
             return (
                 <div>
                     {/* <h2>{this.props.message || 'Something went wrong.'}</h2> */}
-                    <p>{this.state.error?.message}</p>
+                    <p className='my-container'>{this.state.error?.message}</p>
                 </div>
             );
         }

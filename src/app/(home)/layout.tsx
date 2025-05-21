@@ -1,4 +1,5 @@
 import { Footer } from '@/components/shared/Footer';
+import BackToTopButton from '@/components/shared/JumpToTop';
 import { Navbar } from '@/components/shared/navbar/Navbar';
 import NavbarSearchBox from '@/components/shared/navbar/NavbarSearchBox';
 import { cn } from '@/lib/utils';
@@ -12,7 +13,7 @@ const layout = ({ children }: Readonly<{
             <Navbar isHomePage={true} />
             <div className={cn(
                 'hidden lg:flex flex-col text-center w-full bg-card',
-                "bg-card px-4 py-16 relative"
+                "bg-card px-4 pb-16 pt-36 relative"
             )}>
                 <h1 className='text-2xl sm:text-3xl lg:text-4xl font-semibold mb-7 tracking-tighter'>Find Movies, TV shows and more</h1>
                 <div className='max-w-3xl w-full mx-auto absolute inset-x-0 bottom-0 translate-y-8 z-20'>
@@ -20,6 +21,7 @@ const layout = ({ children }: Readonly<{
                 </div>
             </div>
             {children}
+            {/* <BackToTopButton /> */}
             <Footer />
         </div>
     )

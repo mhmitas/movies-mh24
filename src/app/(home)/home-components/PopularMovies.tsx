@@ -5,15 +5,11 @@ import React from 'react'
 
 const PopularMovies = async () => {
 
-    const popularMovies = await getPopularMovies({ type: 'movie', limit: 10 })
-
-    console.log(popularMovies)
+    const popularMovies = await getPopularMovies({ type: 'movie', limit: 12 })
 
     return (
         <div>
-            <ErrorBoundary>
-                <MovieCollection movies={popularMovies} />
-            </ErrorBoundary>
+            <MovieCollection movies={popularMovies} />
         </div>
     )
 }

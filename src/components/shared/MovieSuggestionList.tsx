@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { capitalize, cn } from '@/lib/utils'
 import { MovieSuggestion } from '@/types'
 import { Search, Image as ImageIcon, ChevronRight } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 
 interface MovieSuggestionListProps {
@@ -13,7 +14,14 @@ interface MovieSuggestionListProps {
     query: string
 }
 
-const MovieSuggestionList = ({ suggestions, onSelect, className, query }: MovieSuggestionListProps) => {
+const MovieSuggestionList = ({
+    suggestions,
+    onSelect,
+    className,
+    query
+}: MovieSuggestionListProps) => {
+    const router = useRouter()
+
     const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
         const img = e.currentTarget
         img.style.display = 'none'
@@ -43,8 +51,7 @@ const MovieSuggestionList = ({ suggestions, onSelect, className, query }: MovieS
                     key={suggestion._id}
                     role="option"
                     aria-selected="false"
-                    onClick={() => onSelect(suggestion.title)}
-                    onKeyDown={(e) => e.key === 'Enter' && onSelect(suggestion.title)}
+                    onClick={() => router.push(`/movie-details/${suggestion._id}`)}
                 >
                     <div className="shrink-0 relative w-12 aspect-square rounded-md overflow-hidden bg-muted/50">
                         {suggestion.poster ? (
