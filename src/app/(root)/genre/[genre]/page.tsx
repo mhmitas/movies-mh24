@@ -25,7 +25,7 @@ const GenrePage = async (props: {
 
     return (
         <section className='scroll-smooth space-y-10'>
-            <div className='mt-24'>
+            <div className='page-top-margin'>
                 <Filter heading={decodedQuery + " Movies & TV Shows"} />
             </div>
             <Suspense fallback={<LoadingSpinner />}>

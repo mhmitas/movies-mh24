@@ -27,8 +27,8 @@ const MoviesPage = async (props: {
 
     return (
         <section className='scroll-smooth space-y-10'>
-            <div className='mt-24'>
-                <Filter heading={`Popular ${type === "movies" ? "Movies" : "TV Shows"}`} />
+            <div className='page-top-margin'>
+                <Filter heading={`Browse Your Favorite ${type === "movies" ? "Movies" : "TV Shows"}`} />
             </div>
             <MovieCollPagination
                 movies={movies?.data}

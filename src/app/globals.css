@@ -144,6 +144,10 @@
   .remove-input-outline {
     @apply focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0
   }
+
+  .page-top-margin {
+    @apply mt-8 sm:mt-12 md:mt-16 lg:mt-24 xl:mt-32
+  }
 }
 
 .thin-scrollbar {
@@ -190,5 +194,4 @@
 
 .terrible-input-text {
   font-size: x-large !important;
-
 }

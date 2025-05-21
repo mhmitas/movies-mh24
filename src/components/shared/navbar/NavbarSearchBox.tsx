@@ -126,8 +126,8 @@ export default function NavbarSearchBox({ className, isHomePage }: { className?:
                 {/* Loading Spinner - Responsive positioning */}
                 {isPending && (
                     <div className={cn(
-                        "absolute right-3 top-1/2 -translate-y-1/2",
-                        "sm:right-2" // Adjust for smaller screens
+                        "absolute",
+                        isHomePage ? "right-4 top-1/2 -translate-y-1/2" : "right-3 top-1/2 -translate-y-1/2 sm:right-2" // Adjust for smaller screens
                     )}>
                         <div className="h-5 w-5 sm:h-4 sm:w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
                     </div>

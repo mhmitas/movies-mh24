@@ -30,7 +30,7 @@ const FilterPage = async (props: {
 
     return (
         <section className='scroll-smooth space-y-10'>
-            <div className='mt-24'>
+            <div className='page-top-margin'>
                 <Filter />
             </div>
             <MovieCollPagination

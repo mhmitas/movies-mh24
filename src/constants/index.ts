@@ -40,7 +40,6 @@ export const NAV_ITEMS: NavItemProps[] = [
     { id: "movies", label: "Movies", href: "/content/movies" },
     { id: "tvshows", label: "TV Shows", href: "/content/series" },
     { id: "top", label: "Top IMDB", href: "/top-imdb" },
-    { id: "test", label: "Test", href: "/test/search" },
 ];
 
 export const MOVIE_PROJECTIONS = {

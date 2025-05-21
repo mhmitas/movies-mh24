@@ -1,11 +1,10 @@
-import ErrorBoundary from '@/components/shared/ErrorBoundary'
 import MovieCollection from '@/components/shared/MovieCollection'
-import { getPopularMovies } from '@/lib/actions/movies.actions'
+import { getPopularMovies } from '@/lib/actions/homepage-data.actions'
 import React from 'react'
 
-const PopularMovies = async () => {
+const PopularMovies = async ({ type }: { type: "movie" | "series" }) => {
 
-    const popularMovies = await getPopularMovies({ type: 'movie', limit: 12 })
+    const popularMovies = await getPopularMovies({ type, limit: 12, page: 1 })
 
     return (
         <div>
@@ -15,13 +14,3 @@ const PopularMovies = async () => {
 }
 
 export default PopularMovies;
-
-
-function ErrorFallback({ error }: { error: Error }) {
-    return (
-        <div>
-            <h2>Something went wrong</h2>
-            <p>{error.message}</p>
-        </div>
-    );
-}
