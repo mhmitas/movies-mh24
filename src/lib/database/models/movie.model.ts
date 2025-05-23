@@ -100,7 +100,8 @@ const movieSchema = new Schema<IMovie>({
     awards: awardsSchema,
     tomatoes: tomatoesSchema,
     lastupdated: String,
-    num_mflix_comments: Number
+    num_mflix_comments: Number,
+    plot_embedding: [Number]
 });
 
 

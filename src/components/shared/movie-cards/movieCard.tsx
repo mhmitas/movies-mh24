@@ -8,11 +8,11 @@ import { Badge } from "@/components/ui/badge";
 import PosterImage from "../MoviePoster";
 
 interface MovieCardProps extends IMovie {
-  score: number
+  // score: number
 }
 
 
-const MovieCard = async ({ title, poster, year, _id, type, runtime, imdb, score }
+const MovieCard = async ({ title, poster, year, _id, type, runtime, imdb }
   : MovieCardProps) => {
 
   let moviePosterUrl = poster;
@@ -67,7 +67,7 @@ const MovieCard = async ({ title, poster, year, _id, type, runtime, imdb, score 
             <Badge variant={"outline"}>{capitalize(type || "Movie")}</Badge>
           </div>
         </section>
-        <p>{score}</p>
+        {/* <p>{score}</p> */}
       </div>
     </Link>
   );

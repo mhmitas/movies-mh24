@@ -3,10 +3,9 @@
 import { GetAllMoviesParams } from "@/types"
 import { Embedded_Movie, Movie } from "../database/models/movie.model"
 import { connectDB } from "../database/mongoose"
-import { escapeRegExp } from "lodash";
 import { buildMovieQuery } from "../utils";
 import { MOVIE_PROJECTIONS } from "@/constants";
-import { PipelineStage, Types } from "mongoose";
+import { Types } from "mongoose";
 
 
 // Common query builder
@@ -63,17 +62,32 @@ export const getRecommendedMoviesByPlot = async ({ id }: { id: string }) => {
 
         await connectDB();
 
-        const movie = await Embedded_Movie.findById(id)
+        const movie = await Movie.findById(id)
+
+        // console.log("plot embedding", movie)
+
         if (!movie?.plot_embedding) {
             throw new Error("No recommendations found (actually plot not found)");
         }
 
 
+        /* db.movies.aggregate([
+            {
+                "$vectorSearch": {
+                    "index": "new_movies_vector_index",
+                    "path": "plot_embedding",
+                    "queryVector": [<array-of - numbers >],
+                    "numCandidates": <number-of - candidates >,
+                    "limit": <number-of - results >
+                }
+            }
+        ])*/
+
         // VECTOR SEARCH
         const agg = [
             {
                 $vectorSearch: {
-                    index: 'mflix_vector_index',
+                    index: 'new_movies_vector_index',
                     path: "plot_embedding",
                     queryVector: movie.plot_embedding,
                     numCandidates: 150,
@@ -91,7 +105,7 @@ export const getRecommendedMoviesByPlot = async ({ id }: { id: string }) => {
             }
         ]
 
-        const movies = await Embedded_Movie.aggregate(agg);
+        const movies = await Movie.aggregate(agg);
 
         if (!movies?.length) {
             throw new Error("No recommendations found");

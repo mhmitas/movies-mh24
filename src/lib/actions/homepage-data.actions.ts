@@ -1,7 +1,7 @@
 "use server"
 
 import { MOVIE_PROJECTIONS } from "@/constants";
-import { Embedded_Movie } from "../database/models/movie.model";
+import { Movie } from "../database/models/movie.model";
 import { PipelineStage } from "mongoose";
 import { connectDB } from "../database/mongoose";
 
@@ -58,7 +58,7 @@ export const getPopularMovies = async ({
         ];
 
 
-        const results = await Embedded_Movie.aggregate(agg).exec();
+        const results = await Movie.aggregate(agg).exec();
 
         const { data, totalCount } = results[0];
         const count = totalCount[0]?.count ?? data.length;
