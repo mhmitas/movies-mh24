@@ -50,6 +50,7 @@ export interface IMovie extends Document {
     };
     lastupdated?: string;
     num_mflix_comments?: number;
+    fullplot_embedding?: number[];
     plot_embedding?: number[];
 }
 
@@ -79,8 +80,8 @@ const tomatoesSchema = new Schema({
 });
 
 // MOVIE SCHEMA
-const movieSchema = new Schema<IMovie>({
-    title: { type: String, required: true, index: true },
+const movieSchema = new Schema({
+    title: { type: String, required: true, unique: true },
     year: Number,
     rated: String,
     released: Date,
@@ -101,13 +102,13 @@ const movieSchema = new Schema<IMovie>({
     tomatoes: tomatoesSchema,
     lastupdated: String,
     num_mflix_comments: Number,
-    plot_embedding: [Number]
+    fullplot_embedding: { type: Buffer }
 });
 
 
 // EMBEDDED MOVIE SCHEMA
 const embeddedMovieSchema = new Schema({
-    title: { type: String, required: true, index: true },
+    title: { type: String, required: true },
     year: Number,
     rated: String,
     released: Date,

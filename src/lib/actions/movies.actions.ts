@@ -6,7 +6,7 @@ import { connectDB } from "../database/mongoose"
 import { buildMovieQuery } from "../utils";
 import { MOVIE_PROJECTIONS } from "@/constants";
 import { Types } from "mongoose";
-
+import fs from "fs";
 
 // Common query builder
 
@@ -33,8 +33,9 @@ export const getMovies = async ({ page = 1, limit = 12, type, genre }: GetAllMov
             data: JSON.parse(JSON.stringify(movies)),
             totalPages: Math.ceil(totalMovies / limit)
         };
-    } catch (error) {
-        throw new Error("Sorry! Failed to fetch movies | Please try again later.");
+    } catch (error: any) {
+        console.log(error)
+        throw new Error(error.message);
     }
 };
 
@@ -48,8 +49,8 @@ export const getMovieById = async (id: string) => {
         return {
             data: JSON.parse(JSON.stringify(movie))
         };
-    } catch (error) {
-        throw new Error("This content is not available. It may have been removed or is temporarily offline.");
+    } catch (error: any) {
+        throw new Error(error.message);
     }
 }
 
@@ -62,45 +63,32 @@ export const getRecommendedMoviesByPlot = async ({ id }: { id: string }) => {
 
         await connectDB();
 
-        const movie = await Movie.findById(id)
+        const movie = await Movie.findById(id, { fullplot_embedding: 1, _id: 0 })
 
-        // console.log("plot embedding", movie)
+        // const buffer = Buffer.from(array);
+        // const convertedBuffer = new BSON.Binary(buffer);
 
-        if (!movie?.plot_embedding) {
+        fs.writeFileSync("./public/data.json", JSON.stringify(movie.fullplot_embedding));
+
+        if (!movie?.fullplot_embedding) {
             throw new Error("No recommendations found (actually plot not found)");
         }
-
-
-        /* db.movies.aggregate([
-            {
-                "$vectorSearch": {
-                    "index": "new_movies_vector_index",
-                    "path": "plot_embedding",
-                    "queryVector": [<array-of - numbers >],
-                    "numCandidates": <number-of - candidates >,
-                    "limit": <number-of - results >
-                }
-            }
-        ])*/
 
         // VECTOR SEARCH
         const agg = [
             {
                 $vectorSearch: {
                     index: 'new_movies_vector_index',
-                    path: "plot_embedding",
-                    queryVector: movie.plot_embedding,
+                    path: "fullplot_embedding",
+                    queryVector: movie.fullplot_embedding,
                     numCandidates: 150,
-                    limit: 11,
+                    limit: 21,
                 }
             },
             {
                 $project: {
                     plot: 1,
-                    ...MOVIE_PROJECTIONS,
-                    score: {
-                        $meta: 'vectorSearchScore'
-                    },
+                    ...MOVIE_PROJECTIONS
                 }
             }
         ]
@@ -113,9 +101,12 @@ export const getRecommendedMoviesByPlot = async ({ id }: { id: string }) => {
 
         return JSON.parse(JSON.stringify(movies));
     } catch (error) {
-        throw new Error(typeof error === 'object' && error instanceof Error
-            ? error.message
-            : "Sorry! Failed to fetch recommended movies | Please try again later.");
+        console.error('Recommendation Error:', error);
+        throw new Error(
+            error instanceof Error
+                ? error.message
+                : "Failed to fetch recommendations"
+        );
     }
 }
 

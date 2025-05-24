@@ -8,7 +8,7 @@ import { MOVIE_PROJECTIONS } from "@/constants";
 const buildSearchStagePipeline = (query: string) => {
     const searchStage: PipelineStage = {
         $search: {
-            index: "sample_mflix",
+            index: "movies_search_index",
             compound: {
                 should: [
                     {
