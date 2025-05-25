@@ -6,10 +6,6 @@ import { connectDB } from "../database/mongoose"
 import { buildMovieQuery } from "../utils";
 import { MOVIE_PROJECTIONS } from "@/constants";
 import { Types } from "mongoose";
-import fs from "fs";
-
-// Common query builder
-
 
 // GET MOVIES
 export const getMovies = async ({ page = 1, limit = 12, type, genre }: GetAllMoviesParams) => {
@@ -67,8 +63,6 @@ export const getRecommendedMoviesByPlot = async ({ id, limit = 12, page = 1 }: {
 
         // const buffer = Buffer.from(array);
         // const convertedBuffer = new BSON.Binary(buffer);
-
-        fs.writeFileSync("./public/data.json", JSON.stringify(movie.fullplot_embedding));
 
         if (!movie?.fullplot_embedding) {
             throw new Error("No recommendations found (actually plot not found)");
