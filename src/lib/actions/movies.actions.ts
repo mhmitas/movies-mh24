@@ -1,7 +1,7 @@
 "use server"
 
 import { GetAllMoviesParams } from "@/types"
-import { Embedded_Movie, Movie } from "../database/models/movie.model"
+import { Movie } from "../database/models/movie.model"
 import { connectDB } from "../database/mongoose"
 import { buildMovieQuery } from "../utils";
 import { MOVIE_PROJECTIONS } from "@/constants";
@@ -34,7 +34,7 @@ export const getMovies = async ({ page = 1, limit = 12, type, genre }: GetAllMov
             totalPages: Math.ceil(totalMovies / limit)
         };
     } catch (error: any) {
-        console.log(error)
+        // console.log(error)
         throw new Error(error.message);
     }
 };
@@ -55,7 +55,7 @@ export const getMovieById = async (id: string) => {
 }
 
 // GET RECOMMENDED MOVIES BY PLOT
-export const getRecommendedMoviesByPlot = async ({ id }: { id: string }) => {
+export const getRecommendedMoviesByPlot = async ({ id, limit = 12, page = 1 }: { id: string, limit: number, page?: number }) => {
     try {
         if (!Types.ObjectId.isValid(id)) {
             throw new Error("Invalid movie ID");
@@ -82,13 +82,15 @@ export const getRecommendedMoviesByPlot = async ({ id }: { id: string }) => {
                     path: "fullplot_embedding",
                     queryVector: movie.fullplot_embedding,
                     numCandidates: 150,
-                    limit: 21,
+                    // skip: 10,
+                    limit: limit,
                 }
             },
             {
                 $project: {
-                    plot: 1,
-                    ...MOVIE_PROJECTIONS
+                    ...MOVIE_PROJECTIONS,
+                    "paginationToken": { "$meta": "searchSequenceToken" },
+                    "score": { "$meta": "searchScore" }
                 }
             }
         ]
@@ -113,11 +115,14 @@ export const getRecommendedMoviesByPlot = async ({ id }: { id: string }) => {
 // GET MOVIE BY IMDB ID from TMDB
 export const getAdditionDataFromTmdb = async (imdbId: number) => {
     try {
+        const url = `https://api.themoviedb.org/3/find/tt${imdbId.toString().padStart(7, '0')}?api_key=${process.env.TMDB_API_KEY}&external_source=imdb_id`
 
-        const tmdbRes = await fetch(`https://api.themoviedb.org/3/find/tt${imdbId}?api_key=${process.env.TMDB_API_KEY}&external_source=imdb_id`, { cache: 'force-cache' })
-
+        const tmdbRes = await fetch(url, { cache: 'force-cache' })
         const data = await tmdbRes.json();
-        const posterPath = data.movie_results?.[0]?.poster_path;
+
+        const srcArr = data.movie_results[0] || data.tv_results[0] || data.person_results[0] || data.tv_episode_results[0] || data.tv_season_results[0]
+
+        const posterPath = srcArr?.poster_path;
         const posterUrl = `https://image.tmdb.org/t/p/w500${posterPath}`;
         return { posterUrl }
     } catch (error) {

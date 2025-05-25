@@ -1,37 +1,58 @@
-import MovieCollPagination from '@/components/shared/MovieCollPagination';
-import { handleMovieSearchTest } from '@/lib/actions/test.actions';
-import React from 'react'
+// components/ItemList.jsx
+"use client";
 
-const SearchTestPage = async (props: {
-    searchParams?: Promise<{
-        page?: string;
-        q?: string
-    }>;
-}) => {
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useInView } from "react-intersection-observer";
 
-    const searchParams = await props.searchParams;
+type Item = {
+    userId: number;
+    id: number;
+    title: string;
+    body: string;
+};
 
-    const currentPage = Number(searchParams?.page) || 1;
-    const query = searchParams?.q || '';
-    const decodedQuery = decodeURIComponent(query)
+const ItemList = () => {
+    const [items, setItems] = useState<Item[]>([]);
+    const [page, setPage] = useState(1);
+    const { ref, inView } = useInView();
+    const [loading, setLoading] = useState(false);
 
-    const movies = await handleMovieSearchTest({
-        page: currentPage,
-        limit: 36,
-        query: decodedQuery
-    })
+    const fetchItems = useCallback(async () => {
+        setLoading(true);
+        // Replace with your actual data fetching logic
+        const res = await fetch(
+            `https://jsonplaceholder.typicode.com/posts?_page=${page}&_limit=10`
+        );
+        const newItems = await res.json();
+        setItems((prevItems) => [...prevItems, ...newItems]);
+        setLoading(false);
+    }, [page]);
 
-    // console.log(movies)
+    useEffect(() => {
+        setTimeout(() => {
+
+            fetchItems();
+        }, 5000);
+    }, [fetchItems]);
+
+    useEffect(() => {
+        if (inView && !loading) {
+            setPage((prevPage) => prevPage + 1);
+        }
+    }, [inView, loading]);
 
     return (
-        <main className='scroll-smooth min-h-[50vh] space-y-10 mt-10'>
-            <MovieCollPagination
-                movies={movies?.data}
-                page={currentPage}
-                totalPages={movies?.totalPages}
-            />
-        </main>
-    )
-}
+        <div>
+            {items.map((item) => (
+                <div key={item.id} style={{ border: "1px solid #ccc", margin: "10px", padding: "10px" }}>
+                    {item.title}
+                </div>
+            ))}
+            <div className="fixed bottom-4 right-4 bg-primary p-4">{items.length}</div>
+            {loading && <div>Loading...</div>}
+            <div ref={ref}></div>
+        </div>
+    );
+};
 
-export default SearchTestPage;
+export default ItemList;

@@ -113,7 +113,7 @@ const MovieDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
 
                     <Suspense fallback={<RecommendationsLoadingFallback />}>
                         <ErrorBoundary message='Could not find recommendations'>
-                            <RecommendedMovies id={String(movie?._id)} />
+                            <RecommendedMovies id={String(movie?._id)} title={movie?.title} />
 
                         </ErrorBoundary>
                     </Suspense>

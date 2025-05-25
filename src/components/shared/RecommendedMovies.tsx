@@ -1,18 +1,22 @@
 import { getRecommendedMoviesByPlot } from '@/lib/actions/movies.actions'
 import React from 'react'
-import MovieCollection from './MovieCollection'
 import MovieCard from './movie-cards/movieCard'
 import { IMovie } from '@/lib/database/models/movie.model'
+import { Button } from '../ui/button'
+import Link from 'next/link'
 
 const RecommendedMovies = async (
     {
-        id
+        id,
+        title
     }: {
-        id: string
+        id: string,
+        title?: string
     }
 ) => {
 
-    const movies: IMovie[] = await getRecommendedMoviesByPlot({ id })
+    const movies: IMovie[] = await getRecommendedMoviesByPlot({ id, limit: 11 })
+    // const movies = data as 
 
     movies.shift()
 
@@ -28,6 +32,11 @@ const RecommendedMovies = async (
                     ))
                 }
             </section>
+            {movies.length >= 10 && <div className='flex justify-center my-6'>
+                <Button asChild>
+                    <Link href={`/movie-details/more-suggestions/${id}?title=${encodeURIComponent(title ?? "")}`}>Show More</Link>
+                </Button>
+            </div>}
         </div>
     )
 }
