@@ -25,8 +25,8 @@ const geistOswald = Oswald({
 })
 
 export const metadata: Metadata = {
-  title: "Movies MH24 - Explore Movies by Genre, Year & More",
-  description: "Movies MH24 is your ultimate movie app to browse, filter, and discover movies by genre, year, and country.",
+  title: 'Movies MH24 | Discover & Filter Movies by Genre, Year, Country',
+  description: 'Movies MH24 is your ultimate movie app to browse, filter, and discover films by genre, release year, and country. Fast, simple, and beautiful.',
   keywords: ["Movies MH24", "movie app", "movie filter", "genre movies"],
   metadataBase: new URL("https://moviesmh24.vercel.app"), // your actual domain here
   openGraph: {

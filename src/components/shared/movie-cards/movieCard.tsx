@@ -56,7 +56,7 @@ const MovieCard = async ({ title, poster, year, _id, type, runtime, imdb }
           </div>
         </section>
         <section className="p-1">
-          <h2 className="line-clamp-1 font-semibold hover:text-primary">{title}</h2>
+          <h1 className="line-clamp-1 font-semibold hover:text-primary">{title}</h1>
           {/* <p className="text-sm text-primary-foreground/60 text-center">{year}</p> */}
           <div className="flex items-center justify-between text-sm text-muted-foreground space-y-1.5">
             <div className="flex flex-wrap items-center gap-2">

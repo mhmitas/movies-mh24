@@ -26,9 +26,9 @@ export default function MovieDetailPage({
 
     return (
         <div className="">
-            <div className="grid gap-12 lg:grid-cols-3">
+            <div className="grid gap-12">
                 {/* Main Content */}
-                <div className="lg:col-span-2 space-y-6">
+                <div className="space-y-6">
                     {/* Basic Information */}
                     <section className='space-y-2'>
                         <MetaDataRow title='Genres' items={genres} />
@@ -42,7 +42,7 @@ export default function MovieDetailPage({
                     {/* Plot */}
                     {plot && (
                         <section>
-                            <div className="border-l-4 border-primary pl-6">
+                            <div className="border-l-4 border-primary/20 pl-6">
                                 <p className="text-base leading-relaxed text-muted-foreground italic">"{plot}"</p>
                             </div>
                         </section>
@@ -69,24 +69,26 @@ export default function MovieDetailPage({
                         </div>
 
                         <div className="space-y-4">
-                            <RatingItem title="IMDb" rating={imdb?.rating} votes={imdb?.votes} />
-                            <RatingItem title="Metacritic" rating={metacritic} maxRating={100} />
-                            {tomatoes?.critic?.rating && (
-                                <RatingItem
-                                    title="Critics Score"
-                                    rating={tomatoes.critic.rating}
-                                    maxRating={100}
-                                    reviews={tomatoes.critic.numReviews}
-                                />
-                            )}
-                            {tomatoes?.viewer?.rating && (
-                                <RatingItem
-                                    title="Audience Score"
-                                    rating={tomatoes.viewer.rating}
-                                    maxRating={100}
-                                    reviews={tomatoes.viewer.numReviews}
-                                />
-                            )}
+                            <div className="grid grid-cols-2 lg:flex gap-4 *:grow">
+                                <RatingItem title="IMDb" rating={imdb?.rating} votes={imdb?.votes} />
+                                <RatingItem title="Metacritic" rating={metacritic} maxRating={100} />
+                                {tomatoes?.critic?.rating && (
+                                    <RatingItem
+                                        title="Critics Score"
+                                        rating={tomatoes.critic.rating}
+                                        maxRating={100}
+                                        reviews={tomatoes.critic.numReviews}
+                                    />
+                                )}
+                                {tomatoes?.viewer?.rating && (
+                                    <RatingItem
+                                        title="Audience Score"
+                                        rating={tomatoes.viewer.rating}
+                                        maxRating={100}
+                                        reviews={tomatoes.viewer.numReviews}
+                                    />
+                                )}
+                            </div>
 
                             {tomatoes && (tomatoes.fresh || tomatoes.rotten) && (
                                 <div className="mt-6 p-4 bg-red-50 dark:bg-red-950/20 rounded-lg">
