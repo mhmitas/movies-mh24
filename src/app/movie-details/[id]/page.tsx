@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge';
-import { getAdditionDataFromTmdb, getMovieById } from '@/lib/actions/movies.actions';
+import { getAdditionDataFromTmdb, getMovieById, getMovieByIdForMetaData } from '@/lib/actions/movies.actions';
 import { formatDuration } from '@/lib/utils';
 import React, { Suspense } from 'react'
 import { FaCheck, FaHeart, FaPlay, FaStar } from 'react-icons/fa6';
@@ -94,6 +94,16 @@ const MovieDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
                     </Suspense>
                 </div>
             </div>
+            <script type="application/ld+json">
+                {JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": movie.type,
+                    name: movie.title,
+                    datePublished: movie.year,
+                    genre: movie.genres,
+                    url: `https://moviesmh24.vercel.app/movie-details/${movie._id}`,
+                })}
+            </script>
 
         </main>
     )
@@ -114,4 +124,29 @@ function RecommendationsLoadingFallback() {
             </section>
         </div>
     )
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
+
+    const { id } = await params;
+
+    const movie = await getMovieByIdForMetaData(id);
+
+    if (!movie || (Array.isArray(movie) && movie.length === 0)) {
+        return {
+            title: 'Movie Not Found | Movies MH24',
+            description: 'This movie could not be found.',
+        };
+    }
+
+    // If movie is an array, use the first item
+    const movieData = Array.isArray(movie) ? movie[0] : movie;
+
+    return {
+        title: `${movieData.title} | Movies MH24`,
+        description: `${movieData.title} (${movieData.year}) - ${Array.isArray(movieData.genre) ? movieData.genre.join(', ') : movieData.genre}. Discover it on Movies MH24.`,
+        openGraph: {
+            images: [movieData?.poster],
+        },
+    };
 }

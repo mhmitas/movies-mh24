@@ -50,6 +50,22 @@ export const getMovieById = async (id: string) => {
     }
 }
 
+export async function getMovieByIdForMetaData(id: string) {
+    try {
+        await connectDB();
+
+        const movie = await Movie.findById(id, { plot: 1, title: 1, year: 1, genres: 1, poster: 1 }).lean();
+
+        if (!movie) {
+            throw new Error("Movie not found");
+        }
+
+        return movie
+    } catch (error: any) {
+        throw new Error(error.message);
+    }
+}
+
 // GET RECOMMENDED MOVIES BY PLOT
 export const getRecommendedMoviesByPlot = async ({ id, limit = 12, page = 1 }: { id: string, limit: number, page?: number }) => {
     try {
