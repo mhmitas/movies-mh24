@@ -3,22 +3,14 @@ import { getAdditionDataFromTmdb, getMovieById } from '@/lib/actions/movies.acti
 import { formatDuration } from '@/lib/utils';
 import React, { Suspense } from 'react'
 import { FaCheck, FaHeart, FaPlay, FaStar } from 'react-icons/fa6';
-import MovieMetadata, { MovieActionButton } from './movie-detail-page-components';
-import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-} from "@/components/ui/accordion"
 import { FcGoogle } from "react-icons/fc";
 import Link from 'next/link';
 import PosterImage from '@/components/shared/MoviePoster';
 import RecommendedMovies from '@/components/shared/RecommendedMovies';
-import LoadingSpinner from '../loading';
 import ErrorBoundary from '@/components/shared/ErrorBoundary';
 import { IMovie } from '@/lib/database/models/movie.model';
-import { Skeleton } from '@/components/ui/skeleton';
 import MovieCardSkeleton from '@/components/shared/movie-cards/MovieCardSkeleton';
+import MovieDetail, { MovieActionButton } from './movie-detail-page-components';
 
 const MovieDetails = async ({ params }: { params: Promise<{ id: string }> }) => {
     const { id } = await params;
@@ -52,7 +44,7 @@ const MovieDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
             {/* detail page wrapper container */}
             <div className='mt-48 text-sm lg:text-base bg-background min-h-screen'>
                 {/* detail page primary container */}
-                <div className='bg-muted relative'>
+                <div className='bg-card relative'>
                     {/* info container (title, ...) */}
                     <div className='flex justify-between items-center py-6 pl-[32.45vw] pr-[2%]'>
                         <div className='space-y-2'>
@@ -61,10 +53,6 @@ const MovieDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
                                 <span>{movie?.year}</span>
                                 <span>{formatDuration(movie?.runtime || 0)}</span>
                                 {movie?.rated && <Badge variant={'outline'}>{movie?.rated}</Badge>}
-                                <div className='flex items-center gap-1'>
-                                    <FaStar className='inline text-yellow-500' />
-                                    <span>{movie?.imdb?.rating || "N/A"}</span>
-                                </div>
                             </div>
                         </div>
                         <div className='flex flex-wrap items-center'>
@@ -96,20 +84,7 @@ const MovieDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
                 </div>
                 {/* detail page secondary container */}
                 <div className='pl-[32.45vw] pr-[2%] bg-background pt-8 space-y-6'>
-                    <div>
-                        <p>{movie?.plot}</p>
-                    </div>
-
-                    <MovieMetadata genres={movie?.genres} cast={movie?.cast} countries={movie?.countries} />
-
-                    <Accordion type="single" collapsible>
-                        <AccordionItem value="item-1">
-                            <AccordionTrigger className='cursor-pointer hover:text-primary'>Show Full Plot</AccordionTrigger>
-                            <AccordionContent>
-                                {movie?.fullplot}
-                            </AccordionContent>
-                        </AccordionItem>
-                    </Accordion>
+                    <MovieDetail {...movie} />
 
                     <Suspense fallback={<RecommendationsLoadingFallback />}>
                         <ErrorBoundary message='Could not find recommendations'>

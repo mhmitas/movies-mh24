@@ -15,6 +15,7 @@ export async function GET(request: NextRequest) {
         const skipAmount = Math.max(0, Number(searchParams.get("skip")) || 0);
 
         const movies = await Movie.find()
+            .select("-fullplot_embedding")
             .sort({ _id: "desc" })
             .skip(skipAmount)
             .limit(limit)

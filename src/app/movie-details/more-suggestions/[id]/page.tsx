@@ -29,7 +29,7 @@ const MoreSuggestionsPage = async (props: {
     return (
         <section className='scroll-smooth space-y-16 mb-10'>
             <div className='page-top-margin'>
-                <Filter heading={`More Like - ${title}`} />
+                <Filter heading={`Similar to - ${title}`} />
             </div>
             <Suspense fallback={<LoadingSpinner />}>
                 <MovieCollection
