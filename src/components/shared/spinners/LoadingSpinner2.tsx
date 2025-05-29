@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
-import React, { useMemo } from 'react';
+import React from 'react';
 import { FaStar } from 'react-icons/fa6';
 
 const LoadingSpinner2 = ({ className }: { className?: string }) => {
@@ -11,8 +11,8 @@ const LoadingSpinner2 = ({ className }: { className?: string }) => {
         // Physics-based properties
         speed: 40 + Math.random() * 80,
         // Angles focused on the friction point (bottom)
-        angle: Math.PI + (Math.random() - 0.5) * Math.PI / 2, // Focus on upward direction
-        size: 0.5 + Math.random() * 1.5,
+        angle: Math.PI + (Math.random() - 0.2) * Math.PI / 3, // Focus on upward direction
+        size: 0.5 + Math.random() * 1,
         delay: i * 0.05,
         lifetime: 0.4 + Math.random() * 0.3
     }));
@@ -24,7 +24,7 @@ const LoadingSpinner2 = ({ className }: { className?: string }) => {
                 {/* Wheel with rapid spinning animation */}
                 <div className='relative'>
                     {/* Friction glow effect */}
-                    <div className='absolute -bottom-2 left-1/2 -translate-x-1/2 w-20 h-3 bg-orange-500/40 blur-lg rounded-full animate-pulse'></div>
+                    <div className='absolute -bottom-2 left-1/2 -translate-x-1/2 w-20 h-3 bg-orange-500/50 blur-lg rounded-full animate-pulse'></div>
 
                     {/* Main wheel */}
                     <Image
@@ -64,7 +64,7 @@ function Spark({ x, speed, angle, size, delay, lifetime }: {
 
     return (
         <div
-            className='absolute bottom-0 left-1/2 origin-bottom'
+            className='absolute bottom-8 left-1/2 origin-bottom'
             style={{
                 transform: `translateX(${x}px)`,
                 animation: `spark-fly ${lifetime}s ease-out ${delay}s infinite`,
