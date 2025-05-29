@@ -97,7 +97,7 @@ export default function Filter({ heading }: { heading?: string }) {
 
     return (
         <div className="w-full my-container filter-container">
-            <div className="flex justify-between mb-2">
+            <div className="flex justify-between mb-2 gap-4">
                 <h1 className="text-xl sm:text-2xl font-medium">{heading || "Filter results"}</h1>
                 <Button
                     variant="outline"
