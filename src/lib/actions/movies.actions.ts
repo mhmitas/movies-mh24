@@ -113,7 +113,6 @@ export const getRecommendedMoviesByPlot = async ({ id, limit = 12, page = 1 }: {
 
         return JSON.parse(JSON.stringify(movies));
     } catch (error) {
-        console.error('Recommendation Error:', error);
         throw new Error(
             error instanceof Error
                 ? error.message

@@ -9,7 +9,6 @@ const PAGE_SIZE = 1000                     // number of URLs per sitemap chunk
 
 async function fetchAllMoviePaths() {
     if (!MONGO_URI || !DB_NAME) {
-        console.warn('⚠️  Please set MONGODB_URI and DB_NAME in your environment')
         return []
     }
 

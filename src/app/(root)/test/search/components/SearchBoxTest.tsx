@@ -40,7 +40,6 @@ const SearchBox = () => {
                     })
                     if (isMounted) setSuggestions(results.data)
                 } catch (error) {
-                    console.error("Search failed:", error)
                     if (isMounted) setSuggestions([])
                 }
             })
