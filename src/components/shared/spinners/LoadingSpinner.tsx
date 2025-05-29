@@ -34,6 +34,7 @@ const LoadingSpinner = ({ className }: { className?: string }) => {
               width={70}
               height={70}
               alt="logo"
+              unoptimized
               className={cn(
                 "animate-wheel-spin duration-100",
                 className

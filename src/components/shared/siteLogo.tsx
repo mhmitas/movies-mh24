@@ -19,6 +19,6 @@ export default SiteLogo;
 
 function Logo({ className }: { className?: string }) {
     return (
-        <Image src={"/logo.png"} width={35} height={35} alt='logo' className={cn(className)} />
+        <img src={"/logo.png"} width={35} height={35} alt='logo' className={cn(className)} />
     )
 }

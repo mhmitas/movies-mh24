@@ -38,6 +38,7 @@ const LoadingSpinner2 = ({ className }: { className?: string }) => {
                         )}
                         // Add priority if it's above the fold
                         priority={true}
+                        unoptimized
                     />
                 </div>
 

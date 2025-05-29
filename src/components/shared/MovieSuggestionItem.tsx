@@ -36,6 +36,7 @@ function MovieSuggestionItem({ suggestion }: MovieSuggestionItemProps) {
                         fill
                         className="object-cover"
                         sizes="(max-width: 640px) 40px, 48px"
+                        unoptimized
                     />
                 </div>
 

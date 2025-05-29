@@ -13,6 +13,7 @@ export default function NotFound() {
                     height={200}
                     alt="404 Not Found"
                     className="mx-auto rounded-lg"
+                    unoptimized
                 />
                 <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tighter lg:text-5xl">404 - Page Not Found</h1>
                 <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">

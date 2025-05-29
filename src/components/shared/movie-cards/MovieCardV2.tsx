@@ -47,6 +47,7 @@ export function MovieCard2({ title, poster, year, _id, type, runtime, imdb, genr
                 height={750}
                 className="object-fill transition-opacity duration-300"
                 priority
+                unoptimized
             />
 
             {/* Gradient Overlay */}
