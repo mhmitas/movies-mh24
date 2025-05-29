@@ -20,7 +20,7 @@ const LoadingSpinner = ({ className }: { className?: string }) => {
   }));
 
   return (
-    <div className='min-h-screen flex justify-center items-center my-20'>
+    <div className='flex justify-center items-center my-20'>
       <div className='relative w-40 h-40'>
         {/* Spinning wheel with friction effect */}
         <div className='absolute inset-0 flex justify-center items-center'>

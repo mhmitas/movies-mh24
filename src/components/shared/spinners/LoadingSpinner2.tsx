@@ -19,7 +19,7 @@ const LoadingSpinner2 = ({ className }: { className?: string }) => {
     }));
 
     return (
-        <div className='min-h-screen flex justify-center items-center my-20'>
+        <div className='flex justify-center items-center my-24 md:my-44 lg:my-56'>
             <div className='relative w-40 h-40 flex justify-center items-center'>
                 {/* Wheel with rapid spinning animation */}
                 <div className='relative'>

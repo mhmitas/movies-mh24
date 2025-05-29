@@ -10,6 +10,7 @@ import RecommendedMovies from '@/components/shared/RecommendedMovies';
 import ErrorBoundary from '@/components/shared/ErrorBoundary';
 import MovieCardSkeleton from '@/components/shared/movie-cards/MovieCardSkeleton';
 import MovieDetail, { MovieActionButton } from './movie-detail-page-components';
+import LoadingSpinner2 from "@/components/shared/spinners/LoadingSpinner2";
 
 const LG_COMPLEX_PADDING = " pl-4 pr-4 sm:pl-6 sm:pr-6 md:pl-[32.45vw] md:pr-[2%]";
 
@@ -39,7 +40,7 @@ const MovieDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
             </div>
 
             {/* Content container */}
-            <div className='mt-[45vh] md:mt-56 text-sm md:text-base bg-background md:min-h-screen'>
+            <div className='mt-[45vh] md:mt-56 text-sm md:text-base bg-background min-h-screen'>
                 <div className='bg-card relative'>
                     {/* Header section */}
                     <div className={cn(
@@ -125,7 +126,7 @@ function RecommendationsLoadingFallback() {
     return (
         <div className='py-10'>
             <h1 className='text-2xl md:text-3xl font-medium mb-5'>Loading More Like This...</h1>
-            <section className='grid md:grid-cols-3 md:grid-cols-5 gap-x-4 gap-y-6'>
+            <section className='grid md:grid-cols-3 lg:grid-cols-5 gap-x-4 gap-y-6'>
                 {Array.from(Array(10).keys()).map((i) => (
                     <MovieCardSkeleton key={i} />
                 ))}
