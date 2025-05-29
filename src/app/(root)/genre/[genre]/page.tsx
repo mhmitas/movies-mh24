@@ -1,6 +1,6 @@
-import LoadingSpinner from '@/app/loading';
 import Filter from '@/components/shared/Filter';
 import MovieCollPagination from '@/components/shared/MovieCollPagination';
+import LoadingSpinner2 from '@/components/shared/spinners/LoadingSpinner2';
 import { getMovies } from '@/lib/actions/movies.actions';
 import { Metadata } from 'next';
 import React, { Suspense } from 'react'
@@ -28,7 +28,7 @@ const GenrePage = async (props: {
             <div className='page-top-margin'>
                 <Filter heading={decodedQuery + " Movies & TV Shows"} />
             </div>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense fallback={<LoadingSpinner2 />}>
                 <MovieCollPagination
                     movies={movies?.data}
                     page={currentPage}

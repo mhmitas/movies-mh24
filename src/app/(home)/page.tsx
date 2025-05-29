@@ -4,13 +4,8 @@ import { getMovies } from '@/lib/actions/movies.actions';
 import React from 'react'
 import PopularMovies from './home-components/PopularMovies';
 import Head from 'next/head';
-import LoadingSpinner2 from '@/components/shared/spinners/LoadingSpinner2';
-import LoadingSpinner from '@/components/shared/spinners/LoadingSpinner';
 
 const Home = async () => {
-
-    return <LoadingSpinner2 />
-    // return <LoadingSpinner />
 
     const { data: latestMovies } = await getMovies({ type: 'movie', limit: 12 })
     const { data: latestSeries } = await getMovies({ type: 'series', limit: 12 })

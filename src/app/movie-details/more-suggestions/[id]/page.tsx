@@ -1,6 +1,7 @@
 import LoadingSpinner from '@/app/loading';
 import Filter from '@/components/shared/Filter';
 import MovieCollection from '@/components/shared/MovieCollection';
+import LoadingSpinner2 from '@/components/shared/spinners/LoadingSpinner2';
 import { getMovies, getRecommendedMoviesByPlot } from '@/lib/actions/movies.actions';
 import { Metadata } from 'next';
 import React, { Suspense } from 'react'
@@ -24,14 +25,12 @@ const MoreSuggestionsPage = async (props: {
         limit: 36,
     })
 
-    console.log(movies[0])
-
     return (
         <section className='scroll-smooth space-y-16 mb-10'>
             <div className='page-top-margin'>
                 <Filter heading={`Similar to - ${title}`} />
             </div>
-            <Suspense fallback={<LoadingSpinner />}>
+            <Suspense fallback={<LoadingSpinner2 />}>
                 <MovieCollection
                     movies={movies}
                 />

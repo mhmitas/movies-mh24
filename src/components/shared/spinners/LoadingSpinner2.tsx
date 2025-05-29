@@ -11,12 +11,12 @@ const LoadingSpinner2 = ({ className }: { className?: string }) => {
         // Physics-based properties
         speed: 40 + Math.random() * 80,
         // Angles focused on the friction point (bottom)
-        angle: Math.PI + (Math.random() - 0.2) * Math.PI / 3, // Focus on upward direction
+        angle: Math.PI + (Math.random() - 0.2) * Math.PI / 3,
         size: 0.5 + Math.random() * 1,
-        delay: i * 0.05,
-        lifetime: 0.4 + Math.random() * 0.3
+        delay: i * 0,
+        lifetime: 0.4 + Math.random() * 0.3,
+        color: ['#ff9d00', '#ff5e00', '#ff2200'][Math.floor(Math.random() * 3)]
     }));
-
 
     return (
         <div className='min-h-screen flex justify-center items-center my-20'>
@@ -36,6 +36,8 @@ const LoadingSpinner2 = ({ className }: { className?: string }) => {
                             "animate-wheel-spin duration-75 shadow-lg",
                             className
                         )}
+                        // Add priority if it's above the fold
+                        priority={true}
                     />
                 </div>
 
@@ -50,15 +52,16 @@ const LoadingSpinner2 = ({ className }: { className?: string }) => {
     );
 }
 
-function Spark({ x, speed, angle, size, delay, lifetime }: {
+function Spark({ x, speed, angle, size, delay, lifetime, color }: {
     x: number,
     speed: number,
     angle: number,
     size: number,
     delay: number,
-    lifetime: number
+    lifetime: number,
+    color: string
 }) {
-    // Calculate movement vector (THIS IS NOW USED!)
+    // Calculate movement vector
     const moveX = Math.cos(angle) * speed;
     const moveY = Math.sin(angle) * speed;
 
@@ -74,11 +77,11 @@ function Spark({ x, speed, angle, size, delay, lifetime }: {
             } as React.CSSProperties}
         >
             <FaStar
-                className='text-amber-500 animate-spark-fade'
+                className='animate-spark-fade'
                 style={{
                     fontSize: `${size * 0.7}rem`,
-                    filter: 'drop-shadow(0 0 2px #ff9e00)',
-                    color: ['#ff9d00', '#ff5e00', '#ff2200'][Math.floor(Math.random() * 3)],
+                    filter: 'drop-shadow(0 0 2px rgba(255, 100, 0, 0.8))',
+                    color: color,
                 }}
             />
         </div>

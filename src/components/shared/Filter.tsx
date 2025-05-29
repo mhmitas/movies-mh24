@@ -98,11 +98,12 @@ export default function Filter({ heading }: { heading?: string }) {
     return (
         <div className="w-full my-container filter-container">
             <div className="flex justify-between mb-2">
-                <h1 className="text-2xl font-medium">{heading || "Filter results"}</h1>
+                <h1 className="text-xl sm:text-2xl font-medium">{heading || "Filter results"}</h1>
                 <Button
                     variant="outline"
+                    size={"sm"}
                     onClick={() => setIsOpen(!isOpen)}
-                    className="flex items-center gap-2"
+                    className="flex items-center gap-2 h-9"
                     aria-label={isOpen ? "Close filters" : "Open filters"}
                 >
                     <FilterIcon size={16} />
