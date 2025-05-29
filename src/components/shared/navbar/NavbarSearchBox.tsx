@@ -103,8 +103,8 @@ export default function NavbarSearchBox({ className, isHomePage }: { className?:
             <form onSubmit={handleSubmit} className="relative">
                 <Input
                     className={cn(
-                        "rounded-full w-full",
-                        isHomePage ? "h-16 terrible-input-text pl-14 pr-10" : " pl-10 pr-8"
+                        "w-full",
+                        isHomePage ? "h-16 terrible-input-text pl-14 pr-10 rounded-full" : " pl-10 pr-8 rounded-xl h-9.5"
                     )}
                     onChange={(e) => {
                         setQuery(e.target.value)

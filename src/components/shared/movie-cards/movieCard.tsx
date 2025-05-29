@@ -35,9 +35,9 @@ const MovieCard = async ({ title, poster, year, _id, type, runtime, imdb }
     <Link href={`/movie-details/${_id}`}>
       <div
         className="w-full max-w-sm shadow-lg overflow-hidden py-0 cursor-pointer group relative transition-all duration-300">
-        <section className="relative w-full overflow-hidden bg-muted">
+        <section className="relative w-full overflow-hidden rounded-xs">
           <div className="w-full aspect-[2/3] relative">
-            <PosterImage poster={moviePosterUrl} title={title} imdbId={Number(imdb?.id)} />
+            <PosterImage poster={moviePosterUrl} title={title} imdbId={Number(imdb?.id)} className="object-cover transition duration-200" />
             {/* <Image
               src={poster || moviePosterUrl}
               alt={"Poster isn't found"}

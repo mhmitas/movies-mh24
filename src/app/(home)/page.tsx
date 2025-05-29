@@ -19,7 +19,7 @@ const Home = async () => {
                 <meta name="robots" content="index, follow" />
                 <link rel="canonical" href="https://www.yourdomain.com/current-page" />
             </Head>
-            <div className='space-y-12 md:space-y-16 lg:space-y-20 mt-20'>
+            <div className='space-y-12 md:space-y-16 lg:space-y-20 page-top-margin'>
                 <section>
                     <h1 className='text-2xl lg:text-3xl font-medium my-container mb-5'>Popular Movies</h1>
                     <ErrorBoundary message='Something went wrong.'>

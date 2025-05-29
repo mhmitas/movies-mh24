@@ -8,6 +8,7 @@ import {
 import { Separator } from "@/components/ui/separator"
 import { Star } from "lucide-react"
 import { IMovie } from "@/lib/database/models/movie.model"
+import Link from "next/link"
 
 
 export default function MovieDetailPage({
@@ -30,19 +31,28 @@ export default function MovieDetailPage({
                 {/* Main Content */}
                 <div className="space-y-6">
                     {/* Basic Information */}
-                    <section className='space-y-2'>
-                        <MetaDataRow title='Genres' items={genres} />
-                        <MetaDataRow title='Casts' items={cast} />
-                        <MetaDataRow title='Directors' items={directors} />
-                        <MetaDataRow title='Countries' items={countries} />
-                        <MetaDataRow title='Languages' items={languages} />
-                    </section>
+                    <table className="w-full">
+                        <tbody>
+                            <MovieData title='Genres' items={genres} />
+                            <MovieData title='Casts' items={cast} />
+                            <MovieData title='Directors' items={directors} />
+                            <MovieData title='Countries' items={countries} />
+                            <MovieData title='Languages' items={languages} />
+                        </tbody>
+                    </table>
                     <Separator className="mt-4" />
 
                     {/* Plot */}
-                    {plot && (
+                    {/* {plot && (
                         <section>
                             <div className="border-l-4 border-primary/20 pl-6">
+                                <p className="text-base leading-relaxed text-muted-foreground italic">"{plot}"</p>
+                            </div>
+                        </section>
+                    )} */}
+                    {plot && (
+                        <section>
+                            <div className="">
                                 <p className="text-base leading-relaxed text-muted-foreground italic">"{plot}"</p>
                             </div>
                         </section>
@@ -50,7 +60,7 @@ export default function MovieDetailPage({
                     <Accordion type="single" collapsible>
                         <AccordionItem value="item-1">
                             <AccordionTrigger className='cursor-pointer hover:text-primary'>Show Full Plot</AccordionTrigger>
-                            <AccordionContent>
+                            <AccordionContent className="text-base leading-relaxed text-muted-foreground italic">
                                 {fullplot}
                             </AccordionContent>
                         </AccordionItem>
@@ -146,25 +156,25 @@ function RatingItem({ title, rating, maxRating = 10, votes, reviews }: RatingIte
     )
 }
 
-
-function MetaDataRow({ title, items }: { title: string; items?: string[] | undefined }) {
-
-    if (!items?.length) return null
-
-    return (
-        <div className='grid grid-cols-5 max-w-3xl'>
-            <div className='col-span-1'>{title}</div>
-            <div className='col-span-4 flex flex-wrap gap-x-2'>
-                {items?.map((item, index) => (
-                    <span key={index} className=''>{item} {index !== items.length - 1 && ','}</span>
-                ))}
-            </div>
-        </div>
-    )
-}
-
 export const MovieActionButton = ({ icon }: { icon: React.ReactNode }) => (
-    <button className="custom-primary-btn text-xl rounded-full">
+    <button className="custom-primary-btn text-lg lg:text-xl rounded-full">
         {icon}
     </button>
 );
+
+function MovieData({ title, items }: { title: string; items?: string[] | undefined }) {
+    if (!items?.length) return null
+
+    return (
+        <tr>
+            <td className="p-2 pl-0 font-medium flex items-start">{title}</td>
+            <td className="p-2 pr-0">
+                <div>
+                    {items?.map((item, index) => (
+                        <Link href={"#"} key={index} className=''>{item}{index !== items.length - 1 && ', '}</Link>
+                    ))}
+                </div>
+            </td>
+        </tr>
+    )
+}

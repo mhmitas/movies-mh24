@@ -3,15 +3,18 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { getAdditionDataFromTmdb } from '@/lib/actions/movies.actions'
+import { cn } from '@/lib/utils'
 
 export default function PosterImage({
     poster,
     title,
     imdbId,
+    className
 }: {
     poster: string
     title?: string
     imdbId?: number
+    className?: string
 }) {
     const [imgSrc, setImgSrc] = useState(poster)
     const [hasTriedFallback, setHasTriedFallback] = useState(false)
@@ -46,7 +49,7 @@ export default function PosterImage({
             alt={title || 'Movie poster'}
             fill
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 300px"
-            className="object-cover transition duration-200"
+            className={cn(className)}
             placeholder="blur"
             blurDataURL="/images/poster-placeholder.svg"
             onError={handleImageError}

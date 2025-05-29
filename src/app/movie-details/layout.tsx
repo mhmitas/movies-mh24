@@ -8,7 +8,7 @@ const layout = ({ children }: Readonly<{
     return (
         <div className='font-noto'>
             <ScrollHandler />
-            <Navbar className="bg-background/60" />
+            <Navbar className="bg-background/70" />
             {children}
         </div>
     )

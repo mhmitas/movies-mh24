@@ -41,7 +41,7 @@ const PaginationComponent = ({ page, totalPages, urlParamName }: PaginationProps
     }
 
     const getPageNumbers = () => {
-        const maxButtons = 5
+        const maxButtons = 4
         const pages = []
 
         let startPage = Math.max(1, currentPage - Math.floor(maxButtons / 2))
@@ -66,9 +66,8 @@ const PaginationComponent = ({ page, totalPages, urlParamName }: PaginationProps
                 <PaginationContent className='transition'>
                     {currentPage > 1 && <PaginationItem>
                         <Button
-                            size="lg"
+                            size="responsive"
                             variant="primary"
-                            className="w-28"
                             onClick={() => handlePageChange(Number(currentPage) - 1)}
                         // asChild
                         >
@@ -82,7 +81,7 @@ const PaginationComponent = ({ page, totalPages, urlParamName }: PaginationProps
                             <Button
                                 variant={pageNum === currentPage ? "default" : "ghost"}
                                 className='cursor-pointer rounded-full'
-                                size={'icon'}
+                                size={'responsive'}
                                 onClick={(e) => {
                                     e.preventDefault()
                                     handlePageChange(pageNum)
@@ -94,16 +93,15 @@ const PaginationComponent = ({ page, totalPages, urlParamName }: PaginationProps
                     ))}
                     {currentPage < totalPages && <PaginationItem>
                         <Button
-                            size="lg"
+                            size="responsive"
                             variant="primary"
-                            className="w-28"
                             onClick={() => handlePageChange(Number(currentPage) + 1)}
                         >
                             <span>Next</span>
                             <ChevronRight />
                         </Button>
                     </PaginationItem>}
-                    <Badge className='py-1 px-2' variant='outline'>/ {totalPages}</Badge>
+                    <Badge className='py-1 px-2 hidden sm:block' variant='outline'>/ {totalPages}</Badge>
                 </PaginationContent>
             </Pagination>
 
