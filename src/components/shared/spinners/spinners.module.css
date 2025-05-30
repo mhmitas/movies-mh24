@@ -1,0 +1,43 @@
+
+@keyframes wheel_spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spark_fly {
+  0% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(calc(var(--move-x, 0) * 1px), calc(var(--move-y, -100) * 1px));
+    opacity: 0;
+  }
+}
+
+@keyframes spark_pulse {
+
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+.animate_wheel_spin {
+  animation: wheel-spin 0.2s linear infinite;
+}
+
+.animate_spark_pulse {
+  animation: spark-pulse 0.3s ease-in-out infinite;
+}

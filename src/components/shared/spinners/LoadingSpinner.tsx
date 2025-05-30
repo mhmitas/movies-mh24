@@ -2,6 +2,7 @@ import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import React from 'react';
 import { FaStar } from 'react-icons/fa6';
+import styles from "./spinners.module.css"
 
 const LoadingSpinner = ({ className }: { className?: string }) => {
   // Generate random sparks with unique properties
@@ -36,7 +37,9 @@ const LoadingSpinner = ({ className }: { className?: string }) => {
               alt="logo"
               unoptimized
               className={cn(
-                "animate-wheel-spin duration-100",
+                // animate-wheel-spin 
+                styles.animate_wheel_spin,
+                "duration-100",
                 className
               )}
             />
@@ -70,11 +73,11 @@ function Spark({ x, speed, angle, size, delay }: {
       className='absolute bottom-10 -rotate-90 left-1/2'
       style={{
         transform: `translateX(${x}px)`,
-        animation: `spark-fly ${0.5 + Math.random() * 0.5}s ease-out ${delay}s infinite`,
+        animation: `${styles.spark_fly} ${0.5 + Math.random() * 0.5}s ease-out ${delay}s infinite`,
       }}
     >
       <FaStar
-        className='text-amber-500 animate-spark-pulse'
+        className={cn('text-amber-500 animate-spark-pulse')}
         style={{
           fontSize: `${size * 0.75}rem`,
           opacity: 0.8,
@@ -87,48 +90,3 @@ function Spark({ x, speed, angle, size, delay }: {
 }
 
 export default LoadingSpinner;
-
-/* 
-@keyframes wheel-spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes spark-fly {
-  0% {
-    transform: translate(0, 0);
-    opacity: 1;
-  }
-
-  100% {
-    transform: translate(calc(var(--move-x, 0) * 1px), calc(var(--move-y, -100) * 1px));
-    opacity: 0;
-  }
-}
-
-@keyframes spark-pulse {
-
-  0%,
-  100% {
-    opacity: 0.8;
-  }
-
-  50% {
-    opacity: 1;
-    transform: scale(1.2);
-  }
-}
-
-.animate-wheel-spin {
-  animation: wheel-spin 0.2s linear infinite;
-}
-
-.animate-spark-pulse {
-  animation: spark-pulse 0.3s ease-in-out infinite;
-}
-*/

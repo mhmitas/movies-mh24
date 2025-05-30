@@ -9,6 +9,15 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'i.ibb.co' },
     ],
   },
+  experimental: {
+    serverActions: {
+      allowedOrigins: [
+        'localhost:3000',
+        'localhost:3001',
+        'ubiquitous-space-orbit-q77gpxjqq45pc6g79-3000.app.github.dev'
+      ]
+    }
+  }
 };
 
 export default nextConfig;

@@ -36,8 +36,10 @@ const LoadingSpinner2 = ({ className }: { className?: string }) => {
                             "animate-wheel-spin duration-75 shadow-lg",
                             className
                         )}
+                        blurDataURL='/logo.png'
                         // Add priority if it's above the fold
                         priority={true}
+                        placeholder='blur'
                         unoptimized
                     />
                 </div>
