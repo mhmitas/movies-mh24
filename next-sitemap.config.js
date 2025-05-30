@@ -11,6 +11,7 @@ async function fetchAllMoviePaths() {
     console.log('🔍 MONGO_URI:', !!process.env.MONGODB_URI)
     console.log('🔍 DB_NAME:', process.env.DB_NAME)
     if (!MONGO_URI || !DB_NAME) {
+        console.warn('⚠️  Please set MONGODB_URI in your environment')
         return []
     }
 
