@@ -33,7 +33,7 @@ const MovieDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
             {/* Background image */}
             <div className='fixed inset-0 -z-20'>
                 <div
-                    className="bg-contain min-h-screen"
+                    className="bg-cover bg-center min-h-screen"
                     style={{ backgroundImage: `url(${moviePosterUrl})` }}
                 />
                 <div className='absolute inset-0 md:bg-gradient-to-r from-background via-background/50 to-background z-0' />

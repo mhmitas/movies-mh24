@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+<url><loc>https://moviesmh24.vercel.app/movie-details/573a13bcf29313caabd574e5</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
 <url><loc>https://moviesmh24.vercel.app/movie-details/573a13bcf29313caabd575bd</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
 <url><loc>https://moviesmh24.vercel.app/movie-details/573a13bcf29313caabd576b4</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
 <url><loc>https://moviesmh24.vercel.app/movie-details/573a13bcf29313caabd57722</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
@@ -999,5 +1000,4 @@
 <url><loc>https://moviesmh24.vercel.app/movie-details/573a13c1f29313caabd64b87</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
 <url><loc>https://moviesmh24.vercel.app/movie-details/573a13c1f29313caabd64b93</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
 <url><loc>https://moviesmh24.vercel.app/movie-details/573a13c1f29313caabd64b96</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-<url><loc>https://moviesmh24.vercel.app/movie-details/573a13c1f29313caabd64bd2</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
 </urlset>
