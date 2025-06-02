@@ -4,6 +4,7 @@ import { NavbarRightSection } from "./NavbarRightSection"
 import SiteLogo from "../siteLogo"
 import LargeScreenMenu from "./LargeScreenMenu"
 import NavbarSearchBox from "./NavbarSearchBox"
+import SiteLogoV2 from "../siteLogo-v2"
 
 export function Navbar({ className, isHomePage }: { className?: string, isHomePage?: boolean }) {
 
@@ -22,7 +23,8 @@ export function Navbar({ className, isHomePage }: { className?: string, isHomePa
                 {/* Left Section */}
                 <div className="flex justify-between items-center w-full lg:w-auto">
                     <MobileMenu />
-                    <SiteLogo />
+                    {/* <SiteLogo /> */}
+                    <SiteLogoV2 />
                     <NavbarRightSection className="lg:hidden" />
                 </div>
 
