@@ -22,6 +22,7 @@ export default function MovieDetailPage({
     metacritic,
     fullplot,
     tomatoes,
+    overview
 }: IMovie
 ) {
 
@@ -53,7 +54,7 @@ export default function MovieDetailPage({
                     {plot && (
                         <section>
                             <div className="">
-                                <p className="text-base leading-relaxed text-muted-foreground italic">"{plot}"</p>
+                                <p className="text-base leading-relaxed text-muted-foreground italic">"{overview}"</p>
                             </div>
                         </section>
                     )}

@@ -75,12 +75,14 @@ export const getRecommendedMoviesByPlot = async ({ id, limit = 12, page = 1 }: {
 
         await connectDB();
 
-        const movie = await Movie.findById(id, { fullplot_embedding: 1, _id: 0 })
+
+        const movie = await Movie.findById(id, { overview_embedding: 1, _id: 0 });
 
         // const buffer = Buffer.from(array);
         // const convertedBuffer = new BSON.Binary(buffer);
-
-        if (!movie?.fullplot_embedding) {
+        const queryField = movie?.overview_embedding
+        // console.log("🍿🍿:", queryField)
+        if (!queryField) {
             throw new Error("No recommendations found (actually plot not found)");
         }
 
@@ -88,9 +90,11 @@ export const getRecommendedMoviesByPlot = async ({ id, limit = 12, page = 1 }: {
         const agg = [
             {
                 $vectorSearch: {
-                    index: 'new_movies_vector_index',
-                    path: "fullplot_embedding",
-                    queryVector: movie.fullplot_embedding,
+                    // index: 'new_movies_vector_index',
+                    // path: "fullplot_embedding",
+                    index: 'mflix_overview_vector_index',
+                    path: "overview_embedding",
+                    queryVector: queryField,
                     numCandidates: 150,
                     // skip: 10,
                     limit: limit,

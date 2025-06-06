@@ -14,6 +14,7 @@ export interface IMovie extends Document {
     languages?: string[];
     countries?: string[];
     plot?: string;
+    overview?: string;
     fullplot?: string;
     poster?: string;
     backdrop?: string;
@@ -53,6 +54,7 @@ export interface IMovie extends Document {
     num_mflix_comments?: number;
     fullplot_embedding?: number[];
     plot_embedding?: number[];
+    overview_embedding?: number[];
 }
 
 // Sub-schemas
@@ -104,7 +106,8 @@ const movieSchema = new Schema({
     tomatoes: tomatoesSchema,
     lastupdated: String,
     num_mflix_comments: Number,
-    fullplot_embedding: { type: Buffer }
+    fullplot_embedding: { type: Buffer },
+    overview_embedding: { type: Buffer }
 });
 
 
