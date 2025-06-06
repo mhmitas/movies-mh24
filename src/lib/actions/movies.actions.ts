@@ -124,12 +124,14 @@ export const getRecommendedMoviesByPlot = async ({ id, limit = 12, page = 1 }: {
 // GET MOVIE BY IMDB ID from TMDB
 export const getAdditionDataFromTmdb = async (imdbId: number) => {
     try {
-        const url = `https://api.themoviedb.org/3/find/tt${imdbId.toString().padStart(7, '0')}?api_key=${process.env.TMDB_API_KEY}&external_source=imdb_id`
+        const url = `https://api.themoviedb.org/3/find/tt0068646?api_key=${process.env.TMDB_API_KEY}&external_source=imdb_id`
 
         const tmdbRes = await fetch(url, { cache: 'force-cache' })
         const data = await tmdbRes.json();
 
         const srcArr = data.movie_results[0] || data.tv_results[0] || data.person_results[0] || data.tv_episode_results[0] || data.tv_season_results[0]
+
+        console.log({ srcArr })
 
         const posterPath = srcArr?.poster_path;
         const posterUrl = `https://image.tmdb.org/t/p/w500${posterPath}`;

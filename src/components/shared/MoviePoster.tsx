@@ -53,7 +53,7 @@ export default function PosterImage({
             placeholder="blur"
             blurDataURL="/images/poster-placeholder.svg"
             onError={handleImageError}
-            unoptimized
+        // unoptimized
         />
     )
 }

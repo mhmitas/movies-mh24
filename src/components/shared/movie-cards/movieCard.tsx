@@ -15,21 +15,7 @@ interface MovieCardProps extends IMovie {
 const MovieCard = async ({ title, poster, year, _id, type, runtime, imdb }
   : MovieCardProps) => {
 
-  let moviePosterUrl = poster;
-  // Check if the poster is available
-  // If not, try to fetch it from TMDB using the IMDB ID
-  if (!moviePosterUrl && imdb?.id) {
-    try {
-      const { posterUrl } = await getAdditionDataFromTmdb(imdb.id);
-      moviePosterUrl = posterUrl || "/images/poster-placeholder.svg";
-    } catch {
-      moviePosterUrl = "/images/poster-placeholder.svg";
-    }
-  }
-  // Final fallback if nothing worked
-  if (!moviePosterUrl) {
-    moviePosterUrl = "/images/poster-placeholder.svg";
-  }
+  poster = poster || "/images/poster-placeholder.svg";
 
   return (
     <Link href={`/movie-details/${_id}`}>
@@ -37,16 +23,16 @@ const MovieCard = async ({ title, poster, year, _id, type, runtime, imdb }
         className="w-full max-w-sm shadow-lg overflow-hidden py-0 cursor-pointer group relative transition-all duration-300">
         <section className="relative w-full overflow-hidden rounded-xs">
           <div className="w-full aspect-[2/3] relative">
-            <PosterImage poster={moviePosterUrl} title={title} imdbId={Number(imdb?.id)} className="object-cover transition duration-200" />
-            {/* <Image
-              src={poster || moviePosterUrl}
+            <Image
+              src={poster}
               alt={"Poster isn't found"}
               fill
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 30vw, 200px"  // Adjusted sizes for lower resolution
               className="object-cover transition duration-200 w-full rounded"
               placeholder="blur"
               blurDataURL="/images/poster-placeholder.svg"
-            /> */}
+              unoptimized
+            />
           </div>
           <div className="absolute inset-0 bg-black opacity-0 transition-opacity duration-300 group-hover:opacity-60" />
           <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
@@ -67,7 +53,7 @@ const MovieCard = async ({ title, poster, year, _id, type, runtime, imdb }
             <Badge variant={"outline"}>{capitalize(type || "Movie")}</Badge>
           </div>
         </section>
-        {/* <p>{score}</p> */}
+        {/* <p>{poster}</p> */}
       </div>
     </Link>
   );

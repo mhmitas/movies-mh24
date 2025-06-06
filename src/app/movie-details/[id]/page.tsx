@@ -1,16 +1,15 @@
 import { Badge } from '@/components/ui/badge';
-import { getAdditionDataFromTmdb, getMovieById, getMovieByIdForMetaData } from '@/lib/actions/movies.actions';
+import { getMovieById, getMovieByIdForMetaData } from '@/lib/actions/movies.actions';
 import { cn, formatDuration } from '@/lib/utils';
 import React, { Suspense } from 'react'
 import { FaCheck, FaHeart, FaPlay, FaStar } from 'react-icons/fa6';
 import { FcGoogle } from "react-icons/fc";
 import Link from 'next/link';
-import PosterImage from '@/components/shared/MoviePoster';
 import RecommendedMovies from '@/components/shared/RecommendedMovies';
 import ErrorBoundary from '@/components/shared/ErrorBoundary';
 import MovieCardSkeleton from '@/components/shared/movie-cards/MovieCardSkeleton';
 import MovieDetail, { MovieActionButton } from './movie-detail-page-components';
-import LoadingSpinner2 from "@/components/shared/spinners/LoadingSpinner2";
+import Image from "next/image";
 
 const LG_COMPLEX_PADDING = " pl-4 pr-4 sm:pl-6 sm:pr-6 md:pl-[32.45vw] md:pr-[2%]";
 
@@ -19,14 +18,7 @@ const MovieDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
     const { data: movie } = await getMovieById(id);
 
     // Determine poster URL with streamlined logic
-    let moviePosterUrl = movie?.poster;
-    if (!moviePosterUrl && movie?.imdb?.id) {
-        try {
-            const { posterUrl } = await getAdditionDataFromTmdb(movie.imdb.id);
-            moviePosterUrl = posterUrl;
-        } catch { }
-    }
-    moviePosterUrl = moviePosterUrl || "/images/poster-placeholder.svg";
+    const poster = movie?.poster || "/images/poster-placeholder.svg";
 
     return (
         <main className='text-foreground/90'>
@@ -34,7 +26,7 @@ const MovieDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
             <div className='fixed inset-0 -z-20'>
                 <div
                     className="bg-cover bg-center min-h-screen"
-                    style={{ backgroundImage: `url(${moviePosterUrl})` }}
+                    style={{ backgroundImage: `url(${poster})` }}
                 />
                 <div className='absolute inset-0 md:bg-gradient-to-r from-background via-background/50 to-background z-0' />
             </div>
@@ -79,10 +71,15 @@ const MovieDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
                     {/* Poster image */}
                     <div className="hidden md:flex md:w-[25vw] md:absolute left-[3.3%] top-[10%] md:top-[-80%] rounded-md overflow-hidden shadow-lg">
                         <div className='relative w-full aspect-[2/3]'>
-                            <PosterImage
-                                poster={moviePosterUrl}
-                                title={movie?.title}
-                                imdbId={movie?.imdb?.id}
+                            <Image
+                                src={poster}
+                                alt={"Poster isn't found"}
+                                fill
+                                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 30vw, 200px"  // Adjusted sizes for lower resolution
+                                className="object-cover transition duration-200 w-full rounded"
+                                placeholder="blur"
+                                blurDataURL="/images/poster-placeholder.svg"
+                                unoptimized
                             />
                         </div>
                     </div>

@@ -2,6 +2,7 @@ import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import React from 'react';
 import { FaStar } from 'react-icons/fa6';
+import { IoSparkles } from 'react-icons/io5';
 
 const LoadingSpinner2 = ({ className }: { className?: string }) => {
     const sparks = Array.from({ length: 15 }).map((_, i) => ({
@@ -79,7 +80,7 @@ function Spark({ x, speed, angle, size, delay, lifetime, color }: {
                 '--move-y': `${moveY}px`,
             } as React.CSSProperties}
         >
-            <FaStar
+            <IoSparkles
                 className='animate-spark-fade'
                 style={{
                     fontSize: `${size * 0.7}rem`,

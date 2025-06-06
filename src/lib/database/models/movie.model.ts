@@ -16,6 +16,7 @@ export interface IMovie extends Document {
     plot?: string;
     fullplot?: string;
     poster?: string;
+    backdrop?: string;
     type?: string;
     imdb?: {
         rating?: number;
@@ -95,6 +96,7 @@ const movieSchema = new Schema({
     plot: String,
     fullplot: String,
     poster: String,
+    backdrop: String,
     type: { type: String, default: 'movie' },
     imdb: imdbSchema,
     metacritic: Number,

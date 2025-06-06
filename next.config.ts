@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'www.themoviedb.org' },
       { protocol: 'https', hostname: 'image.tmdb.org' },
       { protocol: 'https', hostname: 'i.ibb.co' },
+      // { protocol: 'https', hostname: 'res.cloudinary.com' },
     ],
   },
   experimental: {
