@@ -307,14 +307,9 @@ For issues, questions, or suggestions, please:
 - [Framer Motion](https://www.framer.com/motion/)
 
 ## 👨‍💻 Author
-
+**Mahfuzul**
 **Movies MH24** - A modern, full-stack movie discovery platform
 
 ---
 
-**Last Updated**: February 2025 | **Version**: 0.1.0
-- [Learn Next.js](https://nextjs.org/learn)
-- [Next.js GitHub Repository](https://github.com/vercel/next.js)
-
----
-Bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+**Last Updated**: February 2026 | **Version**: 0.1.0
