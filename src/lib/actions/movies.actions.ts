@@ -86,7 +86,7 @@ export const getRecommendedMoviesByPlot = async ({ id, limit = 12, page = 1 }: {
             throw new Error("No recommendations found (actually plot not found)");
         }
 
-        // VECTOR SEARCH
+        // VECTOR SEARCH - Reduced from 150 to 50 candidates to save data transfer
         const agg = [
             {
                 $vectorSearch: {
@@ -95,7 +95,7 @@ export const getRecommendedMoviesByPlot = async ({ id, limit = 12, page = 1 }: {
                     index: 'mflix_overview_vector_index',
                     path: "overview_embedding",
                     queryVector: queryField,
-                    numCandidates: 150,
+                    numCandidates: 50,
                     // skip: 10,
                     limit: limit,
                 }

@@ -11,7 +11,6 @@ A comprehensive movie discovery platform built with Next.js, TypeScript, and Mon
 - **Movie Details**: Comprehensive movie pages with plots, ratings, cast, runtime, and more
 - **Responsive Design**: Beautiful, mobile-first UI with Tailwind CSS and Framer Motion animations
 - **Pagination**: Efficient browsing with server-side pagination
-- **SEO Optimized**: Meta tags, sitemaps, and structured data for better search engine visibility
 - **Performance Monitoring**: Integrated Vercel Analytics and Speed Insights
 - **Light/Dark Mode Ready**: Radix UI components with theme support
 
@@ -109,8 +108,7 @@ src/
 │   │   ├── search/[title]/      # Search results
 │   │   └── top-imdb/            # Top IMDb movies
 │   ├── api/                     # API routes
-│   │   ├── movies/              # Movies endpoint
-│   │   └── sitemap-movies/      # Sitemap generation
+│   │   └── movies/              # Movies endpoint
 │   ├── movie-details/           # Movie detail pages
 │   │   └── [id]/                # Dynamic movie pages
 │   └── test/                    # Testing/demo pages

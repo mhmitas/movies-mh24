@@ -3,8 +3,10 @@ import Filter from '@/components/shared/Filter';
 import MovieCollection from '@/components/shared/MovieCollection';
 import LoadingSpinner2 from '@/components/shared/spinners/LoadingSpinner2';
 import { getMovies, getRecommendedMoviesByPlot } from '@/lib/actions/movies.actions';
-import { Metadata } from 'next';
 import React, { Suspense } from 'react'
+
+// Cache similar movies for 24 hours
+export const revalidate = 86400;
 
 const MoreSuggestionsPage = async (props: {
     searchParams?: Promise<{
@@ -41,18 +43,3 @@ const MoreSuggestionsPage = async (props: {
 
 export default MoreSuggestionsPage;
 
-export async function generateMetadata(props: {
-    searchParams?: Promise<{
-        title?: string;
-    }>;
-    params: Promise<{ id: string }>
-}): Promise<Metadata> {
-
-    const searchParams = await props.searchParams;
-    const decodedQuery = decodeURIComponent(searchParams?.title ?? "")
-
-    return {
-        title: `${decodedQuery}`,
-        description: `Search results for ${decodedQuery} Movies and TV Shows`,
-    }
-}
