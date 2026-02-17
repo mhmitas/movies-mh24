@@ -16,9 +16,14 @@ export const revalidate = 86400;
 
 const LG_COMPLEX_PADDING = " pl-4 pr-4 sm:pl-6 sm:pr-6 md:pl-[32.45vw] md:pr-[2%]";
 
+
 const MovieDetails = async ({ params }: { params: Promise<{ id: string }> }) => {
+
     const { id } = await params;
     const { data: movie } = await getMovieById(id);
+
+    const prompt = `Tell me about the movie "${movie?.title}" with a spoiler-free summary, themes, what makes it special, and similar movie recommendations.`;
+    const chatGptUrl = "https://chat.openai.com/?q=" + encodeURIComponent(prompt);
 
     // Determine poster URL with streamlined logic
     const poster = movie?.poster || "/images/poster-placeholder.svg";
@@ -64,8 +69,17 @@ const MovieDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
-                                <button className="custom-primary-btn text-xl md:text-2xl rounded-full">
+                                <button title='Search on Google' className="custom-primary-btn text-xl md:text-2xl rounded-full">
                                     <FcGoogle />
+                                </button>
+                            </Link>
+                            <Link
+                                href={chatGptUrl}
+                                target="_blank"
+                                rel="https://movies.mahfuzul.online/"
+                            >
+                                <button title='Ask ChatGPT' className="custom-primary-btn text-xl md:text-2xl rounded-full">
+                                    <img className='max-w-6' src={"/chatgpt-icon.svg"} width={22} height={22} alt='chat gpt icon' />
                                 </button>
                             </Link>
                         </div>
