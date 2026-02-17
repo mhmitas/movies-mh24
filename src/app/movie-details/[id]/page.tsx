@@ -22,7 +22,7 @@ const MovieDetails = async ({ params }: { params: Promise<{ id: string }> }) => 
     const { id } = await params;
     const { data: movie } = await getMovieById(id);
 
-    const prompt = `Tell me about the movie "${movie?.title}" with a spoiler-free summary, themes, what makes it special, and similar movie recommendations.`;
+    const prompt = `Tell me about the movie "${movie?.title}, ${movie?.year}" with a spoiler-free summary, themes, what makes it special, and similar movie recommendations.`;
     const chatGptUrl = "https://chat.openai.com/?q=" + encodeURIComponent(prompt);
 
     // Determine poster URL with streamlined logic
